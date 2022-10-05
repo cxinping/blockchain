@@ -1,10 +1,24 @@
 package aaa
 
 import (
+	"database/sql"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"time"
 )
+
+type User struct {
+	ID           uint
+	Name         string
+	Email        *string
+	Age          uint8
+	Birthday     *time.Time
+	MemberNumber sql.NullString
+	ActivatedAt  sql.NullTime
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+}
 
 func TestDB1() {
 	//fmt.Println("hello db1")
@@ -22,4 +36,10 @@ func TestDB1() {
 	//连接MYSQL, 获得DB类型实例，用于后面的数据库读写操作。
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	fmt.Println(db, err)
+	if err != nil {
+		panic("连接数据库失败, error=" + err.Error())
+	}
+	//延时关闭数据库连接
+	sqlDB, _ := db.DB()
+	defer sqlDB.Close()
 }
