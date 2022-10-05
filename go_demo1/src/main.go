@@ -6,8 +6,10 @@ import (
 )
 
 func test_db() {
-	db.TestCreateTable()
+	//db.TestCreateTable()
 	//db.TestDropTable()
+
+	db.TestCreateTable2()
 }
 
 func test1() {
