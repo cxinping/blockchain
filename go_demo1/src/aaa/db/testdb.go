@@ -14,7 +14,7 @@ type User struct {
 	Birthday time.Time
 }
 
-func TestConn1() {
+func TestCreateTable() {
 	//创建表，缺少的列和索引，不会改变现有列的类型或删除列
 	//配置MySQL连接参数
 	username := "root"      //账号
@@ -46,7 +46,7 @@ func TestConn1() {
 
 	fmt.Println(result)
 
-	//db.AutoMigrate(&User{})
+	db.AutoMigrate(&User{})
 
 }
 
@@ -77,7 +77,11 @@ func TestDropTable() {
 	defer sqlDB.Close()
 
 	// 如果存在表则删除（删除时会忽略、删除外键约束)
-	db.Migrator().DropTable(&User{})
+	//db.Migrator().DropTable(&User{})
 	//db.Migrator().DropTable("users")
+
+	// 重命名表
+	//db.Migrator().RenameTable(&User{}, &UserInfo{})
+	//db.Migrator().RenameTable("users", "user_infos")
 
 }

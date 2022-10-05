@@ -1,12 +1,22 @@
 package main
 
-import db "go_demo1/src/aaa/db"
+import (
+	common "go_demo1/src/aaa/common"
+	db "go_demo1/src/aaa/db"
+)
+
+func test_db() {
+	db.TestCreateTable()
+	//db.TestDropTable()
+}
+
+func test1() {
+	common.SayHello()
+}
 
 func main() {
-	//fmt.Println("hello 222")
-	//common.SayHello()
+	//test1()
 
-	//db.TestConn1()
-	db.TestDropTable()
+	test_db()
 
 }
