@@ -6,7 +6,7 @@ import (
 
 func main() {
 	//fmt.Println("hello 222")
-	abc.SayHello()
+	//abc.SayHello()
 	abc.TestDB1()
 
 }
