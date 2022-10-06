@@ -9,7 +9,10 @@ func test_db() {
 	//db.TestCreateTable()
 	//db.TestDropTable()
 
-	db.TestCreateTable2()
+	//db.TestCreateTable2()
+	//db.TestDelete1()
+
+	db.TestSelect1()
 }
 
 func test1() {

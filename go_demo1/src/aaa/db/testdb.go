@@ -142,7 +142,10 @@ func TestSelect1() {
 	defer sqlDB.Close()
 
 	product := Product{}
-	result := db.Debug().Where("price = ?", 101).First(&product)
+	//result := db.Debug().Where("price = ?", 101).First(&product)
+
+	result := db.First(&product)
+
 	fmt.Println(result)
 	fmt.Println(product)
 }
