@@ -7,13 +7,6 @@ import (
 	"time"
 )
 
-type User struct {
-	gorm.Model
-	Name     string
-	Age      int
-	Birthday time.Time
-}
-
 // 默认表名是 Model名称的小写+复数
 type Profile struct {
 	gorm.Model
@@ -25,6 +18,26 @@ type Product struct {
 	gorm.Model
 	Code  string
 	Price uint
+}
+
+type User struct {
+	gorm.Model
+	Name     string
+	Age      int
+	Birthday time.Time
+}
+
+type Area struct {
+	Id           int
+	AreaId       int
+	AreaName     string
+	CityId       int
+	CityName     string
+	ProvinceId   int
+	ProvinceName string
+	AreaStatus   int
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
 }
 
 func TestCreateTable2() {
