@@ -84,7 +84,6 @@ func TestCreateTable2() {
 	db.Create(&prods)
 
 	for _, prod := range prods {
-
 		fmt.Println(prod.ID) // 1,2,3)
 	}
 
