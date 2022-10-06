@@ -1,4 +1,4 @@
-package aaa
+package db
 
 import (
 	"fmt"
@@ -141,13 +141,19 @@ func TestSelect1() {
 	sqlDB, _ := db.DB()
 	defer sqlDB.Close()
 
+	fmt.Println("查询记录")
 	product := Product{}
 	//result := db.Debug().Where("price = ?", 101).First(&product)
 
-	result := db.First(&product)
+	//result := db.Debug().First(&product)
+	//fmt.Println(result.RowsAffected, result.Error)
 
-	fmt.Println(result)
+	//result := map[string]interface{}{}
+	//db.Model(&product).First(&result)
+	//
+	//fmt.Println(result)
 	fmt.Println(product)
+
 }
 
 func TestCreateTable() {

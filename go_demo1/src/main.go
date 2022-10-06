@@ -2,7 +2,7 @@ package main
 
 import (
 	common "go_demo1/src/aaa/common"
-	db "go_demo1/src/aaa/db"
+	"go_demo1/src/aaa/db"
 )
 
 func test_db() {
