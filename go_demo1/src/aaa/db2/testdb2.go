@@ -40,7 +40,7 @@ func TestInitTable1() *gorm.DB {
 	return db
 }
 
-func TestInitTable2() {
+func TestInitTable2() *gorm.DB {
 	databaseType := "mysql"
 	username := "root"      //账号
 	password := "123456"    //密码
@@ -63,6 +63,9 @@ func TestInitTable2() {
 
 	db.DB().SetMaxIdleConns(10)  //设置空闲时的最大连接数
 	db.DB().SetMaxOpenConns(100) //设置数据库的最大打开连接数
+
+	db.AutoMigrate(&User{})
+	return db
 }
 
 //插入数据
@@ -140,12 +143,19 @@ func TestSelect() {
 	//	fmt.Println(idx, user.ID)
 	//}
 
-	users := []User{}
-	//指定查询字段
-	db.Debug().Select("name,age").Where(map[string]interface{}{"age": 36, "name": "wang5"}).Find(&users)
-	for idx, user := range users {
-		fmt.Println(idx, user.ID, user.Name, user.Age)
-	}
+	// 查询指定字段的记录
+	//users := []User{}
+	////指定查询字段
+	//db.Debug().Select("name,age").Where(map[string]interface{}{"age": 36, "name": "wang5"}).Find(&users)
+	//for idx, user := range users {
+	//	fmt.Println(idx, user.ID, user.Name, user.Age)
+	//}
 	//fmt.Println(users)
 
+	// where 查询例子
+	users := []User{}
+	db.Debug().Where("name = ? AND age >= ?", "wang0", "31").Find(&users)
+	fmt.Println(len(users))
+	fmt.Println(users)
+	fmt.Printf("%T\n", users)
 }
