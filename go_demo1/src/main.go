@@ -19,8 +19,8 @@ func test_db() {
 	//db2.TestInitTable2()
 	//db2.TestCreateUser()
 	//db2.TestUpdateUser()
-	db2.TestDelete()
-	//db2.TestSelect()
+	//db2.TestDelete()
+	db2.TestSelect()
 
 }
 

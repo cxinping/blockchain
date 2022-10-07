@@ -114,6 +114,7 @@ func TestUpdateUser() {
 }
 
 func TestDelete() {
+	fmt.Println("* TestDelete ")
 	db = TestInitTable1()
 	//delete from user where id=1;
 	//var user User
@@ -122,18 +123,29 @@ func TestDelete() {
 
 	//db.Delete(&User{}, 2)
 
-	//删除
+	//批量删除
 	db.Where("name LIKE ?", "%lisi%").Delete(User{})
+
+	db.Exec("DELETE FROM user WHERE id <= 5")
 }
 
 func TestSelect() {
 	db = TestInitTable1()
 
 	// 查询全部数据
-	users := []User{}
-	db.Debug().Find(&users)
+	//users := []User{}
+	//db.Debug().Find(&users)
+	//
+	//for idx, user := range users {
+	//	fmt.Println(idx, user.ID)
+	//}
 
+	users := []User{}
+	//指定查询字段
+	db.Debug().Select("name,age").Where(map[string]interface{}{"age": 36, "name": "wang5"}).Find(&users)
 	for idx, user := range users {
-		fmt.Println(idx, user.ID)
+		fmt.Println(idx, user.ID, user.Name, user.Age)
 	}
+	//fmt.Println(users)
+
 }
