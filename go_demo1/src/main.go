@@ -2,7 +2,7 @@ package main
 
 import (
 	common "go_demo1/src/aaa/common"
-	"go_demo1/src/aaa/db2"
+	"go_demo1/src/aaa/http"
 )
 
 func test_db() {
@@ -20,7 +20,7 @@ func test_db() {
 	//db2.TestCreateUser()
 	//db2.TestUpdateUser()
 	//db2.TestDelete()
-	db2.TestSelect()
+	//db2.TestSelect()
 
 }
 
@@ -28,9 +28,17 @@ func test1() {
 	common.SayHello()
 }
 
+func test_http() {
+	//爬虫
+	//http.TestHttp1()
+
+	http.TestHttp2()
+}
+
 func main() {
 	//test1()
 
-	test_db()
+	//test_db()
 
+	test_http()
 }
