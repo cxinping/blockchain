@@ -2,6 +2,7 @@ package http
 
 import (
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -74,5 +75,52 @@ func TestHttp3() {
 }
 
 func TestHttp4() {
-	log.Fatal("aaaa")
+	res, err := http.Get("https://www.zol.com.cn/")
+	if err != nil {
+		// 错误处理
+		log.Fatal(err)
+	}
+	defer res.Body.Close()
+	if res.StatusCode != 200 {
+		log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
+
+	}
+	fmt.Println("-------------------------------")
+	fmt.Println(res.Body)
+}
+
+func TestHttp5() {
+	var num = 0
+	fmt.Println("请输入数字")
+	fmt.Scanln(&num)
+	fmt.Println("num=>", num)
+
+	url := "https://www.zol.com.cn/"
+	result, err := HttpGet(url)
+	fmt.Println(result, err)
+}
+
+func HttpGet(url string) (result string, err error) {
+	resp, err1 := http.Get(url)
+	if err != nil {
+		err = err1
+		return
+	}
+	defer resp.Body.Close()
+	//循环读取网页数据
+	buf := make([]byte, 4096)
+	for {
+		n, err2 := resp.Body.Read(buf)
+		if n == 0 {
+			fmt.Println("读取完成")
+			break
+		}
+		if err2 != nil && err2 != io.EOF {
+			err = err2
+			return
+		}
+		//累加每一次循环读取到的数据
+		result += string(buf[:n])
+	}
+	return result, err
 }

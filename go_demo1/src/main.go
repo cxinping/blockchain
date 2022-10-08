@@ -2,7 +2,6 @@ package main
 
 import (
 	common "go_demo1/src/aaa/common"
-	"go_demo1/src/aaa/http"
 )
 
 func test_db() {
@@ -33,7 +32,8 @@ func test_http() {
 	//http.TestHttp1()
 	//http.TestHttp2()
 	//http.TestHttp3()
-	http.TestHttp4()
+	//http.TestHttp4()
+	//http.TestHttp5()
 
 }
 
