@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	common "go_demo1/src/aaa/common"
+	"time"
 )
 
 func test_db() {
@@ -37,10 +39,19 @@ func test_http() {
 
 }
 
+func calTime() {
+	//计算耗时操作
+	start := time.Now()
+	time.Sleep(time.Second * 2)
+
+	fmt.Println(time.Now().Sub(start))
+}
+
 func main() {
 	//test1()
 
 	//test_db()
 
-	test_http()
+	//test_http()
+
 }
