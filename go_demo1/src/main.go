@@ -31,8 +31,10 @@ func test1() {
 func test_http() {
 	//爬虫
 	//http.TestHttp1()
+	//http.TestHttp2()
+	//http.TestHttp3()
+	http.TestHttp4()
 
-	http.TestHttp2()
 }
 
 func main() {
