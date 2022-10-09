@@ -49,9 +49,6 @@ func calTime() {
 
 func main() {
 	//test1()
-
 	//test_db()
-
 	//test_http()
-
 }
