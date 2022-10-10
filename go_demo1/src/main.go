@@ -48,7 +48,9 @@ func test_http() {
 	//http.TestHttp5()
 
 	//http.Example1()
-	http.Example2()
+	//http.Example2()
+	http.Example3()
+
 }
 
 func test_crawl() {
