@@ -177,6 +177,9 @@ func Example2() {
 	// selector goquery name id class
 	c.OnHTML(".sidebar-link", func(e *colly.HTMLElement) {
 		e.Request.Visit(e.Attr("href"))
+
+		ret, _ := e.DOM.Html()
+		fmt.Println("ret-> ", ret)
 	})
 
 	c.OnRequest(func(r *colly.Request) {

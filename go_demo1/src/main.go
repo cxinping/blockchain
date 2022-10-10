@@ -4,6 +4,7 @@ import (
 	"fmt"
 	common "go_demo1/src/aaa/common"
 	"go_demo1/src/aaa/http"
+	"go_demo1/src/hltv/spider"
 	"time"
 )
 
@@ -51,15 +52,15 @@ func test_http() {
 }
 
 func test_crawl() {
-	//spider.Crawl_index()
+	spider.CrawlMatches()
 
 }
 
 func main() {
 	//test1()
 	//test_db()
-	test_http()
+	//test_http()
 
-	//test_crawl()
+	test_crawl()
 
 }
