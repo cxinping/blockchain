@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	common "go_demo1/src/aaa/common"
+	"go_demo1/src/aaa/page"
 	"time"
 )
 
@@ -37,6 +38,7 @@ func test_http() {
 	//http.TestHttp4()
 	//http.TestHttp5()
 
+	page.TestHttp1()
 }
 
 func calTime() {
@@ -50,5 +52,5 @@ func calTime() {
 func main() {
 	//test1()
 	//test_db()
-	//test_http()
+	test_http()
 }
