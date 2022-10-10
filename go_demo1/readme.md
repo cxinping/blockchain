@@ -11,9 +11,7 @@ go mod download
 
 爬虫
 ```
-
 go get github.com/antchfx/htmlquery
-go get -u github.com/gocolly/colly
 
 go get -u github.com/gocolly/colly/...
 go get github.com/PuerkitoBio/goquery
