@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	common "go_demo1/src/aaa/common"
+	"go_demo1/src/hltv/spider"
 	"time"
 )
 
@@ -47,8 +48,14 @@ func calTime() {
 	fmt.Println(time.Now().Sub(start))
 }
 
+func test_crawl() {
+	spider.Crawl_index()
+}
+
 func main() {
 	//test1()
 	//test_db()
-	test_http()
+	//test_http()
+
+	test_crawl()
 }
