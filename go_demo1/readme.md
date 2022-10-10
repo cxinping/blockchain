@@ -9,6 +9,11 @@ go mod tidy
 go mod download
 ```
 
+爬虫
+```
 
+go get github.com/PuerkitoBio/goquery
+
+```
 
 
