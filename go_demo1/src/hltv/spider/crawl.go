@@ -1,6 +1,8 @@
 package spider
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func Crawl_index() {
 	base_url := "https://www.hltv.org/matches"

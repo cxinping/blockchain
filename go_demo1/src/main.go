@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	common "go_demo1/src/aaa/common"
-	"go_demo1/src/hltv/spider"
+	"go_demo1/src/aaa/http"
 	"time"
 )
 
@@ -30,16 +30,6 @@ func test1() {
 	common.SayHello()
 }
 
-func test_http() {
-	//爬虫
-	//http.TestHttp1()
-	//http.TestHttp2()
-	//http.TestHttp3()
-	//http.TestHttp4()
-	//http.TestHttp5()
-
-}
-
 func calTime() {
 	//计算耗时操作
 	start := time.Now()
@@ -48,14 +38,26 @@ func calTime() {
 	fmt.Println(time.Now().Sub(start))
 }
 
+func test_http() {
+	//爬虫
+	//http.TestHttp1()
+	//http.TestHttp2()
+	//http.TestHttp3()
+	//http.TestHttp4()
+	//http.TestHttp5()
+	http.Example1()
+
+}
+
 func test_crawl() {
-	spider.Crawl_index()
+	//spider.Crawl_index()
+
 }
 
 func main() {
 	//test1()
 	//test_db()
-	//test_http()
+	test_http()
+	//test_crawl()
 
-	test_crawl()
 }
