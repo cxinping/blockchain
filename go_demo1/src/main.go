@@ -45,8 +45,9 @@ func test_http() {
 	//http.TestHttp3()
 	//http.TestHttp4()
 	//http.TestHttp5()
-	http.Example1()
 
+	//http.Example1()
+	http.Example2()
 }
 
 func test_crawl() {
@@ -58,6 +59,7 @@ func main() {
 	//test1()
 	//test_db()
 	test_http()
+
 	//test_crawl()
 
 }

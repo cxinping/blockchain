@@ -170,3 +170,19 @@ func Example1() {
 	// Start scraping on https://hackerspaces.org
 	c.Visit("https://hackerspaces.org/")
 }
+
+func Example2() {
+	c := colly.NewCollector()
+
+	// selector goquery name id class
+	c.OnHTML(".sidebar-link", func(e *colly.HTMLElement) {
+		e.Request.Visit(e.Attr("href"))
+	})
+
+	c.OnRequest(func(r *colly.Request) {
+		fmt.Println("url => ", r.URL)
+	})
+
+	// Start scraping on https://hackerspaces.org
+	c.Visit("https://gorm.io/zh_CN/docs")
+}
