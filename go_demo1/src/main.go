@@ -71,7 +71,7 @@ func test_timeunix() {
 
 func test_task() {
 	//task.InitTask()
-	task.ExecTask1()
+	task.ExecTask2()
 }
 
 func main() {
