@@ -79,7 +79,7 @@ func main() {
 	//test_http()
 
 	//test2()
-	//test_crawl()
-	test_task()
+	test_crawl()
+	//test_task()
 
 }

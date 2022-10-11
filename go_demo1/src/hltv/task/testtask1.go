@@ -27,9 +27,13 @@ func InitTask() {
 		fmt.Println("* 执行任务", time.Now().Format("2006-01-02 15:04:05"))
 	})
 
+	CORN.AddFunc("@hourly", func() {
+		fmt.Println("Every hour")
+	})
+
 	CORN.Start()
 
-	add_task(CORN)
+	//add_task(CORN)
 
 	defer CORN.Stop()
 	for {
