@@ -15,7 +15,7 @@ func add_task(c *cron.Cron) {
 	c.AddFunc("*/15 * * * * ?", func() { fmt.Println("Every 15 seconds", time.Now().Format("2006-01-02 15:04:05")) })
 }
 
-var CORN = cron.New(cron.WithSeconds())
+var Cron = cron.New(cron.WithSeconds())
 
 func InitTask() {
 	fmt.Println("--- start task ---", time.Now().Format("2006-01-02 15:04:05"))
@@ -23,19 +23,19 @@ func InitTask() {
 	//fmt.Printf("c = %T", c)
 
 	// */5 * * * * ?
-	CORN.AddFunc("0 */1 * * * ?", func() {
-		fmt.Println("* 执行任务", time.Now().Format("2006-01-02 15:04:05"))
+	Cron.AddFunc("10 21 19 11 10 *", func() {
+		fmt.Println("******* 执行任务", time.Now().Format("2006-01-02 15:04:05"))
 	})
 
-	CORN.AddFunc("@hourly", func() {
+	Cron.AddFunc("@hourly", func() {
 		fmt.Println("Every hour")
 	})
 
-	CORN.Start()
+	Cron.Start()
 
 	//add_task(CORN)
 
-	defer CORN.Stop()
+	defer Cron.Stop()
 	for {
 		time.Sleep(time.Second)
 	}
