@@ -29,9 +29,17 @@ go get github.com/robfig/cron/v3@v3.0.0
 ```
 
 调度例子
-```azure
-
-http://t.zoukankan.com/haiguixiansheng-p-10722980.html
 ```
 
+http://t.zoukankan.com/haiguixiansheng-p-10722980.html
+
+https://www.jianshu.com/p/12c9cb7dc013
+```
+
+爬虫资料
+```
+golang goquery selector(选择器) 示例大全
+https://www.flysnow.org/2018/01/20/golang-goquery-examples-selector#%E5%9F%BA%E4%BA%8Ehtml-element-%E5%85%83%E7%B4%A0%E7%9A%84%E9%80%89%E6%8B%A9%E5%99%A8
+
+```
 
