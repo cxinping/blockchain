@@ -40,3 +40,19 @@ func InitTask() {
 		time.Sleep(time.Second)
 	}
 }
+
+type MyJob func()
+
+func (f MyJob) Run() {
+	fmt.Println("myJob")
+}
+
+func ExecTask1() {
+	c := cron.New()
+	c.AddJob("@every 1s", MyJob(func() {
+		fmt.Println("myjob")
+	}))
+
+	c.Start()
+	select {}
+}

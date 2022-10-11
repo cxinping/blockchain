@@ -70,7 +70,8 @@ func test_timeunix() {
 }
 
 func test_task() {
-	task.InitTask()
+	//task.InitTask()
+	task.ExecTask1()
 }
 
 func main() {
@@ -79,7 +80,8 @@ func main() {
 	//test_http()
 
 	//test_timeunix()
-	test_crawl()
-	//test_task()
+	//test_crawl()
+	test_task()
 
+	//common.TestDelay()
 }
