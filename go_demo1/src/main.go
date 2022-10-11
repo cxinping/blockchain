@@ -59,7 +59,7 @@ func test_crawl() {
 
 }
 
-func test2() {
+func test_timeunix() {
 	timeStamp := time.Now().Unix()
 	fmt.Println(timeStamp)
 	fmt.Println(1665475200000) // 1665473400000 1665475200000 1665478800000 1665475200
@@ -78,7 +78,7 @@ func main() {
 	//test_db()
 	//test_http()
 
-	//test2()
+	//test_timeunix()
 	test_crawl()
 	//test_task()
 
