@@ -70,7 +70,7 @@ func test2() {
 }
 
 func test_task() {
-	task.TestTask1()
+	task.InitTask()
 }
 
 func main() {

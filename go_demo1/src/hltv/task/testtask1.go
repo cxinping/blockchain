@@ -17,7 +17,7 @@ func add_task(c *cron.Cron) {
 
 var CORN = cron.New(cron.WithSeconds())
 
-func TestTask1() {
+func InitTask() {
 	fmt.Println("--- start task ---", time.Now().Format("2006-01-02 15:04:05"))
 
 	//fmt.Printf("c = %T", c)
