@@ -58,11 +58,22 @@ func test_crawl() {
 
 }
 
+func test2() {
+	timeStamp := time.Now().Unix()
+	fmt.Println(timeStamp)
+	fmt.Println(1665475200000) // 1665473400000 1665475200000 1665478800000 1665475200
+	timeStr := time.Unix(1665473400, 0).Format("2006-01-02 15:04")
+	fmt.Println("*** timeStr=> ", timeStr)
+	//str1 := "1665475200000"
+	//fmt.Println(str1[0 : len(str1)-3])
+}
+
 func main() {
 	//test1()
 	//test_db()
 	//test_http()
 
+	//test2()
 	test_crawl()
 
 }
