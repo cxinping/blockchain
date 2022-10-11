@@ -1,0 +1,298 @@
+赛事列表
+DROP TABLE if exists `matches`;
+CREATE TABLE IF NOT EXISTS `matches`(
+   `matches_id` INT AUTO_INCREMENT,
+   `match_event_name` VARCHAR(200) NOT NULL,
+   `matchday_starttime` DATETIME,
+   `matchday_endtime` DATETIME,
+   `created_time` DATETIME ,
+   PRIMARY KEY ( `matches_id` )
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+具体赛事表
+DROP TABLE if exists `match_item`;
+CREATE TABLE IF NOT EXISTS `match_item`(
+    `match_item_id` INT AUTO_INCREMENT primary key,
+    `match_team1_name` VARCHAR(200) NOT NULL,
+    `match_team1_score` INT NOT NULL,
+    `match_team1_pic` VARCHAR(200) NOT NULL,
+    `match_team2_name` VARCHAR(200) NOT NULL,
+    `match_team2_score` INT NOT NULL,
+    `match_team2_pic` VARCHAR(200) NOT NULL,
+    `match_event_name` VARCHAR(200) NOT NULL, # 赛事名字
+    `match_event_link` VARCHAR(200) NOT NULL, # 赛事链接
+    `match_event_pic` VARCHAR(100) NOT NULL,
+    `status` VARCHAR(200) NOT NULL,   # 比赛状态，未开始 LIVE，正在进行中 WAITE
+    `matches_id` INT NOT NULL,
+    `match_time` DATETIME,
+    `match_team1_id` INT NOT NULL,
+    `match_team2_id` INT NOT NULL,
+    `created_time` DATETIME
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE match_item ADD CONSTRAINT fk_matche_item_matches FOREIGN KEY(matches_id) REFERENCES matches(matches_id);
+ALTER TABLE match_item ADD CONSTRAINT fk_matche_item_match_team1 FOREIGN KEY(match_team1_id) REFERENCES team(team_id);
+ALTER TABLE match_item ADD CONSTRAINT fk_matche_item_match_team2 FOREIGN KEY(match_team2_id) REFERENCES team(team_id);
+
+
+赛果地图
+DROP TABLE if exists `tournament_map`;
+CREATE TABLE IF NOT EXISTS `tournament_map`(
+    `tournament_maps_id` INT AUTO_INCREMENT primary key,
+    `map_summary` VARCHAR(200) NOT NULL,
+    `map_details` VARCHAR(500) NOT NULL,
+    `map_highlight1` VARCHAR(100) NOT NULL,
+    `map_highlight2` VARCHAR(100) NOT NULL,
+    `map_highlight3` VARCHAR(100) NOT NULL,
+    `map_highlight4` VARCHAR(100) NOT NULL,
+    `map_highlight5` VARCHAR(100) NOT NULL,
+    `match_item_id` INT NOT NULL,
+    `created_time` DATETIME
+   CONSTRAINT fk_tournament_map_match_item
+   FOREIGN KEY(match_item_id) REFERENCES match_item(match_item_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+赛事战队  https://www.hltv.org/team/7441/eclot
+DROP TABLE if exists `team`;
+CREATE TABLE IF NOT EXISTS `team`(
+    `team_id` INT AUTO_INCREMENT primary key,
+    `team_name` VARCHAR(100) NOT NULL,
+    `team_pic` VARCHAR(100) NOT NULL,
+    `nation_name` VARCHAR(100) NOT NULL,
+    `nation_pic` VARCHAR(100) NOT NULL,
+    `world_ranking` VARCHAR(100) NOT NULL,
+    `weeks_in_top30_for_core` int NOT NULL,
+    `average_player_age` FLOAT NOT NULL,
+    `coatch_name` VARCHAR(100) NOT NULL,
+    `coatch_link` VARCHAR(100) NOT NULL,
+    `created_time` DATETIME
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+战队最近参加的比赛, 和 player_matche 表结构一样, 团队页面的Matches标签内容
+DROP TABLE IF EXISTS `team_matche_detail`;
+CREATE TABLE IF NOT EXISTS `team_matche`(
+    `id` INT AUTO_INCREMENT primary key,
+    `match_date` DATETIME,
+    `match_name` VARCHAR(100) NOT NULL,
+    `join_team_name` VARCHAR(100) NOT NULL,   # 参赛战队名字
+    `join_team_pic` VARCHAR(100) NOT NULL,
+    `join_team_score` INT NOT NULL,
+    `opponent_team_name` VARCHAR(100) NOT NULL,  # 对手战队名字
+    `opponent_team_pic` VARCHAR(100) NOT NULL,
+    `opponent_team_score` INT NOT NULL,
+    `status` VARCHAR(50) NOT NULL,
+    `created_time` DATETIME ,
+    `team_id` INT NOT NULL,
+    CONSTRAINT fk_team_matche_detail
+    FOREIGN KEY(team_id) REFERENCES team(team_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+战队最近三个月的比赛指标统计,统计指标 Current win streak, Win rate
+DROP TABLE IF EXISTS `team_match_index`;
+CREATE TABLE IF NOT EXISTS `team_match_index`(
+    `id` INT AUTO_INCREMENT primary key,
+    `current_win_streak` INT NOT NULL,
+    `win_rate` VARCHAR(50) NOT NULL,
+    `peak` INT NOT NULL,
+    `time_at_peak` VARCHAR(20) NOT NULL,
+    `created_time` DATETIME ,
+    `team_id` INT NOT NULL,
+    CONSTRAINT fk_team_matche_index
+    FOREIGN KEY(team_id) REFERENCES team(team_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+战队队员
+DROP TABLE if exists `player`;
+CREATE TABLE IF NOT EXISTS `player`(
+    `player_id` INT AUTO_INCREMENT primary key,
+    `player_name` VARCHAR(100) NOT NULL,
+    `player_pic` VARCHAR(100) NOT NULL,
+    `player_age` INT NOT NULL,
+    `nation_name` VARCHAR(100) NOT NULL,
+    `nation_pic` VARCHAR(100) NOT NULL,
+    `current_team` VARCHAR(100) NOT NULL,
+    `created_time` DATETIME ,
+    `team_id` INT NOT NULL,
+    CONSTRAINT fk_player_team
+    FOREIGN KEY(team_id) REFERENCES team(team_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+队员基本信息,统计队员三个月内的比赛信息 https://www.hltv.org/player/15818/k1-fida
+DROP TABLE if exists `player_info_statistics`;
+CREATE TABLE IF NOT EXISTS `player_info_statistics`(
+    `id` INT AUTO_INCREMENT primary key,
+    `rating2` FLOAT NOT NULL,
+    `dpr`  FLOAT NOT NULL,
+    `kast` VARCHAR(50) NOT NULL,
+    `impact` FLOAT NOT NULL,
+    `adr` FLOAT NOT NULL,
+    `kpr` FLOAT NOT NULL,
+    `total_kills` INT NOT NULL,
+    `headshots` VARCHAR(20) NOT NULL,
+    `k/d_ratio` FLOAT NOT NULL,
+    `kills_per_round` FLOAT NOT NULL,
+    `maps_played` INT NOT NULL,
+    `deaths_per_round` FLOAT NOT NULL,
+    `rounds_contributed` FLOAT NOT NULL,
+    `player_id` INT NOT NULL,
+    `created_time` DATETIME ,
+    CONSTRAINT fk_player_stat_team
+    FOREIGN KEY(player_id) REFERENCES player(player_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+队员个体统计信息, 队员页面的 individual ， https://www.hltv.org/stats/players/individual/15818/k1-fida
+DROP TABLE IF EXISTS `player_individual_stats`
+CREATE TABLE IF NOT EXISTS `player_individual_stats`(
+    `id` INT AUTO_INCREMENT primary key,
+    `index` VARCHAR(100) NOT NULL,  # 指标
+    `value` VARCHAR(100) NOT NULL,
+    `type` VARCHAR(100) NOT NULL,   # 类型， Overall stats ， Round stats , Opening stats, Weapon stats
+    `player_id` INT NOT NULL,
+    `created_time` DATETIME ,
+    CONSTRAINT fk_player_stat_team
+    FOREIGN KEY(player_id) REFERENCES player(player_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+队员基本信息,队员即将参加的比赛，
+DROP TABLE if exists `player_info_rencent_matches`;
+CREATE TABLE IF NOT EXISTS `player_info_rencent_matches`(
+    `id` INT AUTO_INCREMENT primary key,
+    `team_name` VARCHAR(100) NOT NULL,
+    `team_pic` VARCHAR(100) NOT NULL,
+    `match_score` VARCHAR(100) NOT NULL,
+    `matches_id` INT NOT NULL,
+    `match_time` DATETIME,
+    `player_id` INT NOT NULL,
+    `created_time` DATETIME ,
+    CONSTRAINT fk_player_stat_team
+    FOREIGN KEY(player_id) REFERENCES player(player_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+队员效力战队信息
+DROP TABLE if exists `player_join_team`;
+CREATE TABLE IF NOT EXISTS `player_join_team`(
+    `id` INT AUTO_INCREMENT primary key,
+    `join_team_start_time` DATETIME,
+    `join_team_end_time` DATETIME,
+    `team_name` VARCHAR(100) NOT NULL,
+    `team_pic` VARCHAR(100) NOT NULL,
+    `team_link` VARCHAR(100) NOT NULL,
+    `player_id` INT NOT NULL,
+    `created_time` DATETIME ,
+    CONSTRAINT fk_player_join_team
+    FOREIGN KEY(player_id) REFERENCES player(player_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+队员参加比赛信息 ， matches https://www.hltv.org/player/10330/acor#tab-matchesBox
+DROP TABLE IF EXISTS `player_matche`;
+CREATE TABLE IF NOT EXISTS `player_matche`(
+    `player_matche_id` INT AUTO_INCREMENT primary key,
+    `match_date` DATETIME,
+    `match_name` VARCHAR(100) NOT NULL,
+    `join_team_name` VARCHAR(100) NOT NULL,
+    `join_team_pic` VARCHAR(100) NOT NULL,
+    `join_team_score` INT NOT NULL,
+    `opponent_team_name` VARCHAR(100) NOT NULL,
+    `opponent_team_pic` VARCHAR(100) NOT NULL,
+    `opponent_team_score` INT NOT NULL,
+    `status` VARCHAR(50) NOT NULL,
+    `player_id` INT NOT NULL,
+    `created_time` DATETIME ,
+    CONSTRAINT fk_player_matche
+    FOREIGN KEY(player_id) REFERENCES player(player_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+赛事地图统计信息, Match lineup core winrate, past 3 months, min. 3 maps played
+DROP TABLE if exists `tournament_map_stats`;
+CREATE TABLE IF NOT EXISTS `tournament_map_stats`(
+    `id` INT AUTO_INCREMENT primary key,
+    `map_name` VARCHAR(100) NOT NULL,
+    `map_pic` VARCHAR(100) NOT NULL,
+    `team_name` VARCHAR(100) NOT NULL,
+    `team_pic` VARCHAR(100) NOT NULL,
+    `team_link` VARCHAR(100) NOT NULL,
+    `click_on_map_win_percentage` FLOAT NOT NULL,
+    `maps_played_num` INT NOT NULL,
+    `match_item_id` INT NOT NULL,
+    `team_id` INT NOT NULL,
+    `created_time` DATETIME ,
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+过去三个月的战队统计信息,Matches, past 3 months, https://www.hltv.org/matches/2358379/pain-vs-atk-iem-road-to-rio-2022-americas-rmr
+DROP TABLE if exists `tournament_matches`;
+CREATE TABLE IF NOT EXISTS `tournament_matches`(
+    `id` INT AUTO_INCREMENT primary key,
+    `team1_id` INT NOT NULL,
+    `team1_name` VARCHAR(100) NOT NULL,
+    `team1_pic` VARCHAR(100) NOT NULL,
+    `team1_link` VARCHAR(100) NOT NULL,
+    `team2_id` INT NOT NULL,
+    `team2_name` VARCHAR(100) NOT NULL,
+    `team2_pic` VARCHAR(100) NOT NULL,
+    `team2_link` VARCHAR(100) NOT NULL,
+    `match_team_score` VARCHAR(50) NOT NULL,
+    `match_map_name` VARCHAR(100) NOT NULL,
+    `match_team_win_numbers` FLOAT NOT NULL,
+    `match_item_id` INT NOT NULL,
+    `created_time` DATETIME ,
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+赛事统计信息 https://www.hltv.org/matches/2358379/pain-vs-atk-iem-road-to-rio-2022-americas-rmr
+DROP TABLE if exists `tournament_match_stats`;
+CREATE TABLE IF NOT EXISTS `tournament_match_stats`(
+    `tournament_match_stats_id` INT AUTO_INCREMENT primary key,
+    `map_name` VARCHAR(100) NOT NULL,
+    `team_name` VARCHAR(100) NOT NULL,
+    `team_pic` VARCHAR(100) NOT NULL,
+    `team_link` VARCHAR(100) NOT NULL,
+    `k-d` VARCHAR(100) NOT NULL,
+    `+/-` VARCHAR(100) NOT NULL,
+    `adr` VARCHAR(100) NOT NULL,
+    `kast` VARCHAR(50) NOT NULL,
+    `rating` VARCHAR(100) NOT NULL,
+    `match_item_id` INT NOT NULL,
+    `created_time` DATETIME ,
+    CONSTRAINT fk_tournament_match_match_item
+    FOREIGN KEY(match_item_id) REFERENCES match_item(match_item_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+赛事实时数据，从websocket获取比分面板消息和日志消息
+DROP TABLE if exists `tournament_scoreboard`;
+CREATE TABLE IF NOT EXISTS `tournament_scoreboard`(
+    `tournament_match_stats_id` INT AUTO_INCREMENT primary key,
+    `row_data` JSON,
+    `type` VARCHAR(100) NOT NULL,  # 类型 scoreboard, log
+    `match_item_id` INT NOT NULL,
+    `created_time` DATETIME,
+    CONSTRAINT fk_scoreboard_matches
+    FOREIGN KEY(match_item_id) REFERENCES match_item(match_item_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
