@@ -98,7 +98,7 @@ func test_split() {
 	results := strings.FieldsFunc(s, f)
 	fmt.Printf("results=:%q\n", results)
 	fmt.Println(results[0], results[1])
-
+	// 2022年10月11日19:21:30秒执行任务
 	fmt.Println("执行的表达式 => " + getCron("*", "10", "11", "19", "21", "10"))
 }
 
@@ -128,8 +128,8 @@ func main() {
 	//test_http()
 	//test_split()
 	//test_timeunix()
-	//test_crawl()
-	test_task()
+	test_crawl()
+	//test_task()
 
 	//common.TestDelay()
 }
