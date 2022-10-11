@@ -11,17 +11,27 @@ func current_time() {
 	fmt.Println("当前时间", current_time)
 }
 
+func add_task(c *cron.Cron) {
+	c.AddFunc("*/15 * * * * ?", func() { fmt.Println("Every 15 seconds", time.Now().Format("2006-01-02 15:04:05")) })
+}
+
+var CORN = cron.New(cron.WithSeconds())
+
 func TestTask1() {
-	fmt.Println("--- start task ---")
+	fmt.Println("--- start task ---", time.Now().Format("2006-01-02 15:04:05"))
 
-	c := cron.New(cron.WithSeconds())
+	//fmt.Printf("c = %T", c)
+
 	// */5 * * * * ?
-	c.AddFunc("1 * * * *", func() {
-
+	CORN.AddFunc("0 */1 * * * ?", func() {
 		fmt.Println("* 执行任务", time.Now().Format("2006-01-02 15:04:05"))
 	})
-	c.Start()
-	defer c.Stop()
+
+	CORN.Start()
+
+	add_task(CORN)
+
+	defer CORN.Stop()
 	for {
 		time.Sleep(time.Second)
 	}

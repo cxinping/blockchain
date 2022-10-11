@@ -34,6 +34,8 @@ go get github.com/robfig/cron/v3@v3.0.0
 http://t.zoukankan.com/haiguixiansheng-p-10722980.html
 
 https://www.jianshu.com/p/12c9cb7dc013
+
+https://mp.weixin.qq.com/s/Ak7RBv1NuS-VBeDNo8_fww
 ```
 
 爬虫资料
