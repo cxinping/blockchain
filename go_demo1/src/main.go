@@ -113,7 +113,6 @@ func getCron(day_of_week string, month, day string, hour string, minutes string,
 	Month        | Yes        | 1-12 or JAN-DEC | * / , -
 	Day of week  | Yes        | 0-6 or SUN-SAT  | * / , - ?
 
-
 	*/
 	return seconds + " " + minutes + " " + hour + " " + day + " " + month + " " + day_of_week
 }

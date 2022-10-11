@@ -23,7 +23,7 @@ func InitTask() {
 	//fmt.Printf("c = %T", c)
 
 	// */5 * * * * ?
-	Cron.AddFunc("10 21 19 11 10 *", func() {
+	Cron.AddFunc("10 25 19 11 10 *", func() {
 		fmt.Println("******* 执行任务", time.Now().Format("2006-01-02 15:04:05"))
 	})
 
