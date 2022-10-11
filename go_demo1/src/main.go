@@ -5,6 +5,7 @@ import (
 	common "go_demo1/src/aaa/common"
 	"go_demo1/src/aaa/http"
 	"go_demo1/src/hltv/spider"
+	"go_demo1/src/hltv/task"
 	"time"
 )
 
@@ -68,12 +69,17 @@ func test2() {
 	//fmt.Println(str1[0 : len(str1)-3])
 }
 
+func test_task() {
+	task.TestTask1()
+}
+
 func main() {
 	//test1()
 	//test_db()
 	//test_http()
 
 	//test2()
-	test_crawl()
+	//test_crawl()
+	test_task()
 
 }

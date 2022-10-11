@@ -21,6 +21,17 @@ go get github.com/PuerkitoBio/goquery
 调度
 ```
 https://github.com/robfig/cron
+
+https://pkg.go.dev/github.com/jasonlvhit/gocron#Every
+
+安装 cron
+go get github.com/robfig/cron/v3@v3.0.0
+```
+
+调度例子
+```azure
+
+http://t.zoukankan.com/haiguixiansheng-p-10722980.html
 ```
 
 
