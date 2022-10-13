@@ -54,3 +54,18 @@ https://www.jianshu.com/p/66c25d4236fa
 
 
 ```
+
+产生UUID
+```
+https://zhuanlan.zhihu.com/p/39205152
+
+https://github.com/zhenorzz/snowflake
+
+https://www.jianshu.com/p/a4c35a8c1df4
+
+安装创建UUID的模块
+go get github.com/go-basic/uuid
+
+
+```
+
