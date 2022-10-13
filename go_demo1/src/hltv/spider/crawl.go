@@ -5,6 +5,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly"
 	"math/rand"
+	"strconv"
 	"strings"
 )
 
@@ -60,7 +61,7 @@ func CrawlMatches() {
 		bodyData := string(r.Body)
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(bodyData))
 
-		//operate_living_match(dom)
+		operate_living_match(dom)
 
 		operate_upcoming_match(dom)
 
@@ -90,27 +91,27 @@ func operate_upcoming_match(dom *goquery.Document) {
 		fmt.Println("idx=>", i+1, ",match_date=", match_date)
 
 		selection.Find(".upcomingMatch").Each(func(i int, selection *goquery.Selection) {
-			//match_time := selection.Find(".matchInfo .matchTime").Text()
-			//fmt.Println("\tmatch_time=", match_time)
+			match_time := selection.Find(".matchInfo .matchTime").Text()
+			fmt.Println("\tmatch_time=", match_time)
 
-			//match_date_unix_str, _ := selection.Find(".matchInfo .matchTime").Attr("data-unix")
-			//match_date_unix_int, _ := strconv.ParseInt(match_date_unix_str, 10, 64)
-			//match_date_unix_int = int64(match_date_unix_int) / 1000
+			match_date_unix_str, _ := selection.Find(".matchInfo .matchTime").Attr("data-unix")
+			match_date_unix_int, _ := strconv.ParseInt(match_date_unix_str, 10, 64)
+			match_date_unix_int = int64(match_date_unix_int) / 1000
 			//match_time := time.Unix(match_date_unix_int, 0).Format("2006-01-02 15:04")
 			//fmt.Println("\tmatch_time=", match_time)
-			//team1_name := CompressString(selection.Find("div[class='matchTeam team1']").Text())
-			//team1_pic, _ := selection.Find("div[class='matchTeam team1']").Find("img").Attr("src")
-			//team2_name := CompressString(selection.Find("div[class='matchTeam team2']").Text())
-			//team2_pic, _ := selection.Find("div[class='matchTeam team2']").Find("img").Attr("src")
-			//match_pic, _ := selection.Find(".matchEvent").Find(".matchEventLogoContainer").Find("img").Attr("src") // 比赛的图片logo
-			//match_name := selection.Find("div[class='matchEventName gtSmartphone-only']").Text()
-			//fmt.Println("\tteam1_name=", team1_name)
-			//fmt.Println("\tteam1_pic=", team1_pic)
-			//fmt.Println("\tteam2_name=", team2_name)
-			//fmt.Println("\tteam2_pic=", team2_pic)
-			//fmt.Println("\tmatch_pic=", match_pic)
-			//fmt.Println("\tmatch_name=", match_name)
-			//fmt.Println("")
+			team1_name := CompressString(selection.Find("div[class='matchTeam team1']").Text())
+			team1_pic, _ := selection.Find("div[class='matchTeam team1']").Find("img").Attr("src")
+			team2_name := CompressString(selection.Find("div[class='matchTeam team2']").Text())
+			team2_pic, _ := selection.Find("div[class='matchTeam team2']").Find("img").Attr("src")
+			match_pic, _ := selection.Find(".matchEvent").Find(".matchEventLogoContainer").Find("img").Attr("src") // 比赛的图片logo
+			match_name := selection.Find("div[class='matchEventName gtSmartphone-only']").Text()
+			fmt.Println("\tteam1_name=", team1_name)
+			fmt.Println("\tteam1_pic=", team1_pic)
+			fmt.Println("\tteam2_name=", team2_name)
+			fmt.Println("\tteam2_pic=", team2_pic)
+			fmt.Println("\tmatch_pic=", match_pic)
+			fmt.Println("\tmatch_name=", match_name)
+			fmt.Println("")
 		})
 		fmt.Println("")
 	})
