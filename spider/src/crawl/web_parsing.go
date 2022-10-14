@@ -91,7 +91,6 @@ func OperateLivingMatch(dom *goquery.Document) []model.Match {
 			})
 			fmt.Println("")
 			matchResultSet = append(matchResultSet, match)
-
 		})
 		//fmt.Println()
 	}
