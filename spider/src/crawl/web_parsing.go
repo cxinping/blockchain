@@ -3,6 +3,7 @@ package crawl
 import (
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
+	"spider/src/model"
 	"spider/src/util"
 	"strconv"
 	"strings"
@@ -59,6 +60,9 @@ func operate_living_match(dom *goquery.Document) {
 	处理正在比赛的数据
 	*/
 	live_match_section_dom := dom.Find(".liveMatchesSection")
+	resultSet := make(map[int]model.Match)
+	fmt.Println("***", len(resultSet))
+
 	if live_match_section_dom != nil {
 		// 赛事名称
 		match_name := live_match_section_dom.Find(".upcoming-headline").Text()

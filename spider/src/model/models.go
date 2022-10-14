@@ -47,3 +47,8 @@ type Match struct {
 	Suggest_idx         uint8
 	Created_time        time.Time
 }
+
+func (Match) TableName() string {
+	// 自定义表的名称
+	return "match"
+}

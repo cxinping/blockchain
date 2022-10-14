@@ -11,7 +11,7 @@ import (
 func CrawlMatches() {
 	// 爬取赛事信息
 	base_url := util.MATCH_URL // "https://www.hltv.org/matches"
-	fmt.Println("*** 开始爬取hltv的赛事列表 ", base_url)
+	//fmt.Println("*** 开始爬取hltv的赛事列表 ", base_url)
 
 	c := colly.NewCollector(
 		// 允许重复访问
