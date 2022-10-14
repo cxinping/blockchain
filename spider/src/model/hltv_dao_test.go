@@ -14,7 +14,7 @@ func TestAddTournament(t *testing.T) {
 	tt := Tournament{
 		TT_biz_id:    "aaaaa",
 		TT_name:      "1111",
-		Desc:         "",
+		Desc:         "qqqqqq",
 		TT_startdate: time.Now(),
 		TT_enddate:   time.Now(),
 		Created_time: time.Now()}

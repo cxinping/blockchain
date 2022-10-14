@@ -60,7 +60,7 @@ func OperateLivingMatch(dom *goquery.Document) []model.Match {
 	处理正在比赛的数据
 	*/
 	liveMatchSectionDom := dom.Find(".liveMatchesSection")
-	resultSet := make([]model.Match, 0, 10)
+	matchResultSet := make([]model.Match, 0, 10)
 
 	if liveMatchSectionDom != nil {
 		// 赛事名称
@@ -90,11 +90,11 @@ func OperateLivingMatch(dom *goquery.Document) []model.Match {
 
 			})
 			fmt.Println("")
-			resultSet = append(resultSet, match)
+			matchResultSet = append(matchResultSet, match)
 
 		})
 		//fmt.Println()
 	}
 
-	return resultSet
+	return matchResultSet
 }
