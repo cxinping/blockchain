@@ -8,10 +8,11 @@ import (
 	"spider/src/utils/parameter"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
-	// 处理预计比赛的数据
+	// 处理将要比赛的数据
 	//upcoming_match := live_match_section_dom.Next().Text()
 	upcoming_match := dom.Find(".upcoming-headline").Text()
 	upcoming_match = strings.Replace(upcoming_match, "\n", "", -1)
@@ -32,15 +33,16 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 		fmt.Println("idx=>", i+1, ",match_date=", match_date)
 
 		selection.Find(".upcomingMatch").Each(func(i int, selection *goquery.Selection) {
-
-			match_time := selection.Find(".matchInfo .matchTime").Text()
-			fmt.Println("\tmatch_time=", match_time)
+			//match_time := selection.Find(".matchInfo .matchTime").Text()
+			//fmt.Println("\tmatch_time=", match_time)
 
 			match_date_unix_str, _ := selection.Find(".matchInfo .matchTime").Attr("data-unix")
+			fmt.Println("\tmatch_date_unix_str=", match_date_unix_str)
 			match_date_unix_int, _ := strconv.ParseInt(match_date_unix_str, 10, 64)
 			match_date_unix_int = int64(match_date_unix_int) / 1000
-			//match_time := time.Unix(match_date_unix_int, 0).Format("2006-01-02 15:04")
-			//fmt.Println("\tmatch_time=", match_time)
+			match_time := time.Unix(match_date_unix_int, 0)
+			match_time_str := match_time.Format("2006-01-02 15:04")
+			fmt.Println("\tmatch_time_str=", match_time_str)
 			team1_name := utils.CompressString(selection.Find("div[class='matchTeam team1']").Text())
 			team1_pic, _ := selection.Find("div[class='matchTeam team1']").Find("img").Attr("src")
 			team2_name := utils.CompressString(selection.Find("div[class='matchTeam team2']").Text())
@@ -54,6 +56,8 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 			fmt.Println("\tmatch_pic=", match_pic)
 			fmt.Println("\tmatch_name=", match_name)
 			fmt.Println("")
+
+			match.Match_time = match_time
 		})
 		fmt.Println("")
 		matchResultSet = append(matchResultSet, match)

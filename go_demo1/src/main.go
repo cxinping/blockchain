@@ -6,6 +6,7 @@ import (
 	"go_demo1/src/aaa/http"
 	"go_demo1/src/hltv/spider"
 	"go_demo1/src/hltv/task"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -62,10 +63,10 @@ func test_crawl() {
 }
 
 func test_timeunix() {
-	timeStamp := time.Now().Unix()
-	fmt.Println(timeStamp)
-	fmt.Println(1665475200000) // 1665473400000 1665475200000 1665478800000 1665475200
-	timeStr := time.Unix(1665473400, 0).Format("2006-01-02 15:04")
+	//timeStamp := time.Now().Unix()
+	//fmt.Println(timeStamp)
+	fmt.Println(1665792000000) // 1665792000000
+	timeStr := time.Unix(1665792000000/1000, 0).Format("2006-01-02 15:04")
 	fmt.Println("*** timeStr=> ", timeStr)
 	//str1 := "1665475200000"  // 2022-10-11 15:30
 	//fmt.Println(str1[0 : len(str1)-3])
@@ -123,14 +124,29 @@ func test_task() {
 	//task.ExecTask2()
 }
 
+func msToTime(ms string) (time.Time, error) {
+	msInt, err := strconv.ParseInt(ms, 10, 64)
+	if err != nil {
+		return time.Time{}, err
+	}
+
+	tm := time.Unix(0, msInt*int64(time.Millisecond))
+	fmt.Println(tm.Format("2006-02-01 15:04:05.000"))
+
+	return tm, nil
+}
+
 func main() {
 	//test1()
 	//test_db()
 	//test_http()
 	//test_split()
-	//test_timeunix()
-	test_crawl()
-	//test_task()
 
+	//test_timeunix()
+	rst, _ := msToTime("1489582166978")
+	fmt.Printf("%v, %T", rst, rst)
+
+	//test_crawl()
+	//test_task()
 	//common.TestDelay()
 }
