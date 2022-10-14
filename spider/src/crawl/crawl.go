@@ -25,16 +25,13 @@ func CrawlMatches() {
 	})
 
 	c.OnResponse(func(r *colly.Response) {
-		//fmt.Println("OnResponse")
 		bodyData := string(r.Body)
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(bodyData))
 
 		operate_living_match(dom)
-
 		//operate_upcoming_match(dom)
 
 	})
 
 	c.Visit(base_url)
-
 }

@@ -25,3 +25,24 @@ func (tt *Tournament) Insert() {
 	//db.Table("user").Create(user)
 	DB.Table("tournament").Debug().Create(tt)
 }
+
+type Match struct {
+	//赛果/赛程
+	Match_biz_id        string
+	Match_url           string
+	TT_pic              string
+	TT_biz_id           string
+	Status              string
+	Result              string
+	Mode                string
+	Match_time          time.Time
+	Team1_biz_id        string
+	Team2_biz_id        string
+	Team1_playing_score uint16
+	Team2_playing_score uint16
+	Team1_win_score     uint16
+	Team2_win_score     uint16
+	Map_type            string
+	Suggest_idx         uint8
+	Created_time        time.Time
+}

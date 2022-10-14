@@ -31,8 +31,10 @@ func InitTables() {
 	//设置全局表名禁用复数
 	db.SingularTable(true)
 
-	//赛事表
+	//赛事
 	db.AutoMigrate(&Tournament{})
+	//赛程/赛果
+	db.AutoMigrate(&Match{})
 }
 
 func GetDBInstance() *gorm.DB {
