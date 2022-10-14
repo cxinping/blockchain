@@ -62,3 +62,7 @@ func GetGormDB() *gorm.DB {
 func SaveTournament(tt *Tournament) {
 	DB.Table("tournament").Debug().Create(tt)
 }
+
+func SaveMatch(match *Match) {
+	DB.Table("match").Debug().Create(match)
+}

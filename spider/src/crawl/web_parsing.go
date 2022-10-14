@@ -55,12 +55,12 @@ func OperateUpcomingMatch(dom *goquery.Document) {
 	})
 }
 
-func OperateLivingMatch(dom *goquery.Document) map[int]model.Match {
+func OperateLivingMatch(dom *goquery.Document) []model.Match {
 	/**
 	处理正在比赛的数据
 	*/
 	liveMatchSectionDom := dom.Find(".liveMatchesSection")
-	resultSet := make(map[int]model.Match)
+	resultSet := make([]model.Match, 0, 10)
 
 	if liveMatchSectionDom != nil {
 		// 赛事名称
@@ -68,7 +68,7 @@ func OperateLivingMatch(dom *goquery.Document) map[int]model.Match {
 		fmt.Printf("\t正在比赛的赛事名称=%v\n", match_name)
 
 		liveMatchSectionDom.Find(".liveMatch-container").Each(func(idx int, selection *goquery.Selection) {
-			match := new(model.Match)
+			match := model.Match{}
 			fmt.Printf("\tindex=%d, match=> %T\n", idx, match)
 			match_url, _ := selection.Find("a[class='match a-reset']").Attr("href")
 			match.Match_url = util.HLTV_INDEX + match_url
@@ -90,7 +90,7 @@ func OperateLivingMatch(dom *goquery.Document) map[int]model.Match {
 
 			})
 			fmt.Println("")
-			resultSet[idx] = *match
+			resultSet = append(resultSet, match)
 
 		})
 		//fmt.Println()
