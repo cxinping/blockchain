@@ -28,6 +28,7 @@ func (tt *Tournament) Insert() {
 
 type Match struct {
 	//赛果/赛程
+	gorm.Model
 	Match_biz_id        string
 	Match_url           string
 	TT_pic              string
