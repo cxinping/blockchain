@@ -8,10 +8,6 @@ import (
 	"strings"
 )
 
-func init() {
-	fmt.Println("*** 开始初始化 ****")
-}
-
 func CrawlMatches() {
 	// 爬取赛事信息
 	base_url := "https://www.hltv.org/matches"
@@ -35,7 +31,7 @@ func CrawlMatches() {
 
 		operate_living_match(dom)
 
-		operate_upcoming_match(dom)
+		//operate_upcoming_match(dom)
 
 	})
 
