@@ -1,7 +1,6 @@
 package crawl
 
 import (
-	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly"
 	"spider/src/util"
@@ -21,7 +20,7 @@ func CrawlMatches() {
 		//反爬虫，通过随机改变 user-agent,
 		r.Headers.Set("User-Agent", util.RandomString())
 		//fmt.Println("OnRequest")
-		fmt.Println("url => ", r.URL)
+		//fmt.Println("url => ", r.URL)
 	})
 
 	c.OnResponse(func(r *colly.Response) {

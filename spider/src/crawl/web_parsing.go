@@ -60,8 +60,8 @@ func operate_living_match(dom *goquery.Document) {
 	处理正在比赛的数据
 	*/
 	live_match_section_dom := dom.Find(".liveMatchesSection")
-	resultSet := make(map[int]model.Match)
-	fmt.Println("***", len(resultSet))
+	//resultSet := make(map[int]model.Match)
+	//fmt.Println("***", len(resultSet))
 
 	if live_match_section_dom != nil {
 		// 赛事名称
@@ -69,11 +69,11 @@ func operate_living_match(dom *goquery.Document) {
 		fmt.Printf("\t正在比赛的赛事名称=%v\n", match_name)
 
 		live_match_section_dom.Find(".liveMatch-container").Each(func(i int, selection *goquery.Selection) {
-			//tt := model.Tournament{}  ### ???
-			//fmt.Println(tt)
+			tt := model.Tournament{}
+			fmt.Printf("\tindex=%d, tt=> %T\n", i, tt)
 
 			match_link, _ := selection.Find("a[class='match a-reset']").Attr("href")
-			fmt.Println("正在比赛的地址=> ", "https://www.hltv.org"+match_link)
+			fmt.Println("\t正在比赛的地址=> ", "https://www.hltv.org"+match_link)
 
 			selection.Find("div[class='matchTeam']").Each(func(i int, selection *goquery.Selection) {
 				team_name := util.CompressString(selection.Find("div[class='matchTeamName text-ellipsis']").Text())
