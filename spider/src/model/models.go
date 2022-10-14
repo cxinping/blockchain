@@ -23,6 +23,8 @@ func (Tournament) TableName() string {
 
 func (tt *Tournament) Insert() {
 	//DB.Table("tournament").Create(user)
+	//defer DB.Close()
+
 	DB.Table("tournament").Debug().Create(tt)
 }
 
@@ -49,6 +51,7 @@ type Match struct {
 }
 
 func (match *Match) Insert() {
+	//defer DB.Close()
 	//DB.Table("match").Create(match)
 	DB.Table("match").Debug().Create(match)
 }
@@ -68,6 +71,7 @@ type Team struct {
 }
 
 func (team *Team) Insert() {
+	//defer DB.Close()
 	//DB.Table("team").Create(match)
 	DB.Table("team").Debug().Create(team)
 }
@@ -95,6 +99,7 @@ type Player struct {
 }
 
 func (player *Player) Insert() {
-	//DB.Table("team").Create(match)
+	//defer DB.Close()
+	//DB.Table("player").Create(player)
 	DB.Table("player").Debug().Create(player)
 }

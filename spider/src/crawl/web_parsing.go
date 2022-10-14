@@ -87,8 +87,8 @@ func OperateLivingMatch(dom *goquery.Document) []model.Match {
 					fmt.Println("\tteam2_name=", team2_name)
 					fmt.Println("\tteam2_pic=", team2_pic)
 				}
-
 			})
+
 			fmt.Println("")
 			matchResultSet = append(matchResultSet, match)
 		})

@@ -39,6 +39,7 @@ func CrawlMatches() {
 }
 
 func saveMatches(matches []model.Match) {
+
 	// 批量保存Match
 	if matches != nil {
 		for _, match := range matches {
@@ -47,7 +48,7 @@ func saveMatches(matches []model.Match) {
 			match.Created_time = time.Now()
 			match.Status = util.MATCH_STATUS_LIVE
 			//fmt.Println(idx, match)
-			//match.Insert()
+			match.Insert()
 		}
 	}
 }
