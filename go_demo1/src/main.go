@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"go_demo1/src/aaa/common"
 	"go_demo1/src/aaa/http"
 	"go_demo1/src/hltv/spider"
 	"go_demo1/src/hltv/task"
@@ -29,7 +30,7 @@ func test_db() {
 }
 
 func test1() {
-	//common.SayHello()
+	common.SayHello()
 
 }
 
