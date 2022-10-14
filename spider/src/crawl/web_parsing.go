@@ -72,17 +72,22 @@ func operate_living_match(dom *goquery.Document) {
 			tt := model.Tournament{}
 			fmt.Printf("\tindex=%d, tt=> %T\n", i, tt)
 
-			match_link, _ := selection.Find("a[class='match a-reset']").Attr("href")
-			fmt.Println("\t正在比赛的地址=> ", "https://www.hltv.org"+match_link)
+			match_url, _ := selection.Find("a[class='match a-reset']").Attr("href")
+
+			fmt.Println("\t正在比赛的地址=> ", "https://www.hltv.org"+match_url)
 
 			selection.Find("div[class='matchTeam']").Each(func(i int, selection *goquery.Selection) {
 				team_name := util.CompressString(selection.Find("div[class='matchTeamName text-ellipsis']").Text())
 				if i == 0 {
 					team1_name := team_name
+					team1_url, _ := selection.Find("div[class='matchTeamLogoContainer']").Find("img").Attr("src")
 					fmt.Println("\tteam1_name=", team1_name)
+					fmt.Println("\tteam1_url=", team1_url)
 				} else if i == 1 {
 					team2_name := team_name
+					team2_url, _ := selection.Find("div[class='matchTeamLogoContainer']").Find("img").Attr("src")
 					fmt.Println("\tteam2_name=", team2_name)
+					fmt.Println("\tteam2_url=", team2_url)
 				}
 
 			})
