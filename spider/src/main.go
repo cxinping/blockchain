@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"spider/util"
+	"spider/src/util"
 )
 
 func test() {
-	util.RandomString()
 
+	util.RandomString()
 }
 
 func main() {
