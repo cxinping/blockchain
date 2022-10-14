@@ -11,9 +11,7 @@ import (
 )
 
 func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
-	/**
-	处理预计比赛的数据
-	*/
+	// 处理预计比赛的数据
 	//upcoming_match := live_match_section_dom.Next().Text()
 	upcoming_match := dom.Find(".upcoming-headline").Text()
 	upcoming_match = strings.Replace(upcoming_match, "\n", "", -1)
@@ -64,9 +62,7 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 }
 
 func OperateLivingMatch(dom *goquery.Document) []model.Match {
-	/**
-	处理正在比赛的数据
-	*/
+	// 处理正在比赛的数据
 	liveMatchSectionDom := dom.Find(".liveMatchesSection")
 	matchResultSet := make([]model.Match, 0, 10)
 
