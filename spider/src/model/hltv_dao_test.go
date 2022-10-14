@@ -13,7 +13,8 @@ func TestInitTable(t *testing.T) {
 func TestAddTournament(t *testing.T) {
 	tt := Tournament{
 		TT_biz_id:    "aaaaa",
-		TT_name:      "bbbb",
+		TT_name:      "1111",
+		Desc:         "",
 		TT_startdate: time.Now(),
 		TT_enddate:   time.Now(),
 		Created_time: time.Now()}

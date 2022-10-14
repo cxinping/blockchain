@@ -9,7 +9,7 @@ import (
 var DB *gorm.DB
 
 func init() {
-	DB = GetDBInstance()
+	DB = GetGormDB()
 }
 
 func InitTables() {
@@ -41,7 +41,7 @@ func InitTables() {
 
 }
 
-func GetDBInstance() *gorm.DB {
+func GetGormDB() *gorm.DB {
 	databaseType := "mysql"
 	username := "root"      //账号
 	password := "123456"    //密码
