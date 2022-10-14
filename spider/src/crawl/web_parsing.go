@@ -66,7 +66,7 @@ func operate_living_match(dom *goquery.Document) {
 	if live_match_section_dom != nil {
 		// 赛事名称
 		match_name := live_match_section_dom.Find(".upcoming-headline").Text()
-		fmt.Printf("正在比赛的赛事名称=%v\n", match_name)
+		fmt.Printf("\t正在比赛的赛事名称=%v\n", match_name)
 
 		live_match_section_dom.Find(".liveMatch-container").Each(func(i int, selection *goquery.Selection) {
 			//tt := model.Tournament{}  ### ???
