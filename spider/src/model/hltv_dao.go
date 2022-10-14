@@ -13,6 +13,7 @@ func init() {
 }
 
 func InitTables() {
+	//初始化表
 	databaseType := "mysql"
 	username := "root"      //账号
 	password := "123456"    //密码
@@ -35,6 +36,9 @@ func InitTables() {
 	db.AutoMigrate(&Tournament{})
 	//赛程/赛果
 	db.AutoMigrate(&Match{})
+	db.AutoMigrate(&Team{})
+	db.AutoMigrate(&Player{})
+
 }
 
 func GetDBInstance() *gorm.DB {

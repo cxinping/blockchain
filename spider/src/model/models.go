@@ -22,7 +22,7 @@ func (Tournament) TableName() string {
 }
 
 func (tt *Tournament) Insert() {
-	//db.Table("user").Create(user)
+	//DB.Table("tournament").Create(user)
 	DB.Table("tournament").Debug().Create(tt)
 }
 
@@ -48,23 +48,53 @@ type Match struct {
 	Created_time        time.Time
 }
 
-func (Match) TableName() string {
-	// 自定义表的名称
-	return "match"
+func (match *Match) Insert() {
+	//DB.Table("match").Create(match)
+	DB.Table("match").Debug().Create(match)
 }
 
 type Team struct {
 	// 战队
-	//赛果/赛程
 	gorm.Model
-	Team_biz_id string
-	Team_name   string
-	Team_pic    string
-	Nation_name string
-	Nation_pic  string
+	Team_biz_id        string
+	Team_name          string
+	Team_pic           string
+	Nation_name        string
+	Nation_pic         string
+	World_ranking      uint16
+	Average_player_age float32
+	Coatch_biz_id      string
+	Created_time       time.Time
 }
 
-func (Team) TableName() string {
-	//自定义表的名称
-	return "team"
+func (team *Team) Insert() {
+	//DB.Table("team").Create(match)
+	DB.Table("team").Debug().Create(team)
+}
+
+type Player struct {
+	//队员
+	gorm.Model
+	Player_biz_id string
+	Name          string
+	Birthday      string
+	Total_award   int32
+	Player_pic    string
+	Player_age    uint8
+	Nation_name   string
+	Nation_pic    string
+	Current_team  string
+	Rating2       string
+	Dpr           string
+	Kast          string
+	Impact        string
+	Adr           string
+	Kpr           string
+	Job_status    string
+	Created_time  time.Time
+}
+
+func (player *Player) Insert() {
+	//DB.Table("team").Create(match)
+	DB.Table("player").Debug().Create(player)
 }
