@@ -5,6 +5,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"spider/src/model"
 	"spider/src/utils"
+	"spider/src/utils/parameter"
 	"strconv"
 	"strings"
 )
@@ -78,7 +79,7 @@ func OperateLivingMatch(dom *goquery.Document) []model.Match {
 			match := model.Match{}
 			fmt.Printf("\tindex=%d, match=> %T\n", idx+1, match)
 			match_url, _ := selection.Find("a[class='match a-reset']").Attr("href")
-			match.Match_url = utils.HLTV_INDEX + match_url
+			match.Match_url = parameter.HLTV_INDEX + match_url
 			fmt.Println("\t正在比赛的地址=> ", "https://www.hltv.org"+match_url)
 			tt_name := selection.Find("div[class='matchEventName gtSmartphone-only']").Text()
 			match.TT_name = tt_name

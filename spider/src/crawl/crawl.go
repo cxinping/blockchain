@@ -7,13 +7,14 @@ import (
 	"spider/src/config"
 	"spider/src/model"
 	"spider/src/utils"
+	"spider/src/utils/parameter"
 	"strings"
 	"time"
 )
 
 func CrawlMatches() {
 	// 爬取赛事信息
-	base_url := utils.MATCH_URL // "https://www.hltv.org/matches"
+	base_url := parameter.MATCH_URL // "https://www.hltv.org/matches"
 	//fmt.Println("*** 开始爬取hltv的赛事列表 ", base_url)
 
 	c := colly.NewCollector(
@@ -49,7 +50,7 @@ func saveLivingMatches(DB *gorm.DB, matches []model.Match) {
 			match.Match_biz_id = utils.GenerateModuleBizID("MH")
 			match.Match_time = time.Now() // 比赛时间在页面中抓取不到，暂时使用当前时间
 			match.Created_time = time.Now()
-			match.Status = utils.MATCH_STATUS_LIVE
+			match.Status = parameter.MATCH_STATUS_LIVE
 			//fmt.Println(idx, match)
 			match.Insert(DB)
 		}
@@ -64,9 +65,9 @@ func saveUpcomingMatches(DB *gorm.DB, matches []model.Match) {
 			match.Match_biz_id = utils.GenerateModuleBizID("MH")
 			match.Match_time = time.Now()
 			match.Created_time = time.Now()
-			match.Status = utils.MATCH_STATUS_NOT_STARTED
+			match.Status = parameter.MATCH_STATUS_NOT_STARTED
 			//fmt.Println(idx, match)
-			match.Insert(DB)
+			//match.Insert(DB)
 		}
 	}
 
