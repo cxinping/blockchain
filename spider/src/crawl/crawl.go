@@ -1,6 +1,7 @@
 package crawl
 
 import (
+	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly"
 	"github.com/jinzhu/gorm"
@@ -52,7 +53,7 @@ func saveLivingMatches(DB *gorm.DB, matches []model.Match) {
 			match.Created_time = time.Now()
 			match.Status = parameter.MATCH_STATUS_LIVE
 			//fmt.Println(idx, match)
-			match.Insert(DB)
+			//match.Insert(DB)
 		}
 	}
 
@@ -60,14 +61,17 @@ func saveLivingMatches(DB *gorm.DB, matches []model.Match) {
 
 func saveUpcomingMatches(DB *gorm.DB, matches []model.Match) {
 	// 批量保存将要进行的比赛的Match
+	fmt.Println("------- saveUpcomingMatches ---------")
+
 	if matches != nil {
-		for _, match := range matches {
+		for idx, match := range matches {
 			match.Match_biz_id = utils.GenerateModuleBizID("MH")
 			match.Match_time = time.Now()
 			match.Created_time = time.Now()
 			match.Status = parameter.MATCH_STATUS_NOT_STARTED
-			//fmt.Println(idx, match)
-			match.Insert(DB)
+			fmt.Println(idx, match.TT_name)
+
+			//match.Insert(DB)
 		}
 	}
 

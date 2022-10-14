@@ -17,7 +17,7 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 	upcoming_match := dom.Find(".upcoming-headline").Text()
 	upcoming_match = strings.Replace(upcoming_match, "\n", "", -1)
 	upcoming_match = strings.Trim(upcoming_match, " ")
-	fmt.Println("预计比赛的赛事名称=", upcoming_match)
+	fmt.Println("将要比赛的赛事名称=", upcoming_match)
 	matchResultSet := make([]model.Match, 0, 10)
 
 	// .upcomingMatchesAll .upcomingMatchesSection
