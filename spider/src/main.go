@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"spider/src/util"
+	"spider/src/crawl"
 )
 
 func test() {
-
-	util.RandomString()
+	//util.RandomString()
+	crawl.CrawlMatches()
 }
 
 func main() {
