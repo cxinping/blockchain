@@ -10,7 +10,7 @@ import (
 
 func CrawlMatches() {
 	// 爬取赛事信息
-	base_url := "https://www.hltv.org/matches"
+	base_url := util.MATCH_URL // "https://www.hltv.org/matches"
 	fmt.Println("*** 开始爬取hltv的赛事列表 ", base_url)
 
 	c := colly.NewCollector(
@@ -30,7 +30,6 @@ func CrawlMatches() {
 
 		operate_living_match(dom)
 		//operate_upcoming_match(dom)
-
 	})
 
 	c.Visit(base_url)
