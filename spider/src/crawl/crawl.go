@@ -64,12 +64,11 @@ func saveUpcomingMatches(DB *gorm.DB, matches []model.Match) {
 	fmt.Println("------- saveUpcomingMatches ---------")
 
 	if matches != nil {
-		for idx, match := range matches {
+		for _, match := range matches {
 			match.Match_biz_id = utils.GenerateModuleBizID("MH")
-			match.Match_time = time.Now()
 			match.Created_time = time.Now()
 			match.Status = parameter.MATCH_STATUS_NOT_STARTED
-			fmt.Println(idx, match.TT_name)
+			//fmt.Println(idx, match.TT_name)
 
 			//match.Insert(DB)
 		}

@@ -60,9 +60,10 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 			match.Match_time = match_time
 			match.TT_name = tt_name
 			match.Desc = strconv.Itoa(idx + 1)
+			matchResultSet = append(matchResultSet, match)
 		})
 		fmt.Println("")
-		matchResultSet = append(matchResultSet, match)
+
 	})
 	return matchResultSet
 }
