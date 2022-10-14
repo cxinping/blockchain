@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"spider/src/model"
-	"spider/src/util"
+	"spider/src/utils"
 	"strconv"
 	"strings"
 )
@@ -37,9 +37,9 @@ func OperateUpcomingMatch(dom *goquery.Document) {
 			match_date_unix_int = int64(match_date_unix_int) / 1000
 			//match_time := time.Unix(match_date_unix_int, 0).Format("2006-01-02 15:04")
 			//fmt.Println("\tmatch_time=", match_time)
-			team1_name := util.CompressString(selection.Find("div[class='matchTeam team1']").Text())
+			team1_name := utils.CompressString(selection.Find("div[class='matchTeam team1']").Text())
 			team1_pic, _ := selection.Find("div[class='matchTeam team1']").Find("img").Attr("src")
-			team2_name := util.CompressString(selection.Find("div[class='matchTeam team2']").Text())
+			team2_name := utils.CompressString(selection.Find("div[class='matchTeam team2']").Text())
 			team2_pic, _ := selection.Find("div[class='matchTeam team2']").Find("img").Attr("src")
 			match_pic, _ := selection.Find(".matchEvent").Find(".matchEventLogoContainer").Find("img").Attr("src") // 比赛的图片logo
 			match_name := selection.Find("div[class='matchEventName gtSmartphone-only']").Text()
@@ -71,11 +71,11 @@ func OperateLivingMatch(dom *goquery.Document) []model.Match {
 			match := model.Match{}
 			fmt.Printf("\tindex=%d, match=> %T\n", idx, match)
 			match_url, _ := selection.Find("a[class='match a-reset']").Attr("href")
-			match.Match_url = util.HLTV_INDEX + match_url
+			match.Match_url = utils.HLTV_INDEX + match_url
 			fmt.Println("\t正在比赛的地址=> ", "https://www.hltv.org"+match_url)
 
 			selection.Find("div[class='matchTeam']").Each(func(i int, selection *goquery.Selection) {
-				team_name := util.CompressString(selection.Find("div[class='matchTeamName text-ellipsis']").Text())
+				team_name := utils.CompressString(selection.Find("div[class='matchTeamName text-ellipsis']").Text())
 				if i == 0 {
 					team1_name := team_name
 					team1_pic, _ := selection.Find("div[class='matchTeamLogoContainer']").Find("img").Attr("src")

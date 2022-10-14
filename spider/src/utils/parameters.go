@@ -1,4 +1,4 @@
-package util
+package utils
 
 const (
 	HLTV_INDEX = "https://www.hltv.org" // HLTV 首页
