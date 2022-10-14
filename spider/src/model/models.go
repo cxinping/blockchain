@@ -52,3 +52,19 @@ func (Match) TableName() string {
 	// 自定义表的名称
 	return "match"
 }
+
+type Team struct {
+	// 战队
+	//赛果/赛程
+	gorm.Model
+	Team_biz_id string
+	Team_name   string
+	Team_pic    string
+	Nation_name string
+	Nation_pic  string
+}
+
+func (Team) TableName() string {
+	//自定义表的名称
+	return "team"
+}
