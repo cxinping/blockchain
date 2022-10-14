@@ -21,7 +21,7 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 	matchResultSet := make([]model.Match, 0, 10)
 
 	// .upcomingMatchesAll .upcomingMatchesSection
-	dom.Find(".upcomingMatchesSection").Each(func(i int, selection *goquery.Selection) {
+	dom.Find(".upcomingMatchesSection").Each(func(idx int, selection *goquery.Selection) {
 		match := model.Match{}
 		match.Match_url = "??????????"
 
@@ -30,7 +30,7 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 		//match_date = strings.Replace(match_date, " ", "", -1)
 		//match_date_idx := strings.Index(match_date, "-") + 1
 		//match_date = string([]rune(match_date)[match_date_idx:len(match_date)])
-		fmt.Println("idx=>", i+1, ",match_date=", match_date)
+		fmt.Println("idx=>", idx+1, ",match_date=", match_date)
 
 		selection.Find(".upcomingMatch").Each(func(i int, selection *goquery.Selection) {
 			//match_time := selection.Find(".matchInfo .matchTime").Text()
@@ -48,16 +48,18 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 			team2_name := utils.CompressString(selection.Find("div[class='matchTeam team2']").Text())
 			team2_pic, _ := selection.Find("div[class='matchTeam team2']").Find("img").Attr("src")
 			match_pic, _ := selection.Find(".matchEvent").Find(".matchEventLogoContainer").Find("img").Attr("src") // 比赛的图片logo
-			match_name := selection.Find("div[class='matchEventName gtSmartphone-only']").Text()
+			tt_name := selection.Find("div[class='matchEventName gtSmartphone-only']").Text()
 			fmt.Println("\tteam1_name=", team1_name)
 			fmt.Println("\tteam1_pic=", team1_pic)
 			fmt.Println("\tteam2_name=", team2_name)
 			fmt.Println("\tteam2_pic=", team2_pic)
 			fmt.Println("\tmatch_pic=", match_pic)
-			fmt.Println("\tmatch_name=", match_name)
+			fmt.Println("\ttt_name=", tt_name)
 			fmt.Println("")
 
 			match.Match_time = match_time
+			match.TT_name = tt_name
+			match.Desc = strconv.Itoa(idx + 1)
 		})
 		fmt.Println("")
 		matchResultSet = append(matchResultSet, match)

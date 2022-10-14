@@ -26,10 +26,11 @@ type Match struct {
 	Map_type            string
 	Suggest_idx         uint8
 	Created_time        time.Time
+	Desc                string
 }
 
 func (match *Match) Insert(DB *gorm.DB) {
 	//defer DB.Close()
-	//DB.Table("match").Create(match)
-	DB.Table("match").Debug().Create(match)
+	DB.Table("match").Create(match)
+	//DB.Table("match").Debug().Create(match)
 }

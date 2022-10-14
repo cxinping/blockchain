@@ -36,7 +36,7 @@ func InitDB() *gorm.DB {
 	db.AutoMigrate(&model.Team{})       //团队
 	db.AutoMigrate(&model.Player{})     //队员
 
-	db.LogMode(true)
+	//db.LogMode(true) //打开调试日志模式
 	DB = db
 
 	return db
