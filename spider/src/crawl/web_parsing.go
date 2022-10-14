@@ -69,10 +69,13 @@ func OperateLivingMatch(dom *goquery.Document) []model.Match {
 
 		liveMatchSectionDom.Find(".liveMatch-container").Each(func(idx int, selection *goquery.Selection) {
 			match := model.Match{}
-			fmt.Printf("\tindex=%d, match=> %T\n", idx, match)
+			fmt.Printf("\tindex=%d, match=> %T\n", idx+1, match)
 			match_url, _ := selection.Find("a[class='match a-reset']").Attr("href")
 			match.Match_url = utils.HLTV_INDEX + match_url
 			fmt.Println("\t正在比赛的地址=> ", "https://www.hltv.org"+match_url)
+			tt_name := selection.Find("div[class='matchEventName gtSmartphone-only']").Text()
+			match.TT_name = tt_name
+			fmt.Println("\t赛事名字=>", tt_name)
 
 			selection.Find("div[class='matchTeam']").Each(func(i int, selection *goquery.Selection) {
 				team_name := utils.CompressString(selection.Find("div[class='matchTeamName text-ellipsis']").Text())

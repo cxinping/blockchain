@@ -1,6 +1,7 @@
 package crawl
 
 import (
+	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly"
 	"github.com/jinzhu/gorm"
@@ -54,4 +55,6 @@ func saveMatches(DB *gorm.DB, matches []model.Match) {
 			match.Insert(DB)
 		}
 	}
+
+	fmt.Println("* len(matches)=> ", len(matches))
 }

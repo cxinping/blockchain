@@ -12,6 +12,7 @@ type Match struct {
 	Match_url           string
 	TT_pic              string
 	TT_biz_id           string
+	TT_name             string
 	Status              string
 	Result              string
 	Mode                string
