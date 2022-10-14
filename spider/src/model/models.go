@@ -21,7 +21,7 @@ func (Tournament) TableName() string {
 	return "tournament"
 }
 
-func (tt *Tournament) Insert() {
+func (tt *Tournament) Insert(DB *gorm.DB) {
 	//DB.Table("tournament").Create(user)
 	//defer DB.Close()
 
@@ -50,7 +50,7 @@ type Match struct {
 	Created_time        time.Time
 }
 
-func (match *Match) Insert() {
+func (match *Match) Insert(DB *gorm.DB) {
 	//defer DB.Close()
 	//DB.Table("match").Create(match)
 	DB.Table("match").Debug().Create(match)
@@ -70,7 +70,7 @@ type Team struct {
 	Created_time       time.Time
 }
 
-func (team *Team) Insert() {
+func (team *Team) Insert(DB *gorm.DB) {
 	//defer DB.Close()
 	//DB.Table("team").Create(match)
 	DB.Table("team").Debug().Create(team)
@@ -98,7 +98,7 @@ type Player struct {
 	Created_time  time.Time
 }
 
-func (player *Player) Insert() {
+func (player *Player) Insert(DB *gorm.DB) {
 	//defer DB.Close()
 	//DB.Table("player").Create(player)
 	DB.Table("player").Debug().Create(player)

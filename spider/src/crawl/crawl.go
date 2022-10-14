@@ -3,6 +3,8 @@ package crawl
 import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly"
+	"github.com/jinzhu/gorm"
+	"spider/src/config"
 	"spider/src/model"
 	"spider/src/util"
 	"strings"
@@ -28,9 +30,10 @@ func CrawlMatches() {
 	c.OnResponse(func(r *colly.Response) {
 		bodyData := string(r.Body)
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(bodyData))
-
+		// 初始化数据库句柄
+		DB := config.GetDB()
 		matchResultSet := OperateLivingMatch(dom)
-		saveMatches(matchResultSet)
+		saveMatches(DB, matchResultSet)
 
 		//OperateUpcomingMatch(dom)
 	})
@@ -38,7 +41,7 @@ func CrawlMatches() {
 	c.Visit(base_url)
 }
 
-func saveMatches(matches []model.Match) {
+func saveMatches(DB *gorm.DB, matches []model.Match) {
 
 	// 批量保存Match
 	if matches != nil {
@@ -48,7 +51,7 @@ func saveMatches(matches []model.Match) {
 			match.Created_time = time.Now()
 			match.Status = util.MATCH_STATUS_LIVE
 			//fmt.Println(idx, match)
-			match.Insert()
+			match.Insert(DB)
 		}
 	}
 }

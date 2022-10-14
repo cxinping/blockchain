@@ -1,24 +1,30 @@
-package model
+package config
 
 import (
 	"fmt"
+	"spider/src/model"
 	"testing"
 	"time"
 )
 
-func TestInitTable(t *testing.T) {
-	InitTables()
+func init() {
+	InitDB()
+}
+
+func TestDBInit(t *testing.T) {
+	DB := GetDB()
+	fmt.Println("db=> ", DB)
 }
 
 func TestAddTournament(t *testing.T) {
-	tt := Tournament{
+	DB := GetDB()
+	tt := model.Tournament{
 		TT_biz_id:    "aaaaa",
-		TT_name:      "1111",
+		TT_name:      "2222",
 		Desc:         "qqqqqq",
 		TT_startdate: time.Now(),
 		TT_enddate:   time.Now(),
 		Created_time: time.Now()}
 	fmt.Println(tt)
-	//SaveTournament(&tt)
-	tt.Insert()
+	tt.Insert(DB)
 }
