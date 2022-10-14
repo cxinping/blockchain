@@ -1,7 +1,6 @@
 package crawl
 
 import (
-	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly"
 	"github.com/jinzhu/gorm"
@@ -33,18 +32,18 @@ func CrawlMatches() {
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(bodyData))
 		// 初始化数据库句柄
 		DB := config.GetDB()
-		matchResultSet := OperateLivingMatch(dom)
-		saveMatches(DB, matchResultSet)
+		//matchResultSet := OperateLivingMatch(dom)
+		//saveLivingMatches(DB, matchResultSet)
 
-		//OperateUpcomingMatch(dom)
+		matchResultSet := OperateUpcomingMatch(dom)
+		saveUpcomingMatches(DB, matchResultSet)
 	})
 
 	c.Visit(base_url)
 }
 
-func saveMatches(DB *gorm.DB, matches []model.Match) {
-
-	// 批量保存Match
+func saveLivingMatches(DB *gorm.DB, matches []model.Match) {
+	// 批量保存正在比赛的Match
 	if matches != nil {
 		for _, match := range matches {
 			match.Match_biz_id = utils.GenerateModuleBizID("MH")
@@ -56,5 +55,19 @@ func saveMatches(DB *gorm.DB, matches []model.Match) {
 		}
 	}
 
-	fmt.Println("* len(matches)=> ", len(matches))
+}
+
+func saveUpcomingMatches(DB *gorm.DB, matches []model.Match) {
+	// 批量保存将要进行的比赛的Match
+	if matches != nil {
+		for _, match := range matches {
+			match.Match_biz_id = utils.GenerateModuleBizID("MH")
+			match.Match_time = time.Now()
+			match.Created_time = time.Now()
+			match.Status = utils.MATCH_STATUS_NOT_STARTED
+			//fmt.Println(idx, match)
+			match.Insert(DB)
+		}
+	}
+
 }

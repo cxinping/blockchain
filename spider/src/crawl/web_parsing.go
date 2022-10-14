@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func OperateUpcomingMatch(dom *goquery.Document) {
+func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 	/**
 	处理预计比赛的数据
 	*/
@@ -18,9 +18,13 @@ func OperateUpcomingMatch(dom *goquery.Document) {
 	upcoming_match = strings.Replace(upcoming_match, "\n", "", -1)
 	upcoming_match = strings.Trim(upcoming_match, " ")
 	fmt.Println("预计比赛的赛事名称=", upcoming_match)
+	matchResultSet := make([]model.Match, 0, 10)
 
 	// .upcomingMatchesAll .upcomingMatchesSection
 	dom.Find(".upcomingMatchesSection").Each(func(i int, selection *goquery.Selection) {
+		match := model.Match{}
+		match.Match_url = "??????????"
+
 		// 比赛时间
 		match_date := selection.Find(".matchDayHeadline").Text()
 		//match_date = strings.Replace(match_date, " ", "", -1)
@@ -29,6 +33,7 @@ func OperateUpcomingMatch(dom *goquery.Document) {
 		fmt.Println("idx=>", i+1, ",match_date=", match_date)
 
 		selection.Find(".upcomingMatch").Each(func(i int, selection *goquery.Selection) {
+
 			match_time := selection.Find(".matchInfo .matchTime").Text()
 			fmt.Println("\tmatch_time=", match_time)
 
@@ -52,7 +57,9 @@ func OperateUpcomingMatch(dom *goquery.Document) {
 			fmt.Println("")
 		})
 		fmt.Println("")
+		matchResultSet = append(matchResultSet, match)
 	})
+	return matchResultSet
 }
 
 func OperateLivingMatch(dom *goquery.Document) []model.Match {
