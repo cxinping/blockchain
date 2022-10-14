@@ -1,6 +1,8 @@
 package util
 
 const (
+	HLTV_INDEX = "https://www.hltv.org" // HLTV 首页
+
 	// 赛程/赛果
 	MATCH_URL                = "https://www.hltv.org/matches"
 	MATCH_STATUS_NOT_STARTED = "no_started" // 比赛未开始

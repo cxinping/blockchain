@@ -55,7 +55,7 @@ func operate_upcoming_match(dom *goquery.Document) {
 	})
 }
 
-func operate_living_match(dom *goquery.Document) {
+func operate_living_match(dom *goquery.Document) map[int]model.Match {
 	/**
 	处理正在比赛的数据
 	*/
@@ -71,21 +71,21 @@ func operate_living_match(dom *goquery.Document) {
 			match := new(model.Match)
 			fmt.Printf("\tindex=%d, match=> %T\n", idx, match)
 			match_url, _ := selection.Find("a[class='match a-reset']").Attr("href")
-			match.Match_url = match_url
+			match.Match_url = util.HLTV_INDEX + match_url
 			fmt.Println("\t正在比赛的地址=> ", "https://www.hltv.org"+match_url)
 
 			selection.Find("div[class='matchTeam']").Each(func(i int, selection *goquery.Selection) {
 				team_name := util.CompressString(selection.Find("div[class='matchTeamName text-ellipsis']").Text())
 				if i == 0 {
 					team1_name := team_name
-					team1_url, _ := selection.Find("div[class='matchTeamLogoContainer']").Find("img").Attr("src")
+					team1_pic, _ := selection.Find("div[class='matchTeamLogoContainer']").Find("img").Attr("src")
 					fmt.Println("\tteam1_name=", team1_name)
-					fmt.Println("\tteam1_url=", team1_url)
+					fmt.Println("\tteam1_pic=", team1_pic)
 				} else if i == 1 {
 					team2_name := team_name
-					team2_url, _ := selection.Find("div[class='matchTeamLogoContainer']").Find("img").Attr("src")
+					team2_pic, _ := selection.Find("div[class='matchTeamLogoContainer']").Find("img").Attr("src")
 					fmt.Println("\tteam2_name=", team2_name)
-					fmt.Println("\tteam2_url=", team2_url)
+					fmt.Println("\tteam2_pic=", team2_pic)
 				}
 
 			})
@@ -93,7 +93,8 @@ func operate_living_match(dom *goquery.Document) {
 			resultSet[idx] = *match
 
 		})
-
 		//fmt.Println()
 	}
+
+	return resultSet
 }
