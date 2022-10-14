@@ -17,7 +17,7 @@ type Tournament struct {
 }
 
 func (Tournament) TableName() string {
-	// 自定义表明
+	// 自定义表的名称
 	return "tournament"
 }
 
