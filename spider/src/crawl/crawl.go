@@ -48,7 +48,7 @@ func saveMatches(DB *gorm.DB, matches []model.Match) {
 	if matches != nil {
 		for _, match := range matches {
 			match.Match_biz_id = utils.GenerateModuleBizID("MH")
-			match.Match_time = time.Now()
+			match.Match_time = time.Now() // 比赛时间在页面中抓取不到，暂时使用当前时间
 			match.Created_time = time.Now()
 			match.Status = utils.MATCH_STATUS_LIVE
 			//fmt.Println(idx, match)

@@ -76,19 +76,26 @@ func OperateLivingMatch(dom *goquery.Document) []model.Match {
 			tt_name := selection.Find("div[class='matchEventName gtSmartphone-only']").Text()
 			match.TT_name = tt_name
 			fmt.Println("\t赛事名字=>", tt_name)
+			map_type := selection.Find("div[class='matchMeta']").Text()
+			match.Map_type = map_type
+			fmt.Println("\t地图类型=>", map_type)
 
 			selection.Find("div[class='matchTeam']").Each(func(i int, selection *goquery.Selection) {
 				team_name := utils.CompressString(selection.Find("div[class='matchTeamName text-ellipsis']").Text())
 				if i == 0 {
 					team1_name := team_name
 					team1_pic, _ := selection.Find("div[class='matchTeamLogoContainer']").Find("img").Attr("src")
+					team1_playing_score := selection.Find("div[class='currentMapScore trailing']").Find("span").Text()
 					fmt.Println("\tteam1_name=", team1_name)
 					fmt.Println("\tteam1_pic=", team1_pic)
+					fmt.Println("\tteam1_playing_score=", team1_playing_score)
 				} else if i == 1 {
 					team2_name := team_name
 					team2_pic, _ := selection.Find("div[class='matchTeamLogoContainer']").Find("img").Attr("src")
+					team2_playing_score := selection.Find("div[class='currentMapScore trailing']").Find("span").Text()
 					fmt.Println("\tteam2_name=", team2_name)
 					fmt.Println("\tteam2_pic=", team2_pic)
+					fmt.Println("\tteam2_playing_score=", team2_playing_score)
 				}
 			})
 
