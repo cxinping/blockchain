@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func operate_upcoming_match(dom *goquery.Document) {
+func OperateUpcomingMatch(dom *goquery.Document) {
 	/**
 	处理预计比赛的数据
 	*/
@@ -55,7 +55,7 @@ func operate_upcoming_match(dom *goquery.Document) {
 	})
 }
 
-func operate_living_match(dom *goquery.Document) map[int]model.Match {
+func OperateLivingMatch(dom *goquery.Document) map[int]model.Match {
 	/**
 	处理正在比赛的数据
 	*/

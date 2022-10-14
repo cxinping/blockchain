@@ -27,8 +27,8 @@ func CrawlMatches() {
 		bodyData := string(r.Body)
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(bodyData))
 
-		operate_living_match(dom)
-		//operate_upcoming_match(dom)
+		OperateLivingMatch(dom)
+		//OperateUpcomingMatch(dom)
 	})
 
 	c.Visit(base_url)
