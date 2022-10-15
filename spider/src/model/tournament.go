@@ -22,8 +22,6 @@ func (Tournament) TableName() string {
 }
 
 func (tt *Tournament) Insert(DB *gorm.DB) {
-	//DB.Table("tournament").Create(user)
-	//defer DB.Close()
-
-	DB.Table("tournament").Debug().Create(tt)
+	DB.Table("tournament").Create(tt)
+	//DB.Table("tournament").Debug().Create(tt)
 }

@@ -28,7 +28,6 @@ type Player struct {
 }
 
 func (player *Player) Insert(DB *gorm.DB) {
-	//defer DB.Close()
-	//DB.Table("player").Create(player)
-	DB.Table("player").Debug().Create(player)
+	DB.Table("player").Create(player)
+	//DB.Table("player").Debug().Create(player)
 }

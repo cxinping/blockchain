@@ -7,23 +7,22 @@ import (
 	"spider/src/utils"
 	"spider/src/utils/parameter"
 	"strconv"
-	"strings"
 	"time"
 )
 
 func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 	// 处理将要比赛的数据
-	//upcoming_match := live_match_section_dom.Next().Text()
-	upcoming_match := dom.Find(".upcoming-headline").Text()
-	upcoming_match = strings.Replace(upcoming_match, "\n", "", -1)
-	upcoming_match = strings.Trim(upcoming_match, " ")
-	fmt.Println("将要比赛的赛事名称=", upcoming_match)
 	matchResultSet := make([]model.Match, 0, 10)
 
 	// .upcomingMatchesAll .upcomingMatchesSection
 	dom.Find(".upcomingMatchesSection").Each(func(idx int, selection *goquery.Selection) {
 		match := model.Match{}
-		match.Match_url = "??????????"
+		//match.Match_url = "??????????"
+		sel_ls := selection.Find("div[class*='upcomingMatch']>a").Eq(0)
+		match_url, _ := sel_ls.Attr("href")
+		match_url = parameter.HLTV_INDEX + match_url
+		match.Match_url = match_url
+		fmt.Println("***  match_url=>", match_url, sel_ls)
 
 		// 比赛时间
 		match_date := selection.Find(".matchDayHeadline").Text()

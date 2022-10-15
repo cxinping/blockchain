@@ -30,7 +30,6 @@ type Match struct {
 }
 
 func (match *Match) Insert(DB *gorm.DB) {
-	//defer DB.Close()
 	DB.Table("match").Create(match)
 	//DB.Table("match").Debug().Create(match)
 }

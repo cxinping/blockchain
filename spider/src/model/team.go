@@ -20,7 +20,6 @@ type Team struct {
 }
 
 func (team *Team) Insert(DB *gorm.DB) {
-	//defer DB.Close()
-	//DB.Table("team").Create(match)
-	DB.Table("team").Debug().Create(team)
+	DB.Table("team").Create(team)
+	//DB.Table("team").Debug().Create(team)
 }
