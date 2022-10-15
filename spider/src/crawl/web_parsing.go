@@ -21,15 +21,15 @@ func OperateTournament(dom *goquery.Document) []model.Tournament {
 		tour := model.Tournament{}
 		ttUrl, _ := selection.Attr("href")
 		ttUrl = parameter.HLTV_INDEX + ttUrl
-		ttName := selection.Find(".featured-event-tooltip-content").Text()
+		eventName := selection.Find(".featured-event-tooltip-content").Text()
 
-		if ttName != "" {
+		if eventName != "" {
 			tour.TT_url = ttUrl
-			tour.TT_name = ttName
+			tour.TT_name = eventName
 			tourResultSet = append(tourResultSet, tour)
 		}
 		//fmt.Println("\tidx=>", idx, ", ttUrl=", ttUrl, parameter.HLTV_INDEX+ttUrl)
-		//fmt.Println("\tttName=", ttName)
+		//fmt.Println("\teventName=", eventName)
 	})
 
 	eventDom.Find("div[class='event-filter-popup']").Find("a").Each(func(idx int, selection *goquery.Selection) {
@@ -60,18 +60,18 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 		match := model.Match{}
 
 		// 比赛时间
-		match_date := selection.Find(".matchDayHeadline").Text()
+		matchDate := selection.Find(".matchDayHeadline").Text()
 		//match_date = strings.Replace(match_date, " ", "", -1)
 		//match_date_idx := strings.Index(match_date, "-") + 1
 		//match_date = string([]rune(match_date)[match_date_idx:len(match_date)])
-		fmt.Println("页面部分 idx=>", idx+1, ",match_date=", match_date)
+		fmt.Println("页面部分 idx=>", idx+1, ",matchDate=", matchDate)
 
 		selection.Find(".upcomingMatch").Each(func(i int, selection *goquery.Selection) {
-			sel_dom := selection.Find("div[class*='upcomingMatch']>a").Eq(0)
-			match_url, _ := sel_dom.Attr("href")
-			match_url = parameter.HLTV_INDEX + match_url
-			match.Match_url = match_url
-			fmt.Println("\tmatch_url=>", match_url)
+			selDom := selection.Find("div[class*='upcomingMatch']>a").Eq(0)
+			matchUrl, _ := selDom.Attr("href")
+			matchUrl = parameter.HLTV_INDEX + matchUrl
+			match.Match_url = matchUrl
+			fmt.Println("\tmatch_url=>", matchUrl)
 
 			match_date_unix_str, _ := selection.Find(".matchInfo .matchTime").Attr("data-unix")
 			fmt.Println("\tmatch_date_unix_str=", match_date_unix_str)
