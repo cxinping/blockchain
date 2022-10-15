@@ -11,7 +11,8 @@ func init() {
 	InitDB()
 }
 
-func TestDBInit(t *testing.T) {
+func TestInitDBTables(t *testing.T) {
+	//初始化表结构
 	DB := GetDB()
 	fmt.Println("db=> ", DB)
 }
