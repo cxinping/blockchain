@@ -13,7 +13,7 @@ type Team struct {
 	TeamPic          string `gorm:"size:100;not null;default:'';comment:'战队的图片'"`
 	NationName       string
 	NationPic        string
-	WorldRanking     uint16
+	WorldRanking     uint16 `gorm:"size:11;not null;default:0;comment:'国际排名'"`
 	AveragePlayerAge float32
 	CoatchBizId      string
 	CreatedTime      time.Time
