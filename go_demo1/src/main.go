@@ -51,9 +51,9 @@ func test_http() {
 	//http.TestHttp4()
 	//http.TestHttp5()
 
-	//http.Example1()
+	http.Example1()
 	//http.Example2()
-	http.Example3()
+	//http.Example3()
 
 }
 
@@ -139,12 +139,12 @@ func msToTime(ms string) (time.Time, error) {
 func main() {
 	//test1()
 	//test_db()
-	//test_http()
+	test_http()
 	//test_split()
 
 	//test_timeunix()
-	rst, _ := msToTime("1665844800000")
-	fmt.Printf("%v, %T", rst, rst)
+	//rst, _ := msToTime("1665844800000")
+	//fmt.Printf("%v, %T", rst, rst)
 
 	//test_crawl()
 	//test_task()
