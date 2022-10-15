@@ -8,15 +8,15 @@ import (
 type Player struct {
 	//队员
 	gorm.Model
-	PlayerBizId string
-	Name        string
-	Birthday    string
-	TotalAward  int32
+	PlayerBizId string `gorm:"size:50;not null;default:'';comment:'队员的业务id'"`
+	Name        string `gorm:"size:50;not null;default:'';comment:'队员的姓名'"`
+	Birthday    string `gorm:"size:50;default:'';comment:'队员的生日'"`
+	TotalAward  int32  `gorm:"size:10;default:0;comment:'总奖金'"`
 	PlayerPic   string
-	PlayerAge   uint8
-	NationName  string
-	NationPic   string
-	CurrentTeam string
+	PlayerAge   uint8  `gorm:"size:10;default:0;comment:'年龄'"`
+	NationName  string `gorm:"size:50;default:'';comment:'队员的国籍'"`
+	NationPic   string `gorm:"size:100;default:'';comment:'队员的国籍图片'"`
+	CurrentTeam string `gorm:"size:50;default:'';comment:'队员所属的战队'"`
 	Rating2     string
 	Dpr         string
 	Kast        string
