@@ -4,7 +4,6 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly"
 	"github.com/jinzhu/gorm"
-	"spider/src/config"
 	"spider/src/model"
 	"spider/src/utils"
 	"spider/src/utils/parameter"
@@ -32,7 +31,7 @@ func CrawlMatches() {
 		bodyData := string(r.Body)
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(bodyData))
 		// 初始化数据库句柄
-		DB := config.GetDB()
+		//DB := config.GetDB()
 
 		//matchResultSet := OperateLivingMatch(dom)  //正在进行的赛果/赛程的数据
 		//saveLivingMatches(DB, matchResultSet)
@@ -40,8 +39,8 @@ func CrawlMatches() {
 		//matchResultSet := OperateUpcomingMatch(dom) //将要进行的赛果/赛程的数据
 		//saveUpcomingMatches(DB, matchResultSet)
 
-		tours := OperateTournament(dom) // 赛事
-		saveTournaments(DB, tours)
+		OperateTournament(dom) // 赛事
+		//saveTournaments(DB, toursResultSet)
 	})
 
 	c.Visit(base_url)

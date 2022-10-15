@@ -18,6 +18,7 @@ go get -u gorm.io/driver/mysql
 ```
 curl https://www.hltv.org/matches | grep 'events-container'
 
+curl https://www.hltv.org/matches | grep 'event'
 ```
 
 

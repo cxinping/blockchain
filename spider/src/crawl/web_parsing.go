@@ -16,8 +16,10 @@ func OperateTournament(dom *goquery.Document) []model.Tournament {
 	tourResultSet := make([]model.Tournament, 0, 10)
 	//fmt.Println(tourResultSet, dom)
 
-	dom.Find("div.event").Each(func(idx int, evenSelection *goquery.Selection) {
-		fmt.Println("idx=>", idx)
+	eventDom := dom.Find("div[class='events-container']")
+	fmt.Println(eventDom)
+	eventDom.Each(func(idx int, selection *goquery.Selection) {
+		fmt.Println("idx=> ", idx)
 	})
 
 	return tourResultSet
