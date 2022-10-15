@@ -8,27 +8,27 @@ import (
 type Match struct {
 	//赛果/赛程
 	gorm.Model
-	Match_biz_id        string
-	Match_url           string
-	TT_pic              string
-	TT_biz_id           string
-	TT_name             string
-	Status              string
-	Result              string
-	Mode                string
-	Match_time          time.Time
-	Team1_biz_id        string
-	Team2_biz_id        string
-	Team1_name          string
-	Team2_name          string
-	Team1_playing_score uint16
-	Team2_playing_score uint16
-	Team1_win_score     uint16
-	Team2_win_score     uint16
-	Map_type            string
-	Suggest_idx         uint8
-	Created_time        time.Time
-	Desc                string
+	MatchBizId        string
+	MatchUrl          string
+	TtPic             string
+	TtBizId           string
+	TtName            string
+	Status            string
+	Result            string
+	Mode              string
+	MatchTime         time.Time
+	Team1BizId        string
+	Team2BizId        string
+	Team1Name         string
+	Team2Name         string
+	Team1PlayingScore uint16
+	Team2PlayingScore uint16
+	Team1WinScore     uint16
+	Team2WinScore     uint16
+	MapType           string
+	SuggestIdx        uint8
+	CreatedTime       time.Time
+	Desc              string
 }
 
 func (Match) TableName() string {

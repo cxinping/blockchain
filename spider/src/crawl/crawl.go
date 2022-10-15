@@ -34,11 +34,11 @@ func CrawlMatches() {
 		// 初始化数据库句柄
 		DB := config.GetDB()
 
-		//matchResultSet := OperateLivingMatch(dom)  //正在进行的赛果/赛程的数据
-		//saveLivingMatches(DB, matchResultSet)
+		matchResultSet := OperateLivingMatch(dom) //正在进行的赛果/赛程的数据
+		saveLivingMatches(DB, matchResultSet)
 
-		matchResultSet := OperateUpcomingMatch(dom) //将要进行的赛果/赛程的数据
-		saveUpcomingMatches(DB, matchResultSet)
+		//matchResultSet := OperateUpcomingMatch(dom) //将要进行的赛果/赛程的数据
+		//saveUpcomingMatches(DB, matchResultSet)
 
 		//toursResultSet := OperateTournament(dom) // 赛事
 		//saveTournaments(DB, toursResultSet)
@@ -51,9 +51,9 @@ func saveLivingMatches(DB *gorm.DB, matches []model.Match) {
 	// 批量保存正在比赛的Match
 	if matches != nil {
 		for _, match := range matches {
-			match.Match_biz_id = utils.GenerateModuleBizID("MH")
-			match.Match_time = time.Now() // 比赛时间在页面中抓取不到，暂时使用当前时间
-			match.Created_time = time.Now()
+			match.MatchBizId = utils.GenerateModuleBizID("MH")
+			match.MatchTime = time.Now() // 比赛时间在页面中抓取不到，暂时使用当前时间
+			match.CreatedTime = time.Now()
 			match.Status = parameter.MATCH_STATUS_LIVE
 			//fmt.Println(idx, match)
 			//match.Insert(DB)
@@ -65,11 +65,11 @@ func saveUpcomingMatches(DB *gorm.DB, matches []model.Match) {
 	// 批量保存将要进行的比赛的Match
 	if matches != nil {
 		for _, match := range matches {
-			match.Match_biz_id = utils.GenerateModuleBizID("MH")
-			match.Created_time = time.Now()
+			match.MatchBizId = utils.GenerateModuleBizID("MH")
+			match.CreatedTime = time.Now()
 			match.Status = parameter.MATCH_STATUS_NOT_STARTED
 			//fmt.Println(idx, match.TT_name)
-			match.Insert(DB)
+			//match.Insert(DB)
 		}
 	}
 }
@@ -82,7 +82,7 @@ func saveTournaments(DB *gorm.DB, tts []model.Tournament) {
 			tour.TtStartdate = time.Now() // 赛事开始时间在页面中抓取不到，暂时使用当前时间
 			tour.TtEnddate = time.Now()   // 赛事结束时间在页面中抓取不到，暂时使用当前时间
 			tour.CreatedTime = time.Now()
-			tour.Insert(DB)
+			//tour.Insert(DB)
 		}
 	}
 }

@@ -70,7 +70,7 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 			selDom := selection.Find("div[class*='upcomingMatch']>a").Eq(0)
 			matchUrl, _ := selDom.Attr("href")
 			matchUrl = parameter.HLTV_INDEX + matchUrl
-			match.Match_url = matchUrl
+			match.MatchUrl = matchUrl
 			fmt.Println("\tmatch_url=>", matchUrl)
 
 			matchDateUnixStr, _ := selection.Find(".matchInfo .matchTime").Attr("data-unix")
@@ -109,13 +109,13 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 				fmt.Println("\tstarNum=", starNum)
 				fmt.Println("")
 
-				match.Match_time = matchTime
-				match.TT_name = tt_name
+				match.MatchTime = matchTime
+				match.TtName = tt_name
 				match.Desc = "section-" + strconv.Itoa(idx+1)
-				match.Map_type = mapType
-				match.Suggest_idx = uint8(starNum)
-				match.Team1_name = team1_name
-				match.Team2_name = team2_name
+				match.MapType = mapType
+				match.SuggestIdx = uint8(starNum)
+				match.Team1Name = team1_name
+				match.Team2Name = team2_name
 				matchResultSet = append(matchResultSet, match)
 			}
 
@@ -140,13 +140,13 @@ func OperateLivingMatch(dom *goquery.Document) []model.Match {
 			match := model.Match{}
 			fmt.Printf("\tindex=%d, match=> %T\n", idx+1, match)
 			match_url, _ := selection.Find("a[class='match a-reset']").Attr("href")
-			match.Match_url = parameter.HLTV_INDEX + match_url
+			match.MatchUrl = parameter.HLTV_INDEX + match_url
 			fmt.Println("\t正在比赛的地址=> ", "https://www.hltv.org"+match_url)
 			tt_name := selection.Find("div[class='matchEventName gtSmartphone-only']").Text()
-			match.TT_name = tt_name
+			match.TtName = tt_name
 			fmt.Println("\t赛事名字=>", tt_name)
 			map_type := selection.Find("div[class='matchMeta']").Text()
-			match.Map_type = map_type
+			match.MapType = map_type
 			fmt.Println("\t地图类型=>", map_type)
 
 			selection.Find("div[class='matchTeam']").Each(func(i int, selection *goquery.Selection) {
