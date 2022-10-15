@@ -29,6 +29,11 @@ type Match struct {
 	Desc                string
 }
 
+func (Match) TableName() string {
+	// 自定义表的名称
+	return "match"
+}
+
 func (match *Match) Insert(DB *gorm.DB) {
 	DB.Table("match").Create(match)
 	//DB.Table("match").Debug().Create(match)

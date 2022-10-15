@@ -27,6 +27,11 @@ type Player struct {
 	Created_time  time.Time
 }
 
+func (Player) TableName() string {
+	// 自定义表的名称
+	return "player"
+}
+
 func (player *Player) Insert(DB *gorm.DB) {
 	DB.Table("player").Create(player)
 	//DB.Table("player").Debug().Create(player)

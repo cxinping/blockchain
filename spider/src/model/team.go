@@ -19,6 +19,11 @@ type Team struct {
 	Created_time       time.Time
 }
 
+func (Team) TableName() string {
+	// 自定义表的名称
+	return "team"
+}
+
 func (team *Team) Insert(DB *gorm.DB) {
 	DB.Table("team").Create(team)
 	//DB.Table("team").Debug().Create(team)
