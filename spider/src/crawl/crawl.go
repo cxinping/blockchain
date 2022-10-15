@@ -70,7 +70,7 @@ func saveUpcomingMatches(DB *gorm.DB, matches []model.Match) {
 			match.Status = parameter.MATCH_STATUS_NOT_STARTED
 			//fmt.Println(idx, match.TT_name)
 
-			//match.Insert(DB)
+			match.Insert(DB)
 		}
 	}
 

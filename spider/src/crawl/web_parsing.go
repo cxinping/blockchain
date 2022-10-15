@@ -14,14 +14,8 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 	// 处理将要比赛的数据
 	matchResultSet := make([]model.Match, 0, 10)
 
-	// .upcomingMatchesAll .upcomingMatchesSection
 	dom.Find(".upcomingMatchesSection").Each(func(idx int, selection *goquery.Selection) {
 		match := model.Match{}
-		sel_ls := selection.Find("div[class*='upcomingMatch']>a").Eq(0)
-		match_url, _ := sel_ls.Attr("href")
-		match_url = parameter.HLTV_INDEX + match_url
-		match.Match_url = match_url
-		fmt.Println("***  match_url=>", match_url, sel_ls)
 
 		// 比赛时间
 		match_date := selection.Find(".matchDayHeadline").Text()
@@ -31,8 +25,11 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 		fmt.Println("idx=>", idx+1, ",match_date=", match_date)
 
 		selection.Find(".upcomingMatch").Each(func(i int, selection *goquery.Selection) {
-			//match_time := selection.Find(".matchInfo .matchTime").Text()
-			//fmt.Println("\tmatch_time=", match_time)
+			sel_dom := selection.Find("div[class*='upcomingMatch']>a").Eq(0)
+			match_url, _ := sel_dom.Attr("href")
+			match_url = parameter.HLTV_INDEX + match_url
+			match.Match_url = match_url
+			fmt.Println("\tmatch_url=>", match_url, sel_dom)
 
 			match_date_unix_str, _ := selection.Find(".matchInfo .matchTime").Attr("data-unix")
 			fmt.Println("\tmatch_date_unix_str=", match_date_unix_str)
