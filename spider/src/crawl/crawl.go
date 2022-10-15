@@ -53,7 +53,7 @@ func saveLivingMatches(DB *gorm.DB, matches []model.Match) {
 			match.Created_time = time.Now()
 			match.Status = parameter.MATCH_STATUS_LIVE
 			//fmt.Println(idx, match)
-			//match.Insert(DB)
+			match.Insert(DB)
 		}
 	}
 
@@ -70,7 +70,7 @@ func saveUpcomingMatches(DB *gorm.DB, matches []model.Match) {
 			match.Status = parameter.MATCH_STATUS_NOT_STARTED
 			//fmt.Println(idx, match.TT_name)
 
-			match.Insert(DB)
+			//match.Insert(DB)
 		}
 	}
 

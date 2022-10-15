@@ -38,6 +38,7 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 			match_date_unix_int = int64(match_date_unix_int) / 1000
 			match_time := time.Unix(match_date_unix_int, 0)
 			match_time_str := match_time.Format("2006-01-02 15:04")
+
 			fmt.Println("\tmatch_time_str=", match_time_str)
 
 			team1_name := utils.CompressString(selection.Find("div[class='matchTeam team1']").Text())
