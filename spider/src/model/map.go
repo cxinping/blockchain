@@ -8,9 +8,9 @@ import (
 type Map struct {
 	// 地图
 	gorm.Model
-	MapBizId    string
-	MapName     string
-	MapPic      string
+	MapBizId    string `gorm:"size:50;not null;default:'';comment:'地图的业务id'"`
+	MapName     string `gorm:"size:100;not null;default:'';comment:'地图的名称'"`
+	MapPic      string `gorm:"size:100;not null;default:'';comment:'地图的图片'"`
 	CreatedTime time.Time
 }
 

@@ -8,9 +8,9 @@ import (
 type Team struct {
 	// 战队
 	gorm.Model
-	TeamBizId        string
-	TeamName         string
-	TeamPic          string
+	TeamBizId        string `gorm:"size:50;not null;default:'';comment:'战队的业务id'"`
+	TeamName         string `gorm:"size:50;not null;default:'';comment:'战队的名字'"`
+	TeamPic          string `gorm:"size:100;not null;default:'';comment:'战队的图片'"`
 	NationName       string
 	NationPic        string
 	WorldRanking     uint16
