@@ -34,14 +34,14 @@ func CrawlMatches() {
 		// 初始化数据库句柄
 		DB := config.GetDB()
 
-		//matchResultSet := OperateLivingMatch(dom) //正在进行的赛果/赛程的数据
-		//saveLivingMatches(DB, matchResultSet)
+		matchResultSet := OperateLivingMatch(dom) //正在进行的赛果/赛程的数据
+		saveLivingMatches(DB, matchResultSet)
 
 		//matchResultSet := OperateUpcomingMatch(dom) //将要进行的赛果/赛程的数据
 		//saveUpcomingMatches(DB, matchResultSet)
 
-		toursResultSet := OperateTournament(dom) // 赛事
-		saveTournaments(DB, toursResultSet)
+		//toursResultSet := OperateTournament(dom) // 赛事
+		//saveTournaments(DB, toursResultSet)
 	})
 
 	c.Visit(base_url)
@@ -56,7 +56,7 @@ func saveLivingMatches(DB *gorm.DB, matches []model.Match) {
 			match.CreatedTime = time.Now()
 			match.Status = parameter.MATCH_STATUS_LIVE
 			//fmt.Println(idx, match)
-			//match.Insert(DB)
+			match.Insert(DB)
 		}
 	}
 }
@@ -69,7 +69,7 @@ func saveUpcomingMatches(DB *gorm.DB, matches []model.Match) {
 			match.CreatedTime = time.Now()
 			match.Status = parameter.MATCH_STATUS_NOT_STARTED
 			//fmt.Println(idx, match.TT_name)
-			//match.Insert(DB)
+			match.Insert(DB)
 		}
 	}
 }

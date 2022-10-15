@@ -8,8 +8,8 @@ import (
 type Match struct {
 	//赛果/赛程
 	gorm.Model
-	MatchBizId        string
-	MatchUrl          string
+	MatchBizId        string `gorm:"size:50;not null;default:'';comment:'赛程的名称'"`
+	MatchUrl          string `gorm:"size:255;default:'';comment:'赛程的链接'"`
 	TtPic             string
 	TtBizId           string
 	TtName            string
