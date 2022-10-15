@@ -17,3 +17,8 @@ func TestGenerateModuleBizID(t *testing.T) {
 		t.Log("模块的业务ID是 ", biz_id)
 	}
 }
+
+func TestMsToTime(t *testing.T) {
+	MsToTime("1665844800000")
+
+}

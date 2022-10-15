@@ -37,11 +37,11 @@ func CrawlMatches() {
 		//matchResultSet := OperateLivingMatch(dom) //正在进行的赛果/赛程的数据
 		//saveLivingMatches(DB, matchResultSet)
 
-		//matchResultSet := OperateUpcomingMatch(dom) //将要进行的赛果/赛程的数据
-		//saveUpcomingMatches(DB, matchResultSet)
+		matchResultSet := OperateUpcomingMatch(dom) //将要进行的赛果/赛程的数据
+		saveUpcomingMatches(DB, matchResultSet)
 
-		toursResultSet := OperateTournament(dom) // 赛事
-		saveTournaments(DB, toursResultSet)
+		//toursResultSet := OperateTournament(dom) // 赛事
+		//saveTournaments(DB, toursResultSet)
 	})
 
 	c.Visit(base_url)
