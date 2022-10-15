@@ -16,7 +16,7 @@ type Match struct {
 	Status            string
 	Result            string
 	Mode              string
-	MatchTime         time.Time
+	MatchTime         time.Time `gorm:"default:null;comment:'比赛时间'"`
 	Team1BizId        string
 	Team2BizId        string
 	Team1Name         string

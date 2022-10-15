@@ -34,14 +34,14 @@ func CrawlMatches() {
 		// 初始化数据库句柄
 		DB := config.GetDB()
 
-		matchResultSet := OperateLivingMatch(dom) //正在进行的赛果/赛程的数据
-		saveLivingMatches(DB, matchResultSet)
+		//matchResultSet := OperateLivingMatch(dom) //正在进行的赛果/赛程的数据
+		//saveLivingMatches(DB, matchResultSet)
 
 		//matchResultSet := OperateUpcomingMatch(dom) //将要进行的赛果/赛程的数据
 		//saveUpcomingMatches(DB, matchResultSet)
 
-		//toursResultSet := OperateTournament(dom) // 赛事
-		//saveTournaments(DB, toursResultSet)
+		toursResultSet := OperateTournament(dom) // 赛事
+		saveTournaments(DB, toursResultSet)
 	})
 
 	c.Visit(base_url)
@@ -52,7 +52,6 @@ func saveLivingMatches(DB *gorm.DB, matches []model.Match) {
 	if matches != nil {
 		for _, match := range matches {
 			match.MatchBizId = utils.GenerateModuleBizID("MH")
-			match.MatchTime = time.Now() // 比赛时间在页面中抓取不到，暂时使用当前时间
 			match.CreatedTime = time.Now()
 			match.Status = parameter.MATCH_STATUS_LIVE
 			//fmt.Println(idx, match)
@@ -79,8 +78,6 @@ func saveTournaments(DB *gorm.DB, tts []model.Tournament) {
 	if tts != nil {
 		for _, tour := range tts {
 			tour.TtBizId = utils.GenerateModuleBizID("TT")
-			tour.TtStartdate = time.Now() // 赛事开始时间在页面中抓取不到，暂时使用当前时间
-			tour.TtEnddate = time.Now()   // 赛事结束时间在页面中抓取不到，暂时使用当前时间
 			tour.CreatedTime = time.Now()
 			tour.Insert(DB)
 		}
