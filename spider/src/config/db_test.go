@@ -20,12 +20,12 @@ func TestInitDBTables(t *testing.T) {
 func TestAddTournament(t *testing.T) {
 	DB := GetDB()
 	tt := model.Tournament{
-		TT_biz_id:    "aaaaa",
-		TT_name:      "2222",
-		Desc:         "qqqqqq",
-		TT_startdate: time.Now(),
-		TT_enddate:   time.Now(),
-		Created_time: time.Now()}
+		TtBizId:     "aaaaa",
+		TtName:      "2222",
+		Desc:        "qqqqqq",
+		TtStartdate: time.Now(),
+		TtEnddate:   time.Now(),
+		CreatedTime: time.Now()}
 	fmt.Println(tt)
 	tt.Insert(DB)
 }

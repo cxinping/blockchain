@@ -8,13 +8,13 @@ import (
 type Tournament struct {
 	// 赛事
 	gorm.Model
-	TT_biz_id    string
-	TT_name      string
-	TT_startdate time.Time
-	TT_enddate   time.Time
-	TT_url       string
-	Desc         string
-	Created_time time.Time
+	TtBizId     string
+	TtName      string
+	TtStartdate time.Time
+	TtEnddate   time.Time
+	TtUrl       string
+	Desc        string
+	CreatedTime time.Time
 }
 
 func (Tournament) TableName() string {

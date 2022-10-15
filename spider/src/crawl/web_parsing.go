@@ -24,8 +24,8 @@ func OperateTournament(dom *goquery.Document) []model.Tournament {
 		eventName := selection.Find(".featured-event-tooltip-content").Text()
 
 		if eventName != "" {
-			tour.TT_url = ttUrl
-			tour.TT_name = eventName
+			tour.TtUrl = ttUrl
+			tour.TtName = eventName
 			tourResultSet = append(tourResultSet, tour)
 		}
 		//fmt.Println("\tidx=>", idx, ", ttUrl=", ttUrl, parameter.HLTV_INDEX+ttUrl)
@@ -39,8 +39,8 @@ func OperateTournament(dom *goquery.Document) []model.Tournament {
 		tour := model.Tournament{}
 
 		if eventName != "" {
-			tour.TT_url = ttUrl
-			tour.TT_name = eventName
+			tour.TtUrl = ttUrl
+			tour.TtName = eventName
 			tourResultSet = append(tourResultSet, tour)
 		}
 
@@ -73,14 +73,14 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 			match.Match_url = matchUrl
 			fmt.Println("\tmatch_url=>", matchUrl)
 
-			match_date_unix_str, _ := selection.Find(".matchInfo .matchTime").Attr("data-unix")
-			fmt.Println("\tmatch_date_unix_str=", match_date_unix_str)
+			matchDateUnixStr, _ := selection.Find(".matchInfo .matchTime").Attr("data-unix")
+			fmt.Println("\tmatchDateUnixStr=", matchDateUnixStr)
 
-			match_date_unix_int, _ := strconv.ParseInt(match_date_unix_str, 10, 64)
-			match_date_unix_int = int64(match_date_unix_int) / 1000
-			match_time := time.Unix(match_date_unix_int, 0)
-			match_time_str := match_time.Format("2006-01-02 15:04")
-			fmt.Println("\tmatch_time_str=", match_time_str)
+			matchDateUnixInt, _ := strconv.ParseInt(matchDateUnixStr, 10, 64)
+			matchDateUnixInt = int64(matchDateUnixInt) / 1000
+			matchTime := time.Unix(matchDateUnixInt, 0)
+			matchTimeStr := matchTime.Format("2006-01-02 15:04")
+			fmt.Println("\tmatchTimeStr=", matchTimeStr)
 
 			team1_name := utils.CompressString(selection.Find("div[class='matchTeam team1']").Text())
 			team1_pic, _ := selection.Find("div[class='matchTeam team1']").Find("img").Attr("src")
@@ -109,7 +109,7 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 				fmt.Println("\tstarNum=", starNum)
 				fmt.Println("")
 
-				match.Match_time = match_time
+				match.Match_time = matchTime
 				match.TT_name = tt_name
 				match.Desc = "section-" + strconv.Itoa(idx+1)
 				match.Map_type = mapType

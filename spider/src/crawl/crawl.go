@@ -78,10 +78,10 @@ func saveTournaments(DB *gorm.DB, tts []model.Tournament) {
 	// 批量保存赛事Tournament
 	if tts != nil {
 		for _, tour := range tts {
-			tour.TT_biz_id = utils.GenerateModuleBizID("TT")
-			tour.TT_startdate = time.Now() // 赛事开始时间在页面中抓取不到，暂时使用当前时间
-			tour.TT_enddate = time.Now()   // 赛事结束时间在页面中抓取不到，暂时使用当前时间
-			tour.Created_time = time.Now()
+			tour.TtBizId = utils.GenerateModuleBizID("TT")
+			tour.TtStartdate = time.Now() // 赛事开始时间在页面中抓取不到，暂时使用当前时间
+			tour.TtEnddate = time.Now()   // 赛事结束时间在页面中抓取不到，暂时使用当前时间
+			tour.CreatedTime = time.Now()
 			tour.Insert(DB)
 		}
 	}
