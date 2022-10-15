@@ -69,7 +69,7 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 
 				match.Match_time = match_time
 				match.TT_name = tt_name
-				match.Desc = strconv.Itoa(idx + 1)
+				match.Desc = "section-" + strconv.Itoa(idx+1)
 				match.Map_type = mapType
 				match.Suggest_idx = uint8(starNum)
 				match.Team1_name = team1_name
