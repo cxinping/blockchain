@@ -8,10 +8,10 @@ import (
 type Map struct {
 	// 地图
 	gorm.Model
-	Map_biz_id   string
-	Map_name     string
-	Map_pic      string
-	Created_time time.Time
+	MapBizId    string
+	MapName     string
+	MapPic      string
+	CreatedTime time.Time
 }
 
 func (Map) TableName() string {

@@ -12,6 +12,7 @@ type Tournament struct {
 	TT_name      string
 	TT_startdate time.Time
 	TT_enddate   time.Time
+	TT_url       string
 	Desc         string
 	Created_time time.Time
 }

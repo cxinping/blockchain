@@ -4,6 +4,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly"
 	"github.com/jinzhu/gorm"
+	"spider/src/config"
 	"spider/src/model"
 	"spider/src/utils"
 	"spider/src/utils/parameter"
@@ -31,7 +32,7 @@ func CrawlMatches() {
 		bodyData := string(r.Body)
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(bodyData))
 		// 初始化数据库句柄
-		//DB := config.GetDB()
+		DB := config.GetDB()
 
 		//matchResultSet := OperateLivingMatch(dom)  //正在进行的赛果/赛程的数据
 		//saveLivingMatches(DB, matchResultSet)
@@ -39,8 +40,8 @@ func CrawlMatches() {
 		//matchResultSet := OperateUpcomingMatch(dom) //将要进行的赛果/赛程的数据
 		//saveUpcomingMatches(DB, matchResultSet)
 
-		OperateTournament(dom) // 赛事
-		//saveTournaments(DB, toursResultSet)
+		toursResultSet := OperateTournament(dom) // 赛事
+		saveTournaments(DB, toursResultSet)
 	})
 
 	c.Visit(base_url)
@@ -76,10 +77,12 @@ func saveUpcomingMatches(DB *gorm.DB, matches []model.Match) {
 func saveTournaments(DB *gorm.DB, tts []model.Tournament) {
 	// 批量保存赛事Tournament
 	if tts != nil {
-		for _, tt := range tts {
-			tt.TT_biz_id = utils.GenerateModuleBizID("TT")
-			tt.Created_time = time.Now()
-			//tt.Insert(DB)
+		for _, tour := range tts {
+			tour.TT_biz_id = utils.GenerateModuleBizID("TT")
+			tour.TT_startdate = time.Now() // 赛事开始时间在页面中抓取不到，暂时使用当前时间
+			tour.TT_enddate = time.Now()   // 赛事结束时间在页面中抓取不到，暂时使用当前时间
+			tour.Created_time = time.Now()
+			tour.Insert(DB)
 		}
 	}
 }

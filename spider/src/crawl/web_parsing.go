@@ -17,9 +17,36 @@ func OperateTournament(dom *goquery.Document) []model.Tournament {
 	//fmt.Println(tourResultSet, dom)
 
 	eventDom := dom.Find("div[class='events-container']")
-	fmt.Println(eventDom)
-	eventDom.Each(func(idx int, selection *goquery.Selection) {
-		fmt.Println("idx=> ", idx)
+	eventDom.Find("a[class='filter-button-link']").Each(func(idx int, selection *goquery.Selection) {
+		tour := model.Tournament{}
+		ttUrl, _ := selection.Attr("href")
+		ttUrl = parameter.HLTV_INDEX + ttUrl
+		ttName := selection.Find(".featured-event-tooltip-content").Text()
+
+		if ttName != "" {
+			tour.TT_url = ttUrl
+			tour.TT_name = ttName
+			tourResultSet = append(tourResultSet, tour)
+		}
+		//fmt.Println("\tidx=>", idx, ", ttUrl=", ttUrl, parameter.HLTV_INDEX+ttUrl)
+		//fmt.Println("\tttName=", ttName)
+	})
+
+	eventDom.Find("div[class='event-filter-popup']").Find("a").Each(func(idx int, selection *goquery.Selection) {
+		ttUrl, _ := selection.Attr("href")
+		ttUrl = parameter.HLTV_INDEX + ttUrl
+		eventName := selection.Find(".event-name").Text()
+		tour := model.Tournament{}
+
+		if eventName != "" {
+			tour.TT_url = ttUrl
+			tour.TT_name = eventName
+			tourResultSet = append(tourResultSet, tour)
+		}
+
+		//fmt.Println("idx=>", idx, ttUrl)
+		//fmt.Println("eventName=", eventName)
+		//fmt.Println()
 	})
 
 	return tourResultSet
