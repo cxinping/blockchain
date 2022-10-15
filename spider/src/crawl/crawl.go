@@ -34,14 +34,15 @@ func CrawlMatches() {
 		// 初始化数据库句柄
 		DB := config.GetDB()
 
-		//matchResultSet := OperateLivingMatch(dom) //正在进行的赛果/赛程的数据
-		//saveLivingMatches(DB, matchResultSet)
+		toursResultSet := OperateTournament(dom) // 处理赛事数据
+		saveTournaments(DB, toursResultSet)
 
-		matchResultSet := OperateUpcomingMatch(dom) //将要进行的赛果/赛程的数据
-		saveUpcomingMatches(DB, matchResultSet)
+		matchResultSet := OperateLivingMatch(dom) // 处理正在进行的赛果/赛程的数据
+		saveLivingMatches(DB, matchResultSet)
 
-		//toursResultSet := OperateTournament(dom) // 赛事
-		//saveTournaments(DB, toursResultSet)
+		//matchResultSet := OperateUpcomingMatch(dom) // 处理将要进行的赛果/赛程的数据
+		//saveUpcomingMatches(DB, matchResultSet)
+
 	})
 
 	c.Visit(base_url)
