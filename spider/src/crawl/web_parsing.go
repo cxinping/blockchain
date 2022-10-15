@@ -12,11 +12,11 @@ import (
 
 func OperateTournament(dom *goquery.Document) []model.Tournament {
 	// 处理赛事数据
-	fmt.Println("--- OperateTournament ---")
+	fmt.Println("--- OperateTournament --- ", dom)
 	tourResultSet := make([]model.Tournament, 0, 10)
-	fmt.Println(tourResultSet, dom)
+	//fmt.Println(tourResultSet, dom)
 
-	dom.Find(".events-container").Each(func(idx int, evenSelection *goquery.Selection) {
+	dom.Find("div.event").Each(func(idx int, evenSelection *goquery.Selection) {
 		fmt.Println("idx=>", idx)
 	})
 

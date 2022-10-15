@@ -14,6 +14,11 @@ go get -u github.com/jinzhu/gorm
 go get -u gorm.io/driver/mysql
 ```
 
+查询赛事
+```
+curl https://www.hltv.org/matches | grep 'events-container'
+
+```
 
 
 
