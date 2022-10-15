@@ -12,6 +12,9 @@ go get github.com/robfig/cron/v3@v3.0.0
 存储
 go get -u github.com/jinzhu/gorm
 go get -u gorm.io/driver/mysql
+
+创建UUID的模块
+go get github.com/go-basic/uuid
 ```
 
 查询赛事
