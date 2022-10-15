@@ -17,7 +17,6 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 	// .upcomingMatchesAll .upcomingMatchesSection
 	dom.Find(".upcomingMatchesSection").Each(func(idx int, selection *goquery.Selection) {
 		match := model.Match{}
-		//match.Match_url = "??????????"
 		sel_ls := selection.Find("div[class*='upcomingMatch']>a").Eq(0)
 		match_url, _ := sel_ls.Attr("href")
 		match_url = parameter.HLTV_INDEX + match_url
