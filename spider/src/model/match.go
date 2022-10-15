@@ -19,6 +19,8 @@ type Match struct {
 	Match_time          time.Time
 	Team1_biz_id        string
 	Team2_biz_id        string
+	Team1_name          string
+	Team2_name          string
 	Team1_playing_score uint16
 	Team2_playing_score uint16
 	Team1_win_score     uint16

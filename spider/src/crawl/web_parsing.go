@@ -47,6 +47,14 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 			match_pic, _ := selection.Find(".matchEvent").Find(".matchEventLogoContainer").Find("img").Attr("src") // 比赛的图片logo
 			tt_name := selection.Find("div[class='matchEventName gtSmartphone-only']").Text()
 			mapType := selection.Find(".matchMeta").Text()
+			// 查询推荐指数,以黑色星星表示推荐数
+			var starNum int8 = 0
+			matchRatingDom := selection.Find("div[class='matchRating']").Find("i").Each(func(i int, matchRatingDomSel *goquery.Selection) {
+				starClass, _ := matchRatingDomSel.Attr("class")
+				if starClass == "fa fa-star" {
+					starNum++
+				}
+			})
 
 			fmt.Println("\tteam1_name=", team1_name)
 			fmt.Println("\tteam1_pic=", team1_pic)
@@ -55,12 +63,16 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 			fmt.Println("\tmatch_pic=", match_pic)
 			fmt.Println("\ttt_name=", tt_name)
 			fmt.Println("\tmapType=", mapType)
+			fmt.Println("\tmatchRatingDom=", matchRatingDom, starNum)
 			fmt.Println("")
 
 			match.Match_time = match_time
 			match.TT_name = tt_name
 			match.Desc = strconv.Itoa(idx + 1)
 			match.Map_type = mapType
+			match.Suggest_idx = uint8(starNum)
+			match.Team1_name = team1_name
+			match.Team2_name = team2_name
 			matchResultSet = append(matchResultSet, match)
 		})
 		fmt.Println("")
