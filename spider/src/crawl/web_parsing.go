@@ -38,7 +38,6 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 			match_date_unix_int = int64(match_date_unix_int) / 1000
 			match_time := time.Unix(match_date_unix_int, 0)
 			match_time_str := match_time.Format("2006-01-02 15:04")
-
 			fmt.Println("\tmatch_time_str=", match_time_str)
 
 			team1_name := utils.CompressString(selection.Find("div[class='matchTeam team1']").Text())
@@ -47,6 +46,7 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 			team2_pic, _ := selection.Find("div[class='matchTeam team2']").Find("img").Attr("src")
 			match_pic, _ := selection.Find(".matchEvent").Find(".matchEventLogoContainer").Find("img").Attr("src") // 比赛的图片logo
 			tt_name := selection.Find("div[class='matchEventName gtSmartphone-only']").Text()
+			mapType := selection.Find(".matchMeta").Text()
 
 			fmt.Println("\tteam1_name=", team1_name)
 			fmt.Println("\tteam1_pic=", team1_pic)
@@ -54,11 +54,13 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 			fmt.Println("\tteam2_pic=", team2_pic)
 			fmt.Println("\tmatch_pic=", match_pic)
 			fmt.Println("\ttt_name=", tt_name)
+			fmt.Println("\tmapType=", mapType)
 			fmt.Println("")
 
 			match.Match_time = match_time
 			match.TT_name = tt_name
 			match.Desc = strconv.Itoa(idx + 1)
+			match.Map_type = mapType
 			matchResultSet = append(matchResultSet, match)
 		})
 		fmt.Println("")
