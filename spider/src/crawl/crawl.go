@@ -1,11 +1,9 @@
 package crawl
 
 import (
-	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly"
 	"github.com/jinzhu/gorm"
-	"spider/src/config"
 	"spider/src/model"
 	"spider/src/utils"
 	"spider/src/utils/parameter"
@@ -33,12 +31,14 @@ func CrawlMatches() {
 		bodyData := string(r.Body)
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(bodyData))
 		// 初始化数据库句柄
-		DB := config.GetDB()
-		//matchResultSet := OperateLivingMatch(dom)
+		//DB := config.GetDB()
+		//matchResultSet := OperateLivingMatch(dom)  //正在进行的赛果/赛程
 		//saveLivingMatches(DB, matchResultSet)
 
-		matchResultSet := OperateUpcomingMatch(dom)
-		saveUpcomingMatches(DB, matchResultSet)
+		//matchResultSet := OperateUpcomingMatch(dom)//将要进行的赛果/赛程
+		//saveUpcomingMatches(DB, matchResultSet)
+
+		OperateTournament(dom) // 赛事
 	})
 
 	c.Visit(base_url)
@@ -56,12 +56,11 @@ func saveLivingMatches(DB *gorm.DB, matches []model.Match) {
 			match.Insert(DB)
 		}
 	}
-
 }
 
 func saveUpcomingMatches(DB *gorm.DB, matches []model.Match) {
 	// 批量保存将要进行的比赛的Match
-	fmt.Println("------- saveUpcomingMatches ---------")
+	//fmt.Println("------- saveUpcomingMatches ---------")
 
 	if matches != nil {
 		for _, match := range matches {
@@ -72,5 +71,15 @@ func saveUpcomingMatches(DB *gorm.DB, matches []model.Match) {
 			match.Insert(DB)
 		}
 	}
+}
 
+func saveTournaments(DB *gorm.DB, tts []model.Tournament) {
+	// 批量保存赛事Tournament
+	if tts != nil {
+		for _, tt := range tts {
+			tt.TT_biz_id = utils.GenerateModuleBizID("TT")
+			tt.Created_time = time.Now()
+			//tt.Insert(DB)
+		}
+	}
 }

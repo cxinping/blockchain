@@ -10,6 +10,11 @@ import (
 	"time"
 )
 
+func OperateTournament(dom *goquery.Document) {
+	// 处理赛事数据
+
+}
+
 func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 	// 处理将要比赛的数据
 	matchResultSet := make([]model.Match, 0, 10)
