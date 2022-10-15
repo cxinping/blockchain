@@ -22,7 +22,7 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 		//match_date = strings.Replace(match_date, " ", "", -1)
 		//match_date_idx := strings.Index(match_date, "-") + 1
 		//match_date = string([]rune(match_date)[match_date_idx:len(match_date)])
-		fmt.Println("idx=>", idx+1, ",match_date=", match_date)
+		fmt.Println("页面部分 idx=>", idx+1, ",match_date=", match_date)
 
 		selection.Find(".upcomingMatch").Each(func(i int, selection *goquery.Selection) {
 			sel_dom := selection.Find("div[class*='upcomingMatch']>a").Eq(0)
@@ -49,31 +49,34 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 			mapType := selection.Find(".matchMeta").Text()
 			// 查询推荐指数,以黑色星星表示推荐数
 			var starNum int8 = 0
-			matchRatingDom := selection.Find("div[class='matchRating']").Find("i").Each(func(i int, matchRatingDomSel *goquery.Selection) {
+			selection.Find("div[class='matchRating']").Find("i").Each(func(i int, matchRatingDomSel *goquery.Selection) {
 				starClass, _ := matchRatingDomSel.Attr("class")
 				if starClass == "fa fa-star" {
 					starNum++
 				}
 			})
 
-			fmt.Println("\tteam1_name=", team1_name)
-			fmt.Println("\tteam1_pic=", team1_pic)
-			fmt.Println("\tteam2_name=", team2_name)
-			fmt.Println("\tteam2_pic=", team2_pic)
-			fmt.Println("\tmatch_pic=", match_pic)
-			fmt.Println("\ttt_name=", tt_name)
-			fmt.Println("\tmapType=", mapType)
-			fmt.Println("\tmatchRatingDom=", matchRatingDom, starNum)
-			fmt.Println("")
+			if team1_name != "" && team2_name != "" {
+				fmt.Println("\tteam1_name=", team1_name)
+				fmt.Println("\tteam1_pic=", team1_pic)
+				fmt.Println("\tteam2_name=", team2_name)
+				fmt.Println("\tteam2_pic=", team2_pic)
+				fmt.Println("\tmatch_pic=", match_pic)
+				fmt.Println("\ttt_name=", tt_name)
+				fmt.Println("\tmapType=", mapType)
+				fmt.Println("\tstarNum=", starNum)
+				fmt.Println("")
 
-			match.Match_time = match_time
-			match.TT_name = tt_name
-			match.Desc = strconv.Itoa(idx + 1)
-			match.Map_type = mapType
-			match.Suggest_idx = uint8(starNum)
-			match.Team1_name = team1_name
-			match.Team2_name = team2_name
-			matchResultSet = append(matchResultSet, match)
+				match.Match_time = match_time
+				match.TT_name = tt_name
+				match.Desc = strconv.Itoa(idx + 1)
+				match.Map_type = mapType
+				match.Suggest_idx = uint8(starNum)
+				match.Team1_name = team1_name
+				match.Team2_name = team2_name
+				matchResultSet = append(matchResultSet, match)
+			}
+
 		})
 		fmt.Println("")
 
