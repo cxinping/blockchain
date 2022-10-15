@@ -10,9 +10,17 @@ import (
 	"time"
 )
 
-func OperateTournament(dom *goquery.Document) {
+func OperateTournament(dom *goquery.Document) []model.Tournament {
 	// 处理赛事数据
+	fmt.Println("--- OperateTournament ---")
+	tourResultSet := make([]model.Tournament, 0, 10)
+	fmt.Println(tourResultSet, dom)
 
+	dom.Find(".events-container").Each(func(idx int, evenSelection *goquery.Selection) {
+		fmt.Println("idx=>", idx)
+	})
+
+	return tourResultSet
 }
 
 func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
