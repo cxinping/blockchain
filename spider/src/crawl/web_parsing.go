@@ -29,21 +29,24 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 			match_url, _ := sel_dom.Attr("href")
 			match_url = parameter.HLTV_INDEX + match_url
 			match.Match_url = match_url
-			fmt.Println("\tmatch_url=>", match_url, sel_dom)
+			fmt.Println("\tmatch_url=>", match_url)
 
 			match_date_unix_str, _ := selection.Find(".matchInfo .matchTime").Attr("data-unix")
 			fmt.Println("\tmatch_date_unix_str=", match_date_unix_str)
+
 			match_date_unix_int, _ := strconv.ParseInt(match_date_unix_str, 10, 64)
 			match_date_unix_int = int64(match_date_unix_int) / 1000
 			match_time := time.Unix(match_date_unix_int, 0)
 			match_time_str := match_time.Format("2006-01-02 15:04")
 			fmt.Println("\tmatch_time_str=", match_time_str)
+
 			team1_name := utils.CompressString(selection.Find("div[class='matchTeam team1']").Text())
 			team1_pic, _ := selection.Find("div[class='matchTeam team1']").Find("img").Attr("src")
 			team2_name := utils.CompressString(selection.Find("div[class='matchTeam team2']").Text())
 			team2_pic, _ := selection.Find("div[class='matchTeam team2']").Find("img").Attr("src")
 			match_pic, _ := selection.Find(".matchEvent").Find(".matchEventLogoContainer").Find("img").Attr("src") // 比赛的图片logo
 			tt_name := selection.Find("div[class='matchEventName gtSmartphone-only']").Text()
+
 			fmt.Println("\tteam1_name=", team1_name)
 			fmt.Println("\tteam1_pic=", team1_pic)
 			fmt.Println("\tteam2_name=", team2_name)
