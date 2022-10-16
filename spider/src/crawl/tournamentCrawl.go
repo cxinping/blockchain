@@ -15,9 +15,7 @@ import (
 
 func CrawlMatches() (err error) {
 	// 爬取赛事信息
-	base_url := parameter.TT_MATCH_URL // "https://www.hltv.org/matches"
-	//fmt.Println("*** 开始爬取hltv的赛事列表 ", base_url)
-
+	baseUrl := parameter.TT_MATCH_URL // "https://www.hltv.org/matches"
 	c := colly.NewCollector(
 		// 允许重复访问
 		colly.AllowURLRevisit())
@@ -47,7 +45,7 @@ func CrawlMatches() (err error) {
 
 	})
 
-	err = c.Visit(base_url)
+	err = c.Visit(baseUrl)
 	return err
 }
 
