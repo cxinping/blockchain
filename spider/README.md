@@ -24,6 +24,10 @@ curl https://www.hltv.org/matches | grep 'events-container'
 curl https://www.hltv.org/matches | grep 'event'
 ```
 
+爬取网页数据
+```
+curl https://www.hltv.org/matches?predefinedFilter=top_tier | grep 'event-filter-btn'
+```
 
 
 
