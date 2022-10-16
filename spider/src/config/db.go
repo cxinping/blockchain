@@ -38,7 +38,6 @@ func InitDB() *gorm.DB {
 
 	//db.LogMode(true) //打开调试日志模式
 	DB = db
-
 	return db
 }
 
