@@ -11,5 +11,5 @@ func main() {
 	defer db.Close()
 
 	crawl.CrawlMatches() //爬取赛事和比赛数据
-	task.QueryMatches()  //执行调度任务
+	task.ExecTasks()     //执行调度任务
 }

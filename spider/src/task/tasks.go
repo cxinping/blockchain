@@ -15,7 +15,9 @@ func (f MyJob) Run() {
 
 var Cron = cron.New(cron.WithSeconds())
 
-func QueryMatches() {
+func ExecTasks() {
+	// 定时执行调度任务
+
 	// 查询比赛列表修改状态
 	fmt.Println("* 查询比赛列表修改状态")
 	Cron.AddJob("@every 5s", MyJob(func() {
