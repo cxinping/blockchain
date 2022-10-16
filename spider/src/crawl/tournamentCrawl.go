@@ -1,6 +1,7 @@
 package crawl
 
 import (
+	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly"
 	"github.com/jinzhu/gorm"
@@ -25,7 +26,7 @@ func CrawlMatches() (err error) {
 		//反爬虫，通过随机改变 user-agent,
 		r.Headers.Set("User-Agent", utils.RandomString())
 		//fmt.Println("OnRequest")
-		//fmt.Println("url => ", r.URL)
+		fmt.Println("访问网页 => ", r.URL)
 	})
 
 	c.OnResponse(func(r *colly.Response) {
