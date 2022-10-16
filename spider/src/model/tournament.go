@@ -10,6 +10,7 @@ type Tournament struct {
 	gorm.Model
 	TtBizId     string    `gorm:"size:50;not null;default:'';comment:'赛事的业务id'"`
 	TtName      string    `gorm:"size:100;not null;default:'';comment:'赛事的名称'"`
+	TtPic       string    `gorm:"size:255;;default:'';comment:'赛事的图片'"`
 	TtStartdate time.Time `gorm:"default:null;comment:'赛事的开始时间'"`
 	TtEnddate   time.Time `gorm:"default:null;comment:'赛事的结束时间'"`
 	TtUrl       string    `gorm:"size:255;not null;default:'';comment:'赛事的链接'"`
