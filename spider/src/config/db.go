@@ -26,8 +26,7 @@ func InitDB() *gorm.DB {
 		fmt.Println("数据库链接失败", err) //数据库链接失败是致命的错误，链接失败后可以关闭程序了，所以使用logging.Fatal方法
 	}
 
-	//设置全局表名禁用复数
-	db.SingularTable(true)
+	db.SingularTable(true)       //设置全局表名禁用复数
 	db.DB().SetMaxIdleConns(10)  // 用于设置闲置的连接数
 	db.DB().SetMaxOpenConns(100) // 用于设置最大打开的连接数，默认值为0表示不限制
 

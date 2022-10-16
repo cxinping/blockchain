@@ -13,10 +13,10 @@ type Match struct {
 	TtPic             string `gorm:"size:100;default:'';comment:'赛事的图片'"`
 	TtBizId           string `gorm:"size:50;not null;default:'';comment:'赛事的业务id'"`
 	TtName            string `gorm:"size:50;default:'';comment:'比赛状态'"`
-	Status            string
+	Status            string `gorm:"size:10;default:'';comment:'比赛状态'"`
 	Result            string
 	Mode              string
-	MatchTime         time.Time `gorm:"default:null;comment:'比赛时间'"`
+	MatchTime         time.Time `gorm:"default:null;comment:'比赛状态'"`
 	Team1BizId        string
 	Team2BizId        string
 	Team1Name         string
