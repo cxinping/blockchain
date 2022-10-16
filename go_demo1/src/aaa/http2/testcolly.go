@@ -30,11 +30,9 @@ func Example2() {
 	// selector goquery name id class
 	c.OnHTML(".sidebar-link", func(e *colly.HTMLElement) {
 		//e.Request.Visit(e.Attr("href"))
-
 		link := e.Attr("href")
 		fmt.Printf("Link found: %q -> %s\n", e.Text, "https://gorm.io/zh_CN/docs/"+link)
 		c.Visit(e.Request.AbsoluteURL(link))
-
 	})
 
 	c.OnRequest(func(r *colly.Request) {
