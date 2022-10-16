@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -19,6 +20,6 @@ func TestGenerateModuleBizID(t *testing.T) {
 }
 
 func TestMsToTime(t *testing.T) {
-	MsToTime("1665844800000")
-
+	tm, _ := MsToTime("1665844800000")
+	fmt.Println(tm.Format("2006-02-01 15:04:05.000"))
 }

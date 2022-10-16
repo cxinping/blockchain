@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"github.com/go-basic/uuid"
 	"math/rand"
 	"strconv"
@@ -19,11 +18,11 @@ func RandomString() string {
 	return string(b)
 }
 
-func CompressString(input_str string) string {
+func CompressString(inputStr string) string {
 	// 压缩字符串
-	input_str = strings.Replace(input_str, "\n", "", -1)
-	input_str = strings.Trim(input_str, " ")
-	return input_str
+	inputStr = strings.Replace(inputStr, "\n", "", -1)
+	inputStr = strings.Trim(inputStr, " ")
+	return inputStr
 }
 
 func GenerateModuleBizID(name string) string {
@@ -41,7 +40,5 @@ func MsToTime(ms string) (time.Time, error) {
 	}
 
 	tm := time.Unix(0, msInt*int64(time.Millisecond))
-	fmt.Println(tm.Format("2006-02-01 15:04:05.000"))
-
 	return tm, nil
 }
