@@ -12,9 +12,9 @@ type Match struct {
 	MatchUrl          string `gorm:"size:255;default:'';comment:'赛程的链接'"`
 	TtPic             string `gorm:"size:255;default:'';comment:'赛事的图片'"`
 	TtBizId           string `gorm:"size:50;not null;default:'';comment:'赛事的业务id'"`
-	TtName            string `gorm:"size:50;default:'';comment:'比赛状态'"`
+	TtName            string `gorm:"size:50;default:'';comment:'比赛的名称'"`
 	Status            string `gorm:"size:10;default:'';comment:'比赛状态'"`
-	Result            string
+	Result            string `gorm:"size:100;default:'';comment:'比赛结果'"`
 	Mode              string
 	MatchTime         time.Time `gorm:"default:null;comment:'比赛状态'"`
 	Team1BizId        string
