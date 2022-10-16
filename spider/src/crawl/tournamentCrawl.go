@@ -34,8 +34,8 @@ func CrawlMatches() (err error) {
 		// 初始化数据库句柄
 		DB := config.GetDB()
 
-		//toursResultSet := OperateTournament(dom) // 处理赛事数据
-		//saveTournaments(DB, toursResultSet)
+		toursResultSet := OperateTournament(dom) // 处理赛事数据
+		saveTournaments(DB, toursResultSet)
 
 		var matchResultSet []model.Match
 		matchResultSet = OperateLivingMatch(dom) // 处理正在进行的赛果/赛程的数据
