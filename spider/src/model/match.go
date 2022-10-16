@@ -28,7 +28,7 @@ type Match struct {
 	MapType           string
 	SuggestIdx        uint8
 	CreatedTime       time.Time
-	Desc              string
+	Desc              string `gorm:"size:255;default:'';comment:'描述'"`
 }
 
 func (Match) TableName() string {

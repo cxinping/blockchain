@@ -14,7 +14,7 @@ type Tournament struct {
 	TtStartdate time.Time `gorm:"default:null;comment:'赛事的开始时间'"`
 	TtEnddate   time.Time `gorm:"default:null;comment:'赛事的结束时间'"`
 	TtUrl       string    `gorm:"size:255;not null;default:'';comment:'赛事的链接'"`
-	Desc        string    `gorm:"size:100;not null;default:'';comment:'描述'"`
+	Desc        string    `gorm:"size:255;default:'';comment:'描述'"`
 	CreatedTime time.Time
 }
 
