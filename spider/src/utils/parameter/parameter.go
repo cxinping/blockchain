@@ -4,7 +4,7 @@ const (
 	HLTV_INDEX = "https://www.hltv.org" // HLTV 首页
 
 	// 赛程/赛果
-	MATCH_URL                = "https://www.hltv.org/matches"
+	TT_MATCH_URL             = "https://www.hltv.org/matches"
 	MATCH_STATUS_NOT_STARTED = "unstarted" // 比赛未开始
 	MATCH_STATUS_LIVE        = "live"      // 比赛正在进行中
 	MATCH_STATUS_OVER        = "over"      // 比赛结束

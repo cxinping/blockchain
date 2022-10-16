@@ -14,7 +14,7 @@ import (
 
 func CrawlMatches() (err error) {
 	// 爬取赛事信息
-	base_url := parameter.MATCH_URL // "https://www.hltv.org/matches"
+	base_url := parameter.TT_MATCH_URL // "https://www.hltv.org/matches"
 	//fmt.Println("*** 开始爬取hltv的赛事列表 ", base_url)
 
 	c := colly.NewCollector(
@@ -41,8 +41,8 @@ func CrawlMatches() (err error) {
 		matchResultSet = OperateLivingMatch(dom) // 处理正在进行的赛果/赛程的数据
 		saveLivingMatches(DB, matchResultSet)
 
-		//matchResultSet = OperateUpcomingMatch(dom) // 处理将要进行的赛果/赛程的数据
-		//saveUpcomingMatches(DB, matchResultSet)
+		matchResultSet = OperateUpcomingMatch(dom) // 处理将要进行的赛果/赛程的数据
+		saveUpcomingMatches(DB, matchResultSet)
 
 	})
 
