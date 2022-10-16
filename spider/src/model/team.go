@@ -16,6 +16,7 @@ type Team struct {
 	WorldRanking     uint16 `gorm:"size:11;not null;default:0;comment:'国际排名'"`
 	AveragePlayerAge float32
 	CoatchBizId      string
+	CoatchName       string `gorm:"size:100;default:'';comment:'战队教练'"`
 	CreatedTime      time.Time
 }
 
