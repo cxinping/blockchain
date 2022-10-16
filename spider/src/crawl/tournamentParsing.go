@@ -153,6 +153,10 @@ func OperateLivingMatch(dom *goquery.Document) []model.Match {
 			tt_name := selection.Find("div[class='matchEventName gtSmartphone-only']").Text()
 			match.TtName = tt_name
 			fmt.Println("\t赛事名字=>", tt_name)
+			ttPic, _ := selection.Find(".matchEventLogoContainer").Find("img").Attr("src")
+			match.TtPic = ttPic
+			fmt.Println("\t赛事图片=>", ttPic)
+
 			map_type := selection.Find("div[class='matchMeta']").Text()
 			match.MapType = map_type
 			fmt.Println("\t地图类型=>", map_type)

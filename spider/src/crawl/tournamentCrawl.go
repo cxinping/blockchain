@@ -38,11 +38,11 @@ func CrawlMatches() (err error) {
 		//saveTournaments(DB, toursResultSet)
 
 		var matchResultSet []model.Match
-		//matchResultSet = OperateLivingMatch(dom) // 处理正在进行的赛果/赛程的数据
-		//saveLivingMatches(DB, matchResultSet)
+		matchResultSet = OperateLivingMatch(dom) // 处理正在进行的赛果/赛程的数据
+		saveLivingMatches(DB, matchResultSet)
 
-		matchResultSet = OperateUpcomingMatch(dom) // 处理将要进行的赛果/赛程的数据
-		saveUpcomingMatches(DB, matchResultSet)
+		//matchResultSet = OperateUpcomingMatch(dom) // 处理将要进行的赛果/赛程的数据
+		//saveUpcomingMatches(DB, matchResultSet)
 
 	})
 
