@@ -12,7 +12,7 @@ import (
 
 func OperateTournament(dom *goquery.Document) []model.Tournament {
 	// 处理赛事数据
-	fmt.Println("--- OperateTournament --- ", dom)
+	fmt.Println("--- OperateTournament --- ")
 	tourResultSet := make([]model.Tournament, 0, 10)
 	//fmt.Println(tourResultSet, dom)
 
@@ -22,10 +22,13 @@ func OperateTournament(dom *goquery.Document) []model.Tournament {
 		ttUrl, _ := selection.Attr("href")
 		ttUrl = parameter.HLTV_INDEX + ttUrl
 		eventName := selection.Find(".featured-event-tooltip-content").Text()
+		eventPicDom := selection.Find("div[class='event-button  tooltip-parent']").Find("img").Eq(0)
+		eventPic, _ := eventPicDom.Attr("src")
 
 		if eventName != "" {
 			tour.TtUrl = ttUrl
 			tour.TtName = eventName
+			tour.TtPic = eventPic
 			tourResultSet = append(tourResultSet, tour)
 		}
 		//fmt.Println("\tidx=>", idx, ", ttUrl=", ttUrl, parameter.HLTV_INDEX+ttUrl)
@@ -36,11 +39,13 @@ func OperateTournament(dom *goquery.Document) []model.Tournament {
 		ttUrl, _ := selection.Attr("href")
 		ttUrl = parameter.HLTV_INDEX + ttUrl
 		eventName := selection.Find(".event-name").Text()
+		eventPic, _ := selection.Find(".event-img").Find("img").Eq(0).Attr("src")
 		tour := model.Tournament{}
 
 		if eventName != "" {
 			tour.TtUrl = ttUrl
 			tour.TtName = eventName
+			tour.TtPic = eventPic
 			tourResultSet = append(tourResultSet, tour)
 		}
 
