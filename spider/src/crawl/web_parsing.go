@@ -93,6 +93,7 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 			team2_pic, _ := selection.Find("div[class='matchTeam team2']").Find("img").Attr("src")
 			match_pic, _ := selection.Find(".matchEvent").Find(".matchEventLogoContainer").Find("img").Attr("src") // 比赛的图片logo
 			tt_name := selection.Find("div[class='matchEventName gtSmartphone-only']").Text()
+			tt_pic, _ := selection.Find(".matchEventLogoContainer").Find("img").Eq(0).Attr("src")
 			mapType := selection.Find(".matchMeta").Text()
 			// 查询推荐指数,以黑色星星表示推荐数
 			var starNum int8 = 0
@@ -110,12 +111,14 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 				fmt.Println("\tteam2_pic=", team2_pic)
 				fmt.Println("\tmatch_pic=", match_pic)
 				fmt.Println("\ttt_name=", tt_name)
+				fmt.Println("\ttt_pic=", tt_pic)
 				fmt.Println("\tmapType=", mapType)
 				fmt.Println("\tstarNum=", starNum)
 				fmt.Println("")
 
 				match.MatchTime = matchTime
 				match.TtName = tt_name
+				match.TtPic = tt_pic
 				match.Desc = "section-" + strconv.Itoa(idx+1)
 				match.MapType = mapType
 				match.SuggestIdx = uint8(starNum)
