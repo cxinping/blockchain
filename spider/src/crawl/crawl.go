@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-func CrawlMatches() {
+func CrawlMatches() (err error) {
 	// 爬取赛事信息
 	base_url := parameter.MATCH_URL // "https://www.hltv.org/matches"
 	//fmt.Println("*** 开始爬取hltv的赛事列表 ", base_url)
@@ -46,7 +46,8 @@ func CrawlMatches() {
 
 	})
 
-	c.Visit(base_url)
+	err = c.Visit(base_url)
+	return err
 }
 
 func saveLivingMatches(DB *gorm.DB, matches []model.Match) {

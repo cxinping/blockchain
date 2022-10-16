@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"go_demo1/src/aaa/common"
-	"go_demo1/src/aaa/http"
+	"go_demo1/src/aaa/http2"
 	"go_demo1/src/hltv/spider"
 	"go_demo1/src/hltv/task"
 	"strconv"
@@ -51,9 +51,12 @@ func test_http() {
 	//http.TestHttp4()
 	//http.TestHttp5()
 
-	http.Example1()
+	//http.Example1()
 	//http.Example2()
 	//http.Example3()
+
+	//http2.Example1()
+	http2.Example2()
 
 }
 
