@@ -16,7 +16,7 @@ type Match struct {
 	Status            string `gorm:"size:10;default:'';comment:'比赛状态'"`
 	Result            string `gorm:"size:100;default:'';comment:'比赛结果'"`
 	Mode              string
-	MatchTime         time.Time `gorm:"default:null;comment:'比赛状态'"`
+	MatchTime         time.Time `gorm:"default:null;comment:'比赛时间'"`
 	Team1BizId        string
 	Team2BizId        string
 	Team1Name         string
