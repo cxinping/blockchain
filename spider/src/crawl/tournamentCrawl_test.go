@@ -16,7 +16,7 @@ func TestCrawlTournamentWeb(t *testing.T) {
 
 func TestCrawlMatcheWeb(t *testing.T) {
 	t.Log("*** 开始解析比赛的网页 ***")
-	matchUrl := "https://www.hltv.org/matches/2359675/alternate-attax-vs-partizan-cct-south-europe-series-1"
+	matchUrl := "https://www.hltv.org/matches/2359479/flames-ascent-vs-furia-academy-weplay-academy-league-season-6"
 	CrawlMatcheWeb(matchUrl)
 
 }

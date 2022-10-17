@@ -11,7 +11,7 @@ import (
 
 func ParseMatchDetail(dom *goquery.Document) (string, []model.Team, []model.Player) {
 	//解析比赛网页数据, 抓取战队数据
-	fmt.Println("*** OperateMatchDetail ***", dom)
+	fmt.Println("*** OperateMatchDetail ***")
 	teamResultSet := make([]model.Team, 0)
 	playResultSet := make([]model.Player, 0)
 	var team1 model.Team
@@ -26,16 +26,20 @@ func ParseMatchDetail(dom *goquery.Document) (string, []model.Team, []model.Play
 	team1Url, _ := team1Dom.Find("a").Attr("href")
 	team2Url, _ := team2Dom.Find("a").Attr("href")
 
-	fmt.Println("team1Name=", team1Name, ", team2Name=", team2Name)
+	//fmt.Println("team1Name=", team1Name, ", team2Name=", team2Name)
 	//fmt.Println("team1Pic=", team1Pic)
 	//fmt.Println("team2Pic=", team2Pic)
-	fmt.Println("team1Url=", parameter.HLTV_INDEX+team1Url)
-	fmt.Println("team2Url=", parameter.HLTV_INDEX+team2Url)
+	// https://www.hltv.org/team/11915/flames-ascent
+	//fmt.Println("team1Url=", parameter.HLTV_INDEX+team1Url)
+	//fmt.Println("team2Url=", parameter.HLTV_INDEX+team2Url)
 
 	team1.TeamName = team1Name
 	team1.TeamPic = team1Pic
+	team1.TeamUrl = team1Url
+
 	team2.TeamName = team2Name
 	team2.TeamPic = team2Pic
+	team2.TeamUrl = team2Url
 
 	mapsStr := dom.Find("div[class='padding preformatted-text']").Text()
 	mapsStr = utils.CompressString(strings.ToLower(mapsStr))
@@ -47,7 +51,18 @@ func ParseMatchDetail(dom *goquery.Document) (string, []model.Team, []model.Play
 		modeStr = parameter.MATCH_MODE_LAN
 	}
 
-	//fmt.Println("modeStr=>", modeStr)
+	// 队员1
+	player1Dom := dom.Find("div[class='lineup standard-box']").Eq(0)
+	fmt.Println("player1Dom=", player1Dom)
+
+	player1Dom.Find("td[class='player player-image']").Each(func(idx int, tdSel *goquery.Selection) {
+
+		player := model.Player{}
+		playerPic, _ := tdSel.Find("img").Attr("src")
+		fmt.Println("idx=", idx, ", playerPic=", playerPic)
+
+		playResultSet = append(playResultSet, player)
+	})
 
 	return modeStr, teamResultSet, playResultSet
 }
