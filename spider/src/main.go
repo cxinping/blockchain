@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	config.InitConfig()
+	config.InitConfig() //读取配置文件
 	fmt.Println("读取配置文件config.yml 得到 db.host => ", viper.Get("db.host"))
 
 	db := config.InitDB() // 初始化数据库

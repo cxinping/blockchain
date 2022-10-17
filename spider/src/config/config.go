@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-// 初始化配置文件
+// 初始化配置文件 config.yml
 func InitConfig() {
 	workDir, _ := os.Getwd()
 	viper.SetConfigName("config")
