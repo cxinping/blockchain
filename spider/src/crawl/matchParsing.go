@@ -9,13 +9,15 @@ import (
 	"strings"
 )
 
-func ParseMatchDetail(dom *goquery.Document) (string, []model.Team, []model.Player) {
+func ParseMatchDetail(dom *goquery.Document) (string, model.Team, model.Team) {
 	//解析比赛网页数据, 抓取战队数据
 	fmt.Println("*** OperateMatchDetail ***")
-	teamResultSet := make([]model.Team, 0)
-	playResultSet := make([]model.Player, 0)
+
 	var team1 model.Team
 	var team2 model.Team
+	play1ResultSet := make([]model.Player, 0)
+	play2ResultSet := make([]model.Player, 0)
+
 	teamBoxDom := dom.Find("div[class='standard-box teamsBox']")
 	team1Name := teamBoxDom.Find("div[class='teamName']").Eq(0).Text()
 	team2Name := teamBoxDom.Find("div[class='teamName']").Eq(1).Text()
@@ -35,37 +37,55 @@ func ParseMatchDetail(dom *goquery.Document) (string, []model.Team, []model.Play
 
 	team1.TeamName = team1Name
 	team1.TeamPic = team1Pic
-	team1.TeamUrl = team1Url
+	team1.TeamUrl = parameter.HLTV_INDEX + team1Url
 
 	team2.TeamName = team2Name
 	team2.TeamPic = team2Pic
-	team2.TeamUrl = team2Url
+	team2.TeamUrl = parameter.HLTV_INDEX + team2Url
 
 	mapsStr := dom.Find("div[class='padding preformatted-text']").Text()
 	mapsStr = utils.CompressString(strings.ToLower(mapsStr))
 	count := strings.Index(mapsStr, "online")
-	var modeStr string = "" // 比赛是线上还是线下
+	var matchModeStr string = "" // 比赛模式是线上还是线下
 	if count != -1 {
-		modeStr = parameter.MATCH_MODE_ONLINE
+		matchModeStr = parameter.MATCH_MODE_ONLINE
 	} else {
-		modeStr = parameter.MATCH_MODE_LAN
+		matchModeStr = parameter.MATCH_MODE_LAN
 	}
 
-	// 队员1
+	// 战队1的所有队员
 	player1Dom := dom.Find("div[class='lineup standard-box']").Eq(0)
-	fmt.Println("player1Dom=", player1Dom)
-
 	player1Dom.Find("td[class='player player-image']").Each(func(idx int, tdSel *goquery.Selection) {
 		player := model.Player{}
 		playerPic, _ := tdSel.Find("img").Attr("src")
 		playerTdDom := player1Dom.Find("td[class='player']").Eq(idx)
 		playerName := playerTdDom.Find("div[class='text-ellipsis']").Text()
 		nationPic, _ := playerTdDom.Find("img").Attr("src")
+		nationPic = parameter.HLTV_INDEX + nationPic
 		player.PlayerPic = playerPic
-		fmt.Println("idx=", idx, ", playerPic=", playerPic, ",playerName=", playerName, ",nationPic=", nationPic)
-
-		playResultSet = append(playResultSet, player)
+		player.NationPic = nationPic
+		player.Name = playerName
+		//fmt.Println("idx=", idx, ", playerPic=", playerPic, ",playerName=", playerName, ",nationPic=", nationPic)
+		play1ResultSet = append(play1ResultSet, player)
 	})
+	team1.Players = play1ResultSet
 
-	return modeStr, teamResultSet, playResultSet
+	// 战队2的所有队员
+	player2Dom := dom.Find("div[class='lineup standard-box']").Eq(1)
+	player2Dom.Find("td[class='player player-image']").Each(func(idx int, tdSel *goquery.Selection) {
+		player := model.Player{}
+		playerPic, _ := tdSel.Find("img").Attr("src")
+		playerTdDom := player2Dom.Find("td[class='player']").Eq(idx)
+		playerName := playerTdDom.Find("div[class='text-ellipsis']").Text()
+		nationPic, _ := playerTdDom.Find("img").Attr("src")
+		nationPic = parameter.HLTV_INDEX + nationPic
+		player.PlayerPic = playerPic
+		player.NationPic = nationPic
+		player.Name = playerName
+		fmt.Println("idx=", idx, ", playerPic=", playerPic, ",playerName=", playerName, ",nationPic=", nationPic)
+		play2ResultSet = append(play2ResultSet, player)
+	})
+	team2.Players = play2ResultSet
+
+	return matchModeStr, team1, team2
 }

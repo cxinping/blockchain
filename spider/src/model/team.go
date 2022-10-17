@@ -18,6 +18,7 @@ type Team struct {
 	AveragePlayerAge float32
 	CoatchBizId      string
 	CoatchName       string `gorm:"size:100;default:'';comment:'战队教练'"`
+	Players          []Player
 	CreatedTime      time.Time
 }
 
