@@ -34,6 +34,7 @@ func Example2() {
 		link := e.Attr("href")
 		link = "https://gorm.io/zh_CN/docs/" + link
 		fmt.Printf("Link found: %q -> %s\n", e.Text, "https://gorm.io/zh_CN/docs/"+link)
+
 		c.Visit(e.Request.AbsoluteURL(link))
 	})
 
