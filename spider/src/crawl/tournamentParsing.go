@@ -65,35 +65,31 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 		match := model.Match{}
 
 		// 比赛时间
-		matchDate := selection.Find(".matchDayHeadline").Text()
-		//match_date = strings.Replace(match_date, " ", "", -1)
-		//match_date_idx := strings.Index(match_date, "-") + 1
-		//match_date = string([]rune(match_date)[match_date_idx:len(match_date)])
-		fmt.Println("页面部分 idx=>", idx+1, ",matchDate=", matchDate)
+		//matchDate := selection.Find(".matchDayHeadline").Text()
+		//fmt.Println("页面部分 idx=>", idx+1, ",matchDate=", matchDate)
 
 		selection.Find(".upcomingMatch").Each(func(i int, selection *goquery.Selection) {
 			selDom := selection.Find("div[class*='upcomingMatch']>a").Eq(0)
 			matchUrl, _ := selDom.Attr("href")
 			matchUrl = parameter.HLTV_INDEX + matchUrl
 			match.MatchUrl = matchUrl
-			fmt.Println("\tmatch_url=>", matchUrl)
+			//fmt.Println("\tmatch_url=>", matchUrl)
 
 			matchDateUnixStr, _ := selection.Find(".matchInfo .matchTime").Attr("data-unix")
-			fmt.Println("\tmatchDateUnixStr=", matchDateUnixStr)
+			//fmt.Println("\tmatchDateUnixStr=", matchDateUnixStr)
 
 			matchDateUnixInt, _ := strconv.ParseInt(matchDateUnixStr, 10, 64)
 			matchDateUnixInt = int64(matchDateUnixInt) / 1000
 			matchTime := time.Unix(matchDateUnixInt, 0)
-			matchTimeStr := matchTime.Format("2006-01-02 15:04")
-			fmt.Println("\tmatchTimeStr=", matchTimeStr)
+			//matchTimeStr := matchTime.Format("2006-01-02 15:04")
+			//fmt.Println("\tmatchTimeStr=", matchTimeStr)
 
 			team1_name := utils.CompressString(selection.Find("div[class='matchTeam team1']").Text())
-			team1_pic, _ := selection.Find("div[class='matchTeam team1']").Find("img").Attr("src")
+			//team1_pic, _ := selection.Find("div[class='matchTeam team1']").Find("img").Attr("src")
 			team2_name := utils.CompressString(selection.Find("div[class='matchTeam team2']").Text())
-			team2_pic, _ := selection.Find("div[class='matchTeam team2']").Find("img").Attr("src")
-			match_pic, _ := selection.Find(".matchEvent").Find(".matchEventLogoContainer").Find("img").Attr("src") // 比赛的图片logo
+			//team2_pic, _ := selection.Find("div[class='matchTeam team2']").Find("img").Attr("src")
 			tt_name := selection.Find("div[class='matchEventName gtSmartphone-only']").Text()
-			tt_pic, _ := selection.Find(".matchEventLogoContainer").Find("img").Eq(0).Attr("src")
+			tt_pic, _ := selection.Find(".matchEventLogoContainer").Find("img").Eq(0).Attr("src") // 赛事的logo
 			mapType := selection.Find(".matchMeta").Text()
 			// 查询推荐指数,以黑色星星表示推荐数
 			var starNum int8 = 0
@@ -105,16 +101,15 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 			})
 
 			if team1_name != "" && team2_name != "" {
-				fmt.Println("\tteam1_name=", team1_name)
-				fmt.Println("\tteam1_pic=", team1_pic)
-				fmt.Println("\tteam2_name=", team2_name)
-				fmt.Println("\tteam2_pic=", team2_pic)
-				fmt.Println("\tmatch_pic=", match_pic)
-				fmt.Println("\ttt_name=", tt_name)
-				fmt.Println("\ttt_pic=", tt_pic)
-				fmt.Println("\tmapType=", mapType)
-				fmt.Println("\tstarNum=", starNum)
-				fmt.Println("")
+				//fmt.Println("\tteam1_name=", team1_name)
+				//fmt.Println("\tteam1_pic=", team1_pic)
+				//fmt.Println("\tteam2_name=", team2_name)
+				//fmt.Println("\tteam2_pic=", team2_pic)
+				//fmt.Println("\ttt_name=", tt_name)
+				//fmt.Println("\ttt_pic=", tt_pic)
+				//fmt.Println("\tmapType=", mapType)
+				//fmt.Println("\tstarNum=", starNum)
+				//fmt.Println("")
 
 				match.MatchTime = matchTime
 				match.TtName = tt_name
@@ -128,7 +123,7 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 			}
 
 		})
-		fmt.Println("")
+		//fmt.Println("")
 
 	})
 	return matchResultSet
@@ -142,7 +137,9 @@ func OperateLivingMatch(dom *goquery.Document) []model.Match {
 	if liveMatchSectionDom != nil {
 		// 赛事名称
 		match_name := liveMatchSectionDom.Find(".upcoming-headline").Text()
-		fmt.Printf("\t正在比赛的赛事名称=%v\n", match_name)
+		if match_name != "" {
+			fmt.Printf("\t正在比赛的赛事名称=%v\n", match_name)
+		}
 
 		liveMatchSectionDom.Find(".liveMatch-container").Each(func(idx int, selection *goquery.Selection) {
 			match := model.Match{}
@@ -167,6 +164,7 @@ func OperateLivingMatch(dom *goquery.Document) []model.Match {
 					team1_name := team_name
 					team1_pic, _ := selection.Find("div[class='matchTeamLogoContainer']").Find("img").Attr("src")
 					team1_playing_score := selection.Find("div[class='currentMapScore trailing']").Find("span").Text()
+					match.Team1Name = team1_name
 					fmt.Println("\tteam1_name=", team1_name)
 					fmt.Println("\tteam1_pic=", team1_pic)
 					fmt.Println("\tteam1_playing_score=", team1_playing_score)
@@ -174,6 +172,7 @@ func OperateLivingMatch(dom *goquery.Document) []model.Match {
 					team2_name := team_name
 					team2_pic, _ := selection.Find("div[class='matchTeamLogoContainer']").Find("img").Attr("src")
 					team2_playing_score := selection.Find("div[class='currentMapScore trailing']").Find("span").Text()
+					match.Team2Name = team2_name
 					fmt.Println("\tteam2_name=", team2_name)
 					fmt.Println("\tteam2_pic=", team2_pic)
 					fmt.Println("\tteam2_playing_score=", team2_playing_score)

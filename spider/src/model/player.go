@@ -12,6 +12,7 @@ type Player struct {
 	Name        string `gorm:"size:50;not null;default:'';comment:'队员的姓名'"`
 	Birthday    string `gorm:"size:50;default:'';comment:'队员的生日'"`
 	TotalAward  int32  `gorm:"size:10;default:0;comment:'总奖金'"`
+	PlayerUrl   string `gorm:"size:255;default:'';comment:'队员的链接'"`
 	PlayerPic   string `gorm:"size:255;default:'';comment:'队员的图片'"`
 	PlayerAge   uint8  `gorm:"size:10;default:0;comment:'年龄'"`
 	NationName  string `gorm:"size:50;default:'';comment:'队员的国籍'"`

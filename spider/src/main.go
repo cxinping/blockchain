@@ -14,7 +14,7 @@ func main() {
 	db := config.InitDB() // 初始化数据库
 	defer db.Close()
 
-	crawl.CrawlMatches() //爬取赛事和比赛数据
+	crawl.CrawlTournamentWeb() //爬取赛事和比赛数据
 
 	//task.ExecTasks() //执行调度任务
 

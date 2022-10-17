@@ -13,7 +13,8 @@ import (
 	"time"
 )
 
-func CrawlMatches() (err error) {
+// 爬取赛事和赛程网页数据
+func CrawlTournamentWeb() (err error) {
 	DB := config.GetDB() // 初始化数据库句柄
 
 	// 爬取赛事信息
@@ -25,15 +26,13 @@ func CrawlMatches() (err error) {
 		//反爬虫，通过随机改变 user-agent,
 		r.Headers.Set("User-Agent", utils.RandomString())
 		//fmt.Println("OnRequest")
-		fmt.Println("访问网页 => ", r.URL)
+		//fmt.Println("访问网页 => ", r.URL)
 	})
 
-	c.OnResponse(func(r *colly.Response) {
-		//fmt.Println("Visited ", r.Request.URL.String())
-
-		bodyData := string(r.Body)
-		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(bodyData))
-
+	//爬取赛事和赛果网页数据
+	c.OnHTML("div.mainContent", func(e *colly.HTMLElement) {
+		content, _ := e.DOM.Html()
+		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
 		toursResultSet := OperateTournament(dom) // 处理赛事数据
 		operateTournaments(DB, toursResultSet)
 
@@ -45,8 +44,51 @@ func CrawlMatches() (err error) {
 		operateUpcomingMatches(DB, matchResultSet)
 	})
 
+	c.OnResponse(func(r *colly.Response) {
+		//fmt.Println("Visited ", r.Request.URL.String())
+		//bodyData := string(r.Body)
+		//dom, _ := goquery.NewDocumentFromReader(strings.NewReader(bodyData))
+		//toursResultSet := OperateTournament(dom) // 处理赛事数据
+		//operateTournaments(DB, toursResultSet)
+		//
+		//var matchResultSet []model.Match
+		//matchResultSet = OperateLivingMatch(dom) // 处理正在进行的赛果/赛程的数据
+		//operateLivingMatches(DB, matchResultSet)
+
+		//matchResultSet = OperateUpcomingMatch(dom) // 处理将要进行的赛果/赛程的数据
+		//operateUpcomingMatches(DB, matchResultSet)
+	})
+
 	err = c.Visit(parameter.TT_MATCH_URL)
 	return err
+}
+
+// 爬取比赛网页数据
+func CrawlMatcheWeb(matchUrl string) {
+	//DB := config.GetDB() // 初始化数据库句柄
+
+	// 爬取赛事信息
+	c := colly.NewCollector(
+		// 允许重复访问
+		colly.AllowURLRevisit())
+
+	c.OnRequest(func(r *colly.Request) {
+		//反爬虫，通过随机改变 user-agent,
+		r.Headers.Set("User-Agent", utils.RandomString())
+	})
+
+	//爬取赛事和赛果网页数据
+	c.OnHTML("div.match-page", func(e *colly.HTMLElement) {
+		content, _ := e.DOM.Html()
+		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
+		ParseMatchDetail(dom)
+	})
+
+	c.OnResponse(func(r *colly.Response) {
+		fmt.Println("Visited ", r.Request.URL.String())
+	})
+
+	c.Visit(matchUrl)
 }
 
 func operateLivingMatches(DB *gorm.DB, matches []model.Match) {
