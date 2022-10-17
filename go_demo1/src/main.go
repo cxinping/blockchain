@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"go_demo1/src/aaa/common"
-	"go_demo1/src/aaa/config"
 	"go_demo1/src/aaa/http2"
+	"go_demo1/src/hltv/logger"
 	"go_demo1/src/hltv/spider"
 	"go_demo1/src/hltv/task"
 	"strconv"
@@ -141,7 +141,8 @@ func msToTime(ms string) (time.Time, error) {
 }
 
 func testConfig() {
-	config.TestConfig1()
+	//config.TestConfig1()
+	logger.TestLog()
 }
 
 func main() {
@@ -158,5 +159,5 @@ func main() {
 	//test_task()
 	//common.TestDelay()
 
-	testConfig()
+	//testConfig()
 }

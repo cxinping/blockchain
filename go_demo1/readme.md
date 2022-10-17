@@ -75,3 +75,8 @@ go get github.com/go-basic/uuid
 
 ```
 
+
+```azure
+golang之flag.String
+
+```
