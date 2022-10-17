@@ -14,6 +14,8 @@ import (
 )
 
 func CrawlMatches() (err error) {
+	DB := config.GetDB() // 初始化数据库句柄
+
 	// 爬取赛事信息
 	c := colly.NewCollector(
 		// 允许重复访问
@@ -29,8 +31,6 @@ func CrawlMatches() (err error) {
 	c.OnResponse(func(r *colly.Response) {
 		bodyData := string(r.Body)
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(bodyData))
-		// 初始化数据库句柄
-		DB := config.GetDB()
 
 		toursResultSet := OperateTournament(dom) // 处理赛事数据
 		operateTournaments(DB, toursResultSet)
@@ -61,6 +61,9 @@ func operateLivingMatches(DB *gorm.DB, matches []model.Match) {
 				match.MatchBizId = utils.GenerateModuleBizID("MH")
 				match.CreatedTime = time.Now()
 				match.Status = parameter.MATCH_STATUS_LIVE
+				var queryTour = model.Tournament{}
+				DB.Where("tt_name = ?", match.TtName).Find(&queryTour)
+				match.TtBizId = queryTour.TtBizId
 				//fmt.Println(idx, match.TT_name)
 				match.Insert(DB)
 			}
@@ -82,6 +85,9 @@ func operateUpcomingMatches(DB *gorm.DB, matches []model.Match) {
 				match.MatchBizId = utils.GenerateModuleBizID("MH")
 				match.CreatedTime = time.Now()
 				match.Status = parameter.MATCH_STATUS_UNSTARTED
+				var queryTour = model.Tournament{}
+				DB.Where("tt_name = ?", match.TtName).Find(&queryTour)
+				match.TtBizId = queryTour.TtBizId
 				//fmt.Println(idx, match.TT_name)
 				match.Insert(DB)
 			}

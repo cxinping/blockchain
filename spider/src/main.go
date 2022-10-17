@@ -5,7 +5,6 @@ import (
 	"github.com/spf13/viper"
 	"spider/src/config"
 	"spider/src/crawl"
-	"spider/src/task"
 )
 
 func main() {
@@ -17,6 +16,6 @@ func main() {
 
 	crawl.CrawlMatches() //爬取赛事和比赛数据
 
-	task.ExecTasks() //执行调度任务
+	//task.ExecTasks() //执行调度任务
 
 }
