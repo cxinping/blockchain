@@ -56,14 +56,13 @@ func test_http() {
 	//http.Example2()
 	//http.Example3()
 
-	//http2.Example1()
-	http2.Example2()
+	http2.Example1()
+	//http2.Example2()
 
 }
 
 func test_crawl() {
 	spider.CrawlMatches()
-
 }
 
 func test_timeunix() {
