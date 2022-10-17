@@ -29,6 +29,8 @@ func CrawlMatches() (err error) {
 	})
 
 	c.OnResponse(func(r *colly.Response) {
+		//fmt.Println("Visited ", r.Request.URL.String())
+
 		bodyData := string(r.Body)
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(bodyData))
 
@@ -41,7 +43,6 @@ func CrawlMatches() (err error) {
 
 		matchResultSet = OperateUpcomingMatch(dom) // 处理将要进行的赛果/赛程的数据
 		operateUpcomingMatches(DB, matchResultSet)
-
 	})
 
 	err = c.Visit(parameter.TT_MATCH_URL)
@@ -67,7 +68,6 @@ func operateLivingMatches(DB *gorm.DB, matches []model.Match) {
 				//fmt.Println(idx, match.TT_name)
 				match.Insert(DB)
 			}
-
 		}
 	}
 }
@@ -107,8 +107,6 @@ func operateTournaments(DB *gorm.DB, tts []model.Tournament) {
 				tour.CreatedTime = time.Now()
 				tour.Insert(DB)
 			}
-
 		}
 	}
-
 }

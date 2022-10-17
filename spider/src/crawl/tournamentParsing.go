@@ -12,8 +12,8 @@ import (
 
 func OperateTournament(dom *goquery.Document) []model.Tournament {
 	// 处理赛事数据
-	fmt.Println("--- OperateTournament --- ")
-	tourResultSet := make([]model.Tournament, 0, 10)
+	//fmt.Println("--- OperateTournament --- ")
+	tourResultSet := make([]model.Tournament, 0)
 	//fmt.Println(tourResultSet, dom)
 
 	eventDom := dom.Find("div[class='events-container']")
@@ -59,7 +59,7 @@ func OperateTournament(dom *goquery.Document) []model.Tournament {
 
 func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 	// 处理将要比赛的数据
-	matchResultSet := make([]model.Match, 0, 10)
+	matchResultSet := make([]model.Match, 0)
 
 	dom.Find(".upcomingMatchesSection").Each(func(idx int, selection *goquery.Selection) {
 		match := model.Match{}
@@ -137,7 +137,7 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 func OperateLivingMatch(dom *goquery.Document) []model.Match {
 	// 处理正在比赛的数据
 	liveMatchSectionDom := dom.Find(".liveMatchesSection")
-	matchResultSet := make([]model.Match, 0, 10)
+	matchResultSet := make([]model.Match, 0)
 
 	if liveMatchSectionDom != nil {
 		// 赛事名称
