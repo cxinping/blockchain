@@ -19,7 +19,7 @@ func ExecTasks() {
 	// 定时执行调度任务
 
 	// 查询比赛列表修改状态
-	fmt.Println("* 查询比赛列表修改状态")
+	fmt.Println("* 查询比赛列表修改状态 ", time.Now().Format("2006-01-02 15:04:05"))
 	Cron.AddJob("@every 5s", MyJob(func() {
 		fmt.Println("myjob")
 	}))
