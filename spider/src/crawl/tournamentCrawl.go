@@ -56,7 +56,7 @@ func operateLivingMatches(DB *gorm.DB, matches []model.Match) {
 			match.CreatedTime = time.Now()
 			match.Status = parameter.MATCH_STATUS_LIVE
 			//fmt.Println(idx, match)
-			//match.Insert(DB)
+			match.Insert(DB)
 		}
 	}
 }
