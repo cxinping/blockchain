@@ -57,7 +57,7 @@ func test_http() {
 	//http.Example3()
 
 	//http2.Example1()
-	http2.Example2()
+	http2.Example1()
 
 }
 
@@ -148,13 +148,14 @@ func testConfig() {
 func main() {
 	//test1()
 	//test_db()
-	//test_http()
+
 	//test_split()
 
 	//test_timeunix()
 	//rst, _ := msToTime("1665844800000")
 	//fmt.Printf("%v, %T", rst, rst)
 
+	test_http()
 	//test_crawl()
 	//test_task()
 	//common.TestDelay()
