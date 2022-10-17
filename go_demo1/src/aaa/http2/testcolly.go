@@ -76,15 +76,14 @@ func Example3() {
 	})
 
 	c.OnResponse(func(r *colly.Response) {
-		fmt.Println("获得响应后调用:OnResponse")
-
+		//fmt.Println("获得响应后调用:OnResponse")
+		fmt.Println("Visited ", r.Request.URL.String())
 		bodyData := string(r.Body)
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(bodyData))
 		siderDom := dom.Find(".sidebar-link").Eq(3)
 		fmt.Println(siderDom)
 		href, _ := siderDom.Attr("href")
 		fmt.Println("href=> ", href)
-		fmt.Println("Visited", r.Request.URL)
 		fmt.Println("")
 		link := "https://gorm.io/zh_CN/docs/query.html"
 		c.Visit(link)
