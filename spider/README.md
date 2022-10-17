@@ -27,8 +27,12 @@ curl https://www.hltv.org/matches | grep 'events-container'
 curl https://www.hltv.org/matches | grep 'event'
 ```
 
+爬取页面
+```
 
-
+https://www.hltv.org/results?offset=70825
+    
+```
 
 
 
