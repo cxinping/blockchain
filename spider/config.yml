@@ -1,0 +1,10 @@
+# mysql配置项
+db:
+  driver: mysql
+  host: 192.168.11.12
+  port: 3306
+  user: root
+  pass: 123456
+  dbname: hltv
+  charset: utf8mb4
+  timeout: 10s

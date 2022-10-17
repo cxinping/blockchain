@@ -15,6 +15,9 @@ go get -u gorm.io/driver/mysql
 
 创建UUID的模块
 go get github.com/go-basic/uuid
+
+viper配置
+go get github.com/spf13/viper
 ```
 
 查询赛事
