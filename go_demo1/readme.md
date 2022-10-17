@@ -41,6 +41,12 @@ https://www.jianshu.com/p/12c9cb7dc013
 https://mp.weixin.qq.com/s/Ak7RBv1NuS-VBeDNo8_fww
 ```
 
+viper配置
+```
+go get github.com/spf13/viper
+
+```
+
 爬虫资料
 ```
 golang goquery selector(选择器) 示例大全
