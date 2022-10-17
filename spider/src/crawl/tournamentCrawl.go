@@ -35,12 +35,12 @@ func CrawlMatches() (err error) {
 		toursResultSet := OperateTournament(dom) // 处理赛事数据
 		operateTournaments(DB, toursResultSet)
 
-		//var matchResultSet []model.Match
-		//matchResultSet = OperateLivingMatch(dom) // 处理正在进行的赛果/赛程的数据
-		//operateLivingMatches(DB, matchResultSet)
-		//
-		//matchResultSet = OperateUpcomingMatch(dom) // 处理将要进行的赛果/赛程的数据
-		//operateUpcomingMatches(DB, matchResultSet)
+		var matchResultSet []model.Match
+		matchResultSet = OperateLivingMatch(dom) // 处理正在进行的赛果/赛程的数据
+		operateLivingMatches(DB, matchResultSet)
+
+		matchResultSet = OperateUpcomingMatch(dom) // 处理将要进行的赛果/赛程的数据
+		operateUpcomingMatches(DB, matchResultSet)
 
 	})
 
@@ -51,12 +51,20 @@ func CrawlMatches() (err error) {
 func operateLivingMatches(DB *gorm.DB, matches []model.Match) {
 	// 批量保存正在比赛的Match
 	if matches != nil {
+		var count int
+
 		for _, match := range matches {
-			match.MatchBizId = utils.GenerateModuleBizID("MH")
-			match.CreatedTime = time.Now()
-			match.Status = parameter.MATCH_STATUS_LIVE
-			//fmt.Println(idx, match)
-			match.Insert(DB)
+			// 多次爬取网页数据时，避免插入重复数据
+			DB.Model(&model.Match{}).Where("tt_name = ? AND team1_name = ? AND team2_name = ?", match.TtName, match.Team1Name, match.Team2Name).Count(&count)
+
+			if count == 0 {
+				match.MatchBizId = utils.GenerateModuleBizID("MH")
+				match.CreatedTime = time.Now()
+				match.Status = parameter.MATCH_STATUS_LIVE
+				//fmt.Println(idx, match.TT_name)
+				match.Insert(DB)
+			}
+
 		}
 	}
 }
@@ -64,12 +72,19 @@ func operateLivingMatches(DB *gorm.DB, matches []model.Match) {
 func operateUpcomingMatches(DB *gorm.DB, matches []model.Match) {
 	// 批量保存将要进行的比赛的Match
 	if matches != nil {
+		var count int
+
 		for _, match := range matches {
-			match.MatchBizId = utils.GenerateModuleBizID("MH")
-			match.CreatedTime = time.Now()
-			match.Status = parameter.MATCH_STATUS_NOT_STARTED
-			//fmt.Println(idx, match.TT_name)
-			match.Insert(DB)
+			// 多次爬取网页数据时，避免插入重复数据
+			DB.Model(&model.Match{}).Where("tt_name = ? AND team1_name = ? AND team2_name = ?", match.TtName, match.Team1Name, match.Team2Name).Count(&count)
+
+			if count == 0 {
+				match.MatchBizId = utils.GenerateModuleBizID("MH")
+				match.CreatedTime = time.Now()
+				match.Status = parameter.MATCH_STATUS_UNSTARTED
+				//fmt.Println(idx, match.TT_name)
+				match.Insert(DB)
+			}
 		}
 	}
 }
