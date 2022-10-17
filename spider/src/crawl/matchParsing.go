@@ -1,17 +1,18 @@
 package crawl
 
 import (
-	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"spider/src/model"
 	"spider/src/utils"
 	"spider/src/utils/parameter"
+	"strconv"
 	"strings"
+	"time"
 )
 
-func ParseMatchDetail(dom *goquery.Document) (string, model.Team, model.Team) {
+func ParseMatchDetail(dom *goquery.Document) (time.Time, string, model.Team, model.Team) {
 	//解析比赛网页数据, 抓取战队数据
-	fmt.Println("*** OperateMatchDetail ***")
+	//fmt.Println("*** OperateMatchDetail ***")
 
 	var team1 model.Team
 	var team2 model.Team
@@ -31,7 +32,6 @@ func ParseMatchDetail(dom *goquery.Document) (string, model.Team, model.Team) {
 	//fmt.Println("team1Name=", team1Name, ", team2Name=", team2Name)
 	//fmt.Println("team1Pic=", team1Pic)
 	//fmt.Println("team2Pic=", team2Pic)
-	// https://www.hltv.org/team/11915/flames-ascent
 	//fmt.Println("team1Url=", parameter.HLTV_INDEX+team1Url)
 	//fmt.Println("team2Url=", parameter.HLTV_INDEX+team2Url)
 
@@ -52,6 +52,13 @@ func ParseMatchDetail(dom *goquery.Document) (string, model.Team, model.Team) {
 	} else {
 		matchModeStr = parameter.MATCH_MODE_LAN
 	}
+	matchDateUnixStr, _ := dom.Find("div[class='timeAndEvent']").Find("div[class='countdown']").Attr("data-unix")
+	matchDateUnixInt, _ := strconv.ParseInt(matchDateUnixStr, 10, 64)
+	matchDateUnixInt = int64(matchDateUnixInt) / 1000
+	matchTime := time.Unix(matchDateUnixInt, 0)
+
+	//fmt.Println("* matchDateUnixStr=", matchDateUnixStr)
+	//fmt.Println("matchTime=", matchTime)
 
 	// 战队1的所有队员
 	player1Dom := dom.Find("div[class='lineup standard-box']").Eq(0)
@@ -82,10 +89,10 @@ func ParseMatchDetail(dom *goquery.Document) (string, model.Team, model.Team) {
 		player.PlayerPic = playerPic
 		player.NationPic = nationPic
 		player.Name = playerName
-		fmt.Println("idx=", idx, ", playerPic=", playerPic, ",playerName=", playerName, ",nationPic=", nationPic)
+		//fmt.Println("idx=", idx, ", playerPic=", playerPic, ",playerName=", playerName, ",nationPic=", nationPic)
 		play2ResultSet = append(play2ResultSet, player)
 	})
 	team2.Players = play2ResultSet
 
-	return matchModeStr, team1, team2
+	return matchTime, matchModeStr, team1, team2
 }

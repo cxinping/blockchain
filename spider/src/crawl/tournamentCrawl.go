@@ -65,7 +65,7 @@ func CrawlTournamentWeb() (err error) {
 
 // 爬取比赛网页数据
 func CrawlMatcheWeb(matchUrl string) {
-	//DB := config.GetDB() // 初始化数据库句柄
+	DB := config.GetDB() // 初始化数据库句柄
 
 	// 爬取赛事信息
 	c := colly.NewCollector(
@@ -81,7 +81,12 @@ func CrawlMatcheWeb(matchUrl string) {
 	c.OnHTML("div.match-page", func(e *colly.HTMLElement) {
 		content, _ := e.DOM.Html()
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
-		ParseMatchDetail(dom)
+
+		matchTime, matchModeStr, team1, team2 := ParseMatchDetail(dom)
+		//fmt.Println(matchModeStr)
+		//fmt.Println(team1)
+		//fmt.Println(team2)
+		operateMatchDetail(DB, matchTime, matchUrl, matchModeStr, team1, team2)
 	})
 
 	c.OnResponse(func(r *colly.Response) {
@@ -89,6 +94,19 @@ func CrawlMatcheWeb(matchUrl string) {
 	})
 
 	c.Visit(matchUrl)
+}
+
+func operateMatchDetail(DB *gorm.DB, matchTime time.Time, matchUrl string, matchModeStr string, team1 model.Team, team2 model.Team) {
+	//处理比赛详细数据
+	var match = model.Match{}
+	DB.Where("match_url = ?", matchUrl).Find(&match)
+
+	if match.Status == parameter.MATCH_STATUS_LIVE {
+		DB.Debug().Model(&match).Updates(model.Match{Mode: matchModeStr, MatchTime: matchTime}) // 需要更新比赛时间？？？？？？？？？？
+	} else if match.Status == parameter.MATCH_STATUS_UNSTARTED {
+		DB.Model(&match).Updates(model.Match{Mode: matchModeStr})
+	}
+
 }
 
 func operateLivingMatches(DB *gorm.DB, matches []model.Match) {
