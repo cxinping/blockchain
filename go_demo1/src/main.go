@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"go_demo1/src/aaa/common"
+	"go_demo1/src/aaa/config"
 	"go_demo1/src/aaa/http2"
 	"go_demo1/src/hltv/spider"
 	"go_demo1/src/hltv/task"
@@ -139,10 +140,14 @@ func msToTime(ms string) (time.Time, error) {
 	return tm, nil
 }
 
+func testConfig() {
+	config.TestConfig1()
+}
+
 func main() {
 	//test1()
 	//test_db()
-	test_http()
+	//test_http()
 	//test_split()
 
 	//test_timeunix()
@@ -152,4 +157,6 @@ func main() {
 	//test_crawl()
 	//test_task()
 	//common.TestDelay()
+
+	testConfig()
 }
