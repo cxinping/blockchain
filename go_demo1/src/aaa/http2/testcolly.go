@@ -11,8 +11,10 @@ func Example1() {
 	// selector goquery name id class
 	c.OnHTML(".sidebar-link", func(e *colly.HTMLElement) {
 		e.Request.Visit(e.Attr("href"))
-		//ret, _ := e.DOM.Html()
-		//fmt.Println("ret-> ", ret)
+		content, _ := e.DOM.Html()
+		link := e.Attr("href")
+		link = "https://gorm.io/zh_CN/docs/" + link
+		fmt.Println("content=", content, link)
 	})
 
 	c.OnRequest(func(r *colly.Request) {
@@ -30,15 +32,14 @@ func Example2() {
 	c.OnHTML(".sidebar-link", func(e *colly.HTMLElement) {
 		//e.Request.Visit(e.Attr("href"))
 		link := e.Attr("href")
+		link = "https://gorm.io/zh_CN/docs/" + link
 		fmt.Printf("Link found: %q -> %s\n", e.Text, "https://gorm.io/zh_CN/docs/"+link)
 		c.Visit(e.Request.AbsoluteURL(link))
 	})
 
 	c.OnRequest(func(r *colly.Request) {
-		fmt.Println("Visiting", r.URL.String())
-
+		fmt.Println("访问网页 ", r.URL.String())
 	})
 
-	// Start scraping on https://hackerspaces.org
 	c.Visit("https://gorm.io/zh_CN/docs")
 }

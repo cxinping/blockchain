@@ -57,7 +57,7 @@ func test_http() {
 	//http.Example3()
 
 	//http2.Example1()
-	http2.Example1()
+	http2.Example2()
 
 }
 
