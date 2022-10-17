@@ -56,10 +56,13 @@ func ParseMatchDetail(dom *goquery.Document) (string, []model.Team, []model.Play
 	fmt.Println("player1Dom=", player1Dom)
 
 	player1Dom.Find("td[class='player player-image']").Each(func(idx int, tdSel *goquery.Selection) {
-
 		player := model.Player{}
 		playerPic, _ := tdSel.Find("img").Attr("src")
-		fmt.Println("idx=", idx, ", playerPic=", playerPic)
+		playerTdDom := player1Dom.Find("td[class='player']").Eq(idx)
+		playerName := playerTdDom.Find("div[class='text-ellipsis']").Text()
+		nationPic, _ := playerTdDom.Find("img").Attr("src")
+		player.PlayerPic = playerPic
+		fmt.Println("idx=", idx, ", playerPic=", playerPic, ",playerName=", playerName, ",nationPic=", nationPic)
 
 		playResultSet = append(playResultSet, player)
 	})
