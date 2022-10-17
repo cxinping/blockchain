@@ -33,14 +33,14 @@ func CrawlMatches() (err error) {
 		DB := config.GetDB()
 
 		toursResultSet := OperateTournament(dom) // 处理赛事数据
-		saveTournaments(DB, toursResultSet)
+		operateTournaments(DB, toursResultSet)
 
-		var matchResultSet []model.Match
-		matchResultSet = OperateLivingMatch(dom) // 处理正在进行的赛果/赛程的数据
-		saveLivingMatches(DB, matchResultSet)
-
-		matchResultSet = OperateUpcomingMatch(dom) // 处理将要进行的赛果/赛程的数据
-		saveUpcomingMatches(DB, matchResultSet)
+		//var matchResultSet []model.Match
+		//matchResultSet = OperateLivingMatch(dom) // 处理正在进行的赛果/赛程的数据
+		//operateLivingMatches(DB, matchResultSet)
+		//
+		//matchResultSet = OperateUpcomingMatch(dom) // 处理将要进行的赛果/赛程的数据
+		//operateUpcomingMatches(DB, matchResultSet)
 
 	})
 
@@ -48,7 +48,7 @@ func CrawlMatches() (err error) {
 	return err
 }
 
-func saveLivingMatches(DB *gorm.DB, matches []model.Match) {
+func operateLivingMatches(DB *gorm.DB, matches []model.Match) {
 	// 批量保存正在比赛的Match
 	if matches != nil {
 		for _, match := range matches {
@@ -56,12 +56,12 @@ func saveLivingMatches(DB *gorm.DB, matches []model.Match) {
 			match.CreatedTime = time.Now()
 			match.Status = parameter.MATCH_STATUS_LIVE
 			//fmt.Println(idx, match)
-			match.Insert(DB)
+			//match.Insert(DB)
 		}
 	}
 }
 
-func saveUpcomingMatches(DB *gorm.DB, matches []model.Match) {
+func operateUpcomingMatches(DB *gorm.DB, matches []model.Match) {
 	// 批量保存将要进行的比赛的Match
 	if matches != nil {
 		for _, match := range matches {
@@ -74,13 +74,20 @@ func saveUpcomingMatches(DB *gorm.DB, matches []model.Match) {
 	}
 }
 
-func saveTournaments(DB *gorm.DB, tts []model.Tournament) {
+func operateTournaments(DB *gorm.DB, tts []model.Tournament) {
 	// 批量保存赛事Tournament
 	if tts != nil {
 		for _, tour := range tts {
-			tour.TtBizId = utils.GenerateModuleBizID("TT")
-			tour.CreatedTime = time.Now()
-			tour.Insert(DB)
+			// 多次爬取网页数据时，避免插入重复数据
+			var queryTour = model.Tournament{}
+			DB.Where("tt_name = ?", tour.TtName).Find(&queryTour)
+			if queryTour.TtName != tour.TtName {
+				tour.TtBizId = utils.GenerateModuleBizID("TT")
+				tour.CreatedTime = time.Now()
+				tour.Insert(DB)
+			}
+
 		}
 	}
+
 }
