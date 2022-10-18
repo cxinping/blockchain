@@ -40,6 +40,11 @@ func CrawlTeam(teamUrl string) {
 
 	})
 
+	// 异常处理
+	c.OnError(func(r *colly.Response, err error) {
+		fmt.Println("Request URL:", r.Request.URL, "failed with response:", r, "\nError:", err)
+	})
+
 	c.OnResponse(func(r *colly.Response) {
 		fmt.Println("访问战队网页 Visited ", r.Request.URL.String())
 	})
