@@ -1,7 +1,6 @@
 package crawl
 
 import (
-	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"spider/src/model"
 	"spider/src/utils"
@@ -25,13 +24,17 @@ func ParseMatchTeamPlayer(dom *goquery.Document) model.Player {
 	currentTeamPic, _ := playerContainerDom.Find("div[class='playerTeam']").Find("span[class='listRight']").Find("img").Attr("src")
 	currentTeamName := playerContainerDom.Find("div[class='playerTeam']").Find("span[class='listRight']").Find("a").Text()
 
+	// 比赛的游戏指标
+	rating2 := dom.Find("div[class='g-grid stats-matches']").Find("div[class='player-stat']").Eq(0).Find("span").Text()
+
 	//fmt.Println("playerPic=", playerPic)
 	//fmt.Println("nickName=", nickName)
 	//fmt.Println("nationPic=", nationPic)
 	//fmt.Println("nationName=", nationName)
 	//fmt.Printf("age=[%v],%T\n", age, age)
-	fmt.Printf("currentTeamPic=[%v],%T\n", currentTeamPic, currentTeamPic)
-	fmt.Printf("currentTeamName=[%v],%T\n", currentTeamName, currentTeamName)
+	//fmt.Printf("currentTeamPic=[%v],%T\n", currentTeamPic, currentTeamPic)
+	//fmt.Printf("currentTeamName=[%v],%T\n", currentTeamName, currentTeamName)
+	//fmt.Printf("rating2=[%v],%T\n", rating2, rating2)
 
 	player.PlayerPic = playerPic
 	player.NickName = utils.CompressString(nickName)
@@ -40,6 +43,7 @@ func ParseMatchTeamPlayer(dom *goquery.Document) model.Player {
 	player.PlayerAge = uint8(age)
 	player.CurrentTeamName = utils.CompressString(currentTeamName)
 	player.CurrentTeamPic = currentTeamPic
+	player.Rating2 = rating2
 
 	return player
 }

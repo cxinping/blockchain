@@ -38,5 +38,8 @@ func CrawlPlayer(playerUrl string) {
 }
 
 func OperatePlayer(DB *gorm.DB, player model.Player) {
+	// 处理战队的队员数据
+
+	fmt.Println(player)
 
 }

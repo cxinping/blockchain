@@ -29,8 +29,7 @@ func CrawlTeam(teamUrl string) {
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
 		team := ParseMatchTeam(dom)
 		team.TeamUrl = teamUrl
-		operateMatchTeam(DB, team)
-
+		OperateMatchTeam(DB, team)
 	})
 
 	c.OnResponse(func(r *colly.Response) {
@@ -40,7 +39,7 @@ func CrawlTeam(teamUrl string) {
 	c.Visit(teamUrl)
 }
 
-func operateMatchTeam(DB *gorm.DB, team model.Team) {
+func OperateMatchTeam(DB *gorm.DB, team model.Team) {
 	// 处理比赛战队
 	var count int = 0
 	DB.Model(&model.Team{}).Where("team_name = ?", team.TeamName).Count(&count)
