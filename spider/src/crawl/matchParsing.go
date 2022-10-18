@@ -35,11 +35,11 @@ func ParseMatchDetail(dom *goquery.Document) (time.Time, string, string, model.T
 	//fmt.Println("team1Url=", parameter.HLTV_INDEX+team1Url)
 	//fmt.Println("team2Url=", parameter.HLTV_INDEX+team2Url)
 
-	team1.TeamName = team1Name
+	team1.TeamName = utils.CompressString(team1Name)
 	team1.TeamPic = team1Pic
 	team1.TeamUrl = parameter.HLTV_INDEX + team1Url
 
-	team2.TeamName = team2Name
+	team2.TeamName = utils.CompressString(team2Name)
 	team2.TeamPic = team2Pic
 	team2.TeamUrl = parameter.HLTV_INDEX + team2Url
 
@@ -80,7 +80,7 @@ func ParseMatchDetail(dom *goquery.Document) (time.Time, string, string, model.T
 		nationPic = parameter.HLTV_INDEX + nationPic
 		player.PlayerPic = playerPic
 		player.NationPic = nationPic
-		player.NickName = playerName
+		player.NickName = utils.CompressString(playerName)
 		//fmt.Println("idx=", idx, ", playerPic=", playerPic, ",playerName=", playerName, ",nationPic=", nationPic)
 		play1ResultSet = append(play1ResultSet, player)
 	})
@@ -97,7 +97,7 @@ func ParseMatchDetail(dom *goquery.Document) (time.Time, string, string, model.T
 		nationPic = parameter.HLTV_INDEX + nationPic
 		player.PlayerPic = playerPic
 		player.NationPic = nationPic
-		player.NickName = playerName
+		player.NickName = utils.CompressString(playerName)
 		//fmt.Println("idx=", idx, ", playerPic=", playerPic, ",playerName=", playerName, ",nationPic=", nationPic)
 		play2ResultSet = append(play2ResultSet, player)
 	})

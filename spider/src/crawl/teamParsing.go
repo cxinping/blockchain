@@ -30,12 +30,12 @@ func ParseMatchTeam(dom *goquery.Document) model.Team {
 	nationPic, _ := profileTopDom.Find("div[class='profile-team-info']").Find("div[class='team-country text-ellipsis']").Find("img").Attr("src")
 	nationPic = parameter.HLTV_INDEX + nationPic
 
-	team.TeamName = teamName
+	team.TeamName = utils.CompressString(teamName)
 	team.WorldRanking = uint16(worldRanking)
 	team.AveragePlayerAge = float32(averagePlayerAge)
-	team.CoatchName = coatchName
+	team.CoatchName = utils.CompressString(coatchName)
 	team.TeamPic = teamPic
-	team.NationName = nationName
+	team.NationName = utils.CompressString(nationName)
 	team.NationPic = nationPic
 
 	//fmt.Println("teamPic=", teamPic)
@@ -54,11 +54,11 @@ func ParseMatchTeam(dom *goquery.Document) model.Team {
 		playerPic, _ := selection.Find("img").Attr("src")
 		playerName := selection.Find("div[class='playerFlagName']").Find("span[class='text-ellipsis bold']").Text()
 		player.PlayerPic = playerPic
-		player.NickName = playerName
+		player.NickName = utils.CompressString(playerName)
 		nationPic, _ := selection.Find("span[class='gtSmartphone-only']").Find("img").Attr("src")
 		nationPic = parameter.HLTV_INDEX + nationPic
 		player.NationPic = nationPic
-		player.CurrentTeam = teamName
+		player.CurrentTeam = utils.CompressString(teamName)
 		//fmt.Println(idx, playerName, nationPic)
 		playerResultSet = append(playerResultSet, player)
 	})

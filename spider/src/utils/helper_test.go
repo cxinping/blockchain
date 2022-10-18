@@ -23,3 +23,9 @@ func TestMsToTime(t *testing.T) {
 	tm, _ := MsToTime("1665844800000")
 	fmt.Println(tm.Format("2006-02-01 15:04:05.000"))
 }
+
+func TestCompressString(t *testing.T) {
+	str := " aaa bbb 111"
+	str = CompressString(str)
+	fmt.Printf("[%v],%T\n", str, str)
+}

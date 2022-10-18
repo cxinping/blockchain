@@ -27,7 +27,7 @@ func OperateTournament(dom *goquery.Document) []model.Tournament {
 
 		if eventName != "" {
 			tour.TtUrl = ttUrl
-			tour.TtName = eventName
+			tour.TtName = utils.CompressString(eventName)
 			tour.TtPic = eventPic
 			tourResultSet = append(tourResultSet, tour)
 		}
@@ -44,7 +44,7 @@ func OperateTournament(dom *goquery.Document) []model.Tournament {
 
 		if eventName != "" {
 			tour.TtUrl = ttUrl
-			tour.TtName = eventName
+			tour.TtName = utils.CompressString(eventName)
 			tour.TtPic = eventPic
 			tourResultSet = append(tourResultSet, tour)
 		}
@@ -112,7 +112,7 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 				//fmt.Println("")
 
 				match.MatchTime = matchTime
-				match.TtName = tt_name
+				match.TtName = utils.CompressString(tt_name)
 				match.TtPic = tt_pic
 				match.Desc = "section-" + strconv.Itoa(idx+1)
 				match.MapType = mapType
@@ -148,7 +148,7 @@ func OperateLivingMatch(dom *goquery.Document) []model.Match {
 			match.MatchUrl = parameter.HLTV_INDEX + match_url
 			fmt.Println("\t正在比赛的地址=> ", "https://www.hltv.org"+match_url)
 			tt_name := selection.Find("div[class='matchEventName gtSmartphone-only']").Text()
-			match.TtName = tt_name
+			match.TtName = utils.CompressString(tt_name)
 			fmt.Println("\t赛事名字=>", tt_name)
 			ttPic, _ := selection.Find(".matchEventLogoContainer").Find("img").Attr("src")
 			match.TtPic = ttPic
