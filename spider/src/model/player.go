@@ -25,6 +25,7 @@ type Player struct {
 	Adr         string
 	Kpr         string
 	JobStatus   string
+	TeamBizId   string `gorm:"size:50;not null;default:'';comment:'队员所属战队的业务id'"`
 	CreatedTime time.Time
 }
 

@@ -60,11 +60,17 @@ func operateMatchTeam(DB *gorm.DB, team model.Team) {
 	//fmt.Println(queryTeam.TeamBizId)
 
 	if len(team.Players) > 0 {
-		for idx, player := range team.Players {
+		for _, player := range team.Players {
 			count = 0
 			DB.Model(&model.Player{}).Where("name = ?", player.Name).Count(&count)
-			fmt.Println(idx, player.Name, count)
+			//fmt.Println(player.Name, count)
 
+			if count == 0 {
+				player.TeamBizId = team.TeamBizId
+				player.PlayerBizId = utils.GenerateModuleBizID("PR")
+				player.CreatedTime = time.Now()
+				player.Insert(DB)
+			}
 		}
 	}
 
