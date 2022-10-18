@@ -49,31 +49,18 @@ func ParseMatchPageOffset(dom *goquery.Document) []string {
 	return requestUrls
 }
 
-func ParseMatchResult(dom *goquery.Document) {
+func ParseMatchResult(dom *goquery.Document) []string {
 	// 解析分页的比赛结果的网页数据
-	//requestUrls := make([]string, 0)
-	fmt.Println("ParseMatchResult dom ==>   ", dom.Find("div[class='results-all']"))
-
+	matchUrls := make([]string, 0)
 	resultsDom := dom.Find("div[class='results-all']")
 	resultsDom.Find("div[class='results-sublist']").Each(func(idx int, selection *goquery.Selection) {
-		fmt.Println("111 section idx=", idx+1)
-		//selection.Find("div[class='result-con']").Each(func(idx int, itemSel *goquery.Selection) {
-		//	fmt.Println("\tidx=>", idx+1)
-		//})
+		// https://www.hltv.org/results
+		title := selection.Find("div[class='standard-headline']").Text()
+		fmt.Println("section idx=", idx+1, ", title=", title)
 
 	})
 
-	//dom.Find("div.results-sublist").Each(func(idx int, selection *goquery.Selection) {
-	//	//matchUrl, _ := selection.Find("a").Attr("src")
-	//	//fmt.Println("matchUrl=", matchUrl)
-	//	fmt.Println("222 section idx=", idx, selection)
-	//
-	//	selection.Find("div[class='result-con']").Each(func(idx int, itemSel *goquery.Selection) {
-	//		fmt.Println("\titem idx=>", idx)
-	//	})
-	//
-	//})
-
+	return matchUrls
 }
 
 func ParseMatchDetail(dom *goquery.Document) (time.Time, string, string, model.Team, model.Team) {
