@@ -61,7 +61,11 @@ func ParseMatchTeam(dom *goquery.Document) model.Team {
 		player.CurrentTeamName = utils.CompressString(teamName)
 		player.CurrentTeamPic = teamPic
 		//fmt.Println(idx, playerName, nationPic)
-		playerResultSet = append(playerResultSet, player)
+
+		if playerUrl != "" {
+			playerResultSet = append(playerResultSet, player)
+		}
+
 	})
 	team.Players = playerResultSet
 

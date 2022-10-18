@@ -35,13 +35,16 @@ func CrawlMatcheWeb(matchUrl string) {
 		matchTime, matchMode, matchStatus, team1, team2 := ParseMatchDetail(dom)
 		//fmt.Println("matchTime=", matchTime)
 		//fmt.Println("matchModeStr=", matchModeStr)
-		//fmt.Println(team1)
+		//fmt.Println("team1.TeamUrl=", team1.TeamUrl)
 		//fmt.Println(team2)
 		operateMatchDetail(DB, matchUrl, matchTime, matchMode, matchStatus, team1, team2)
+
+		CrawlTeam(team1.TeamUrl)
+		CrawlTeam(team2.TeamUrl)
 	})
 
 	c.OnResponse(func(r *colly.Response) {
-		fmt.Println("Visited ", r.Request.URL.String())
+		fmt.Println("访问比赛网页 Visited ", r.Request.URL.String())
 	})
 
 	c.Visit(matchUrl)

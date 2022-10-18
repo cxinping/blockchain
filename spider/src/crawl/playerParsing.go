@@ -14,6 +14,10 @@ func ParseMatchTeamPlayer(dom *goquery.Document) model.Player {
 	var player model.Player
 	playerContainerDom := dom.Find("div[class='playerContainer']")
 	playerPic, _ := playerContainerDom.Find("img").Eq(1).Attr("src")
+	if strings.Index(playerPic, "https://") == -1 {
+		playerPic = parameter.HLTV_INDEX + playerPic
+	}
+
 	nickName := playerContainerDom.Find("h1[class='playerNickname']").Text()
 	nationPic, _ := playerContainerDom.Find("div[class='playerRealname']").Find("img").Attr("src")
 	nationPic = parameter.HLTV_INDEX + nationPic
