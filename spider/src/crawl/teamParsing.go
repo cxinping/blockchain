@@ -26,7 +26,6 @@ func ParseMatchTeam(dom *goquery.Document) model.Team {
 		nationPic, _ := selection.Find("span[class='gtSmartphone-only']").Find("img").Attr("src")
 		nationPic = parameter.HLTV_INDEX + nationPic
 		player.NationPic = nationPic
-
 		//fmt.Println(idx, playerName, nationPic)
 		playerResultSet = append(playerResultSet, player)
 	})

@@ -18,14 +18,14 @@ func TestCrawlMatcheWeb(t *testing.T) {
 	t.Log("*** 开始解析比赛的网页 ***")
 	matchUrl := "https://www.hltv.org/matches/2359684/havu-vs-ikla-cct-north-europe-series-1"
 	CrawlMatcheWeb(matchUrl)
-
 }
 
 func TestCrawlTeam(t *testing.T) {
 	t.Log("*** 开始解析战队的网页 ***")
-	matchUrl := "https://www.hltv.org/team/7865/havu"
+	// https://www.hltv.org/team/7865/havu
+	// https://www.hltv.org/team/11982/ikla
+	matchUrl := "https://www.hltv.org/team/11982/ikla"
 	CrawlTeam(matchUrl)
-
 }
 
 func TestCrawlPlayer(t *testing.T) {

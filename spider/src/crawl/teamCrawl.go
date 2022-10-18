@@ -42,16 +42,30 @@ func CrawlTeam(teamUrl string) {
 
 func operateMatchTeam(DB *gorm.DB, team model.Team) {
 	// 处理比赛战队
-	//fmt.Println(team)
-
 	var count int = 0
-	DB.Model(&model.Team{}).Where("team_name = ?", "abc").Count(&count)
+	DB.Model(&model.Team{}).Where("team_name = ?", team.TeamName).Count(&count)
+	// 存在战队记录就修改，不存在就新建战队记录
 	if count == 0 {
-		fmt.Println("111 ", team.AveragePlayerAge)
 		team.TeamBizId = utils.GenerateModuleBizID("TM")
 		team.CreatedTime = time.Now()
 		team.Insert(DB)
 	} else {
-		fmt.Println("222")
+		DB.Model(model.Team{}).Where("team_name = ?", team.TeamName).Updates(team)
 	}
+
+	// 处理战队相关的队员
+	var queryTeam = model.Team{}
+	DB.Where("team_name = ?", team.TeamName).Find(&queryTeam)
+	//fmt.Println(queryTeam)
+	//fmt.Println(queryTeam.TeamBizId)
+
+	if len(team.Players) > 0 {
+		for idx, player := range team.Players {
+			count = 0
+			DB.Model(&model.Player{}).Where("name = ?", player.Name).Count(&count)
+			fmt.Println(idx, player.Name, count)
+
+		}
+	}
+
 }
