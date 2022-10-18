@@ -1,6 +1,7 @@
 package crawl
 
 import (
+	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"spider/src/model"
 	"spider/src/utils/parameter"
@@ -27,6 +28,11 @@ func ParseMatchTeam(dom *goquery.Document) model.Team {
 		//fmt.Println(idx, playerName, nationPic)
 		playerResultSet = append(playerResultSet, player)
 	})
+	team.Players = playerResultSet
+	teamProfileDom := dom.Find("div[class='profile-team-stats-container']").Find("div[class='profile-team-stat']")
+	worldRanking := teamProfileDom.Eq(0).Find("span").Text()
+
+	fmt.Println("worldRanking=", worldRanking)
 
 	return team
 }
