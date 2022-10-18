@@ -24,11 +24,12 @@ func TestCrawlTeam(t *testing.T) {
 	t.Log("*** 开始解析战队的网页 ***")
 	// https://www.hltv.org/team/7865/havu
 	// https://www.hltv.org/team/11982/ikla
-	matchUrl := "https://www.hltv.org/team/11982/ikla"
-	CrawlTeam(matchUrl)
+	teamUrl := "https://www.hltv.org/team/11982/ikla"
+	CrawlTeam(teamUrl)
 }
 
 func TestCrawlPlayer(t *testing.T) {
-	t.Log("*** 开始解析战队队员的网页 ***")
-
+	t.Log("*** 开始解析战队-队员的网页 ***")
+	playerUrl := "https://www.hltv.org/player/18227/sensei"
+	CrawlPlayer(playerUrl)
 }

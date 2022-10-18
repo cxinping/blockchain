@@ -4,13 +4,15 @@ import (
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly"
+	"github.com/jinzhu/gorm"
 	"spider/src/config"
+	"spider/src/model"
 	"spider/src/utils"
 	"strings"
 )
 
 // 爬取队友的网页数据
-func CrawlPlayer(matchUrl string) {
+func CrawlPlayer(playerUrl string) {
 	DB := config.GetDB() // 初始化数据库句柄
 
 	c := colly.NewCollector(
@@ -24,13 +26,17 @@ func CrawlPlayer(matchUrl string) {
 	c.OnHTML("div.contentCol", func(e *colly.HTMLElement) {
 		content, _ := e.DOM.Html()
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
-		fmt.Println(DB, dom)
-
+		player := ParseMatchTeamPlayer(dom)
+		operatePlayer(DB, player)
 	})
 
 	c.OnResponse(func(r *colly.Response) {
-		fmt.Println("Visited ", r.Request.URL.String())
+		fmt.Println("访问队员网页 Visited ", r.Request.URL.String())
 	})
 
-	c.Visit(matchUrl)
+	c.Visit(playerUrl)
+}
+
+func operatePlayer(DB *gorm.DB, player model.Player) {
+
 }

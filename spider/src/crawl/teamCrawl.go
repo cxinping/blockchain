@@ -34,7 +34,7 @@ func CrawlTeam(teamUrl string) {
 	})
 
 	c.OnResponse(func(r *colly.Response) {
-		fmt.Println("Visited ", r.Request.URL.String())
+		fmt.Println("访问战队网页 Visited ", r.Request.URL.String())
 	})
 
 	c.Visit(teamUrl)
