@@ -93,7 +93,6 @@ func CrawlMatcheResultWeb(matchUrl string) {
 	//分页爬取比赛结果的网页数据
 	//DB := config.GetDB() // 初始化数据库句柄
 
-	// 爬取赛事信息
 	c := colly.NewCollector(
 		// 允许重复访问
 		colly.AllowURLRevisit())
@@ -103,10 +102,15 @@ func CrawlMatcheResultWeb(matchUrl string) {
 		r.Headers.Set("User-Agent", utils.RandomString())
 	})
 
-	c.OnHTML("div[class='results-holder allres']", func(e *colly.HTMLElement) {
+	c.OnHTML("div[class='results-all']", func(e *colly.HTMLElement) {
 		content, _ := e.DOM.Html()
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
-		ParseMatchResult(dom)
+
+		matchUrls := ParseMatchResult(dom)
+		for _, matchUrl := range matchUrls {
+			fmt.Println("matchUrl=> ", matchUrl)
+		}
+
 	})
 
 	// 异常处理

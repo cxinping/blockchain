@@ -52,12 +52,20 @@ func ParseMatchPageOffset(dom *goquery.Document) []string {
 func ParseMatchResult(dom *goquery.Document) []string {
 	// 解析分页的比赛结果的网页数据
 	matchUrls := make([]string, 0)
-	resultsDom := dom.Find("div[class='results-all']")
-	resultsDom.Find("div[class='results-sublist']").Each(func(idx int, selection *goquery.Selection) {
-		// https://www.hltv.org/results
-		title := selection.Find("div[class='standard-headline']").Text()
-		fmt.Println("section idx=", idx+1, ", title=", title)
 
+	dom.Find("div[class='results-sublist']").Each(func(idx int, resultSel *goquery.Selection) {
+		// https://www.hltv.org/results
+		//title := resultSel.Find("div[class='standard-headline']").Text()
+		//title2 := resultSel.Find("span[class='standard-headline']").Eq(idx).Text()
+		//fmt.Println("section idx=", idx+1, ", title=", title, ", title2=", title2)
+		//fmt.Println(resultSel.Html())
+
+		resultSel.Find("div[class='result-con ']").Each(func(idx int, itemSel *goquery.Selection) {
+			matchUrl, _ := itemSel.Find("a").Attr("href")
+			matchUrl = parameter.HLTV_INDEX + matchUrl
+			//fmt.Println("\titem idx=", idx, matchUrl)
+			matchUrls = append(matchUrls, matchUrl)
+		})
 	})
 
 	return matchUrls
