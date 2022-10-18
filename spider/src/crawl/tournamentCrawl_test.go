@@ -1,8 +1,10 @@
 package crawl
 
 import (
+	"fmt"
 	"spider/src/config"
 	"testing"
+	"time"
 )
 
 func init() {
@@ -34,10 +36,14 @@ func TestCrawlPlayer(t *testing.T) {
 
 func TestCrawlMatcheResultWeb(t *testing.T) {
 	t.Log("*** 开始解析已经有比赛结果的赛果网页 ***")
+	start := time.Now()
 	//CrawlMatcheResults()
 
 	// https://www.hltv.org/results?offset=100
 	// https://www.hltv.org/results
 	CrawlMatcheResultWeb("https://www.hltv.org/results")
 
+	end := time.Now()
+	delta := end.Sub(start)
+	fmt.Println("该函数执行完成耗时：", delta)
 }

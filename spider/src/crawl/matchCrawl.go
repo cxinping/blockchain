@@ -90,6 +90,7 @@ func CrawlMatcheResults() {
 
 // 爬取已经结束的比赛网页数据
 func CrawlMatcheResultWeb(matchUrl string) {
+	//分页爬取比赛结果的网页数据
 	//DB := config.GetDB() // 初始化数据库句柄
 
 	// 爬取赛事信息
@@ -102,7 +103,6 @@ func CrawlMatcheResultWeb(matchUrl string) {
 		r.Headers.Set("User-Agent", utils.RandomString())
 	})
 
-	//爬取赛事和赛果网页数据
 	c.OnHTML("div[class='results-holder allres']", func(e *colly.HTMLElement) {
 		content, _ := e.DOM.Html()
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
