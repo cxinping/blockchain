@@ -1,6 +1,7 @@
 package crawl
 
 import (
+	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"spider/src/model"
 	"spider/src/utils"
@@ -12,6 +13,12 @@ import (
 
 func ParseMatchResult(dom *goquery.Document) {
 	//爬取已经结束的比赛信息
+	recordsStr := dom.Find("div[class='pagination-component pagination-bottom']").Find("span").Text()
+	recordsStr = utils.CompressString(strings.Replace(recordsStr, "1 - 100 of", "", -1))
+	//fmt.Println("1 recordsStr=", recordsStr)
+	records, _ := strconv.Atoi(recordsStr)
+
+	fmt.Println("records=", records)
 
 }
 

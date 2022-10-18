@@ -65,7 +65,7 @@ func CrawlMatcheResultWeb() {
 	})
 
 	//爬取赛事和赛果网页数据
-	c.OnHTML("div.results-holder allres", func(e *colly.HTMLElement) {
+	c.OnHTML("div[class='results-holder allres']", func(e *colly.HTMLElement) {
 		content, _ := e.DOM.Html()
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
 		ParseMatchResult(dom)
