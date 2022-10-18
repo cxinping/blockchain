@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly"
+	"spider/src/model"
 	"spider/src/utils"
 	"strings"
 )
@@ -23,8 +24,9 @@ func CrawlTeam(matchUrl string) {
 	c.OnHTML("div.contentCol", func(e *colly.HTMLElement) {
 		content, _ := e.DOM.Html()
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
-		ParseMatchTeam(dom)
-		//fmt.Println(team)
+		team := ParseMatchTeam(dom)
+		operateMatchTeam(team)
+
 	})
 
 	c.OnResponse(func(r *colly.Response) {
@@ -32,4 +34,9 @@ func CrawlTeam(matchUrl string) {
 	})
 
 	c.Visit(matchUrl)
+}
+
+func operateMatchTeam(team model.Team) {
+	// 处理比赛战队
+
 }
