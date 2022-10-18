@@ -5,6 +5,8 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"spider/src/model"
 	"spider/src/utils/parameter"
+	"strconv"
+	"strings"
 )
 
 func ParseMatchTeam(dom *goquery.Document) model.Team {
@@ -30,9 +32,17 @@ func ParseMatchTeam(dom *goquery.Document) model.Team {
 	})
 	team.Players = playerResultSet
 	teamProfileDom := dom.Find("div[class='profile-team-stats-container']").Find("div[class='profile-team-stat']")
-	worldRanking := teamProfileDom.Eq(0).Find("span").Text()
+	worldRankingStr := teamProfileDom.Eq(0).Find("span").Text()
+	worldRanking, _ := strconv.Atoi(strings.Replace(worldRankingStr, "#", "", -1))
+	averagePlayerAge := teamProfileDom.Eq(2).Find("span").Text()
+	coatchName := teamProfileDom.Eq(3).Find("span").Text()
+	coatchName = strings.Replace(coatchName, "'", "", -1)
 
-	fmt.Println("worldRanking=", worldRanking)
+	//team.WorldRanking = worldRanking
+
+	fmt.Printf("%v,%T\n", worldRanking, worldRanking)
+	fmt.Println("averagePlayerAge=", averagePlayerAge)
+	fmt.Println("coatchName=", coatchName)
 
 	return team
 }
