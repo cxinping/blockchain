@@ -11,32 +11,43 @@ import (
 	"time"
 )
 
-func ParseMatchResult(dom *goquery.Document) {
-	//爬取已经结束的比赛信息
-	fmt.Println("+ dom=> ", dom)
+func ParseMatchPageOffset(dom *goquery.Document) []string {
+	/**
+	 * 爬取要爬取页面的网页偏移量
+		https://www.hltv.org/results?offset=70943
+		https://www.hltv.org/results?offset=70900
+	*/
 
+	//fmt.Println("+ dom=> ", dom)
+	requestUrls := make([]string, 0)
+	requestUrls = append(requestUrls, "https://www.hltv.org/results")
 	recordsStr := dom.Find("div[class='pagination-component pagination-bottom']").Find("span").Text()
 	recordsStr = utils.CompressString(strings.Replace(recordsStr, "1 - 100 of", "", -1))
-	//fmt.Println("1 recordsStr=", recordsStr)
 	records, _ := strconv.Atoi(recordsStr)
-	var step int = 100
-
-	fmt.Println("records=", records, ", step=", step)
+	//fmt.Println("records=", records, ", step=", step)
 	var idx = 0
-	//https://www.hltv.org/results?offset=70843
 	for idx <= records {
-		idx = idx + 100
+		idx = idx + 100 //每次页面的偏移量是100条记录
 
 		if idx <= records {
-			fmt.Println("1 idx=", idx)
+			//fmt.Println("1 idx=", idx)
+			requestUrl := fmt.Sprintf("https://www.hltv.org/results?offset=%d", idx)
+			requestUrls = append(requestUrls, requestUrl)
+			//fmt.Println("1 requestUrl=", requestUrl)
 		} else if idx > records {
 			diff := records - idx
 			idx = idx + diff
-			fmt.Println("2 idx=", idx)
-			break
+			if idx <= records {
+				//fmt.Println("2 idx=", idx)
+				break
+			}
 		}
-
 	}
+	return requestUrls
+}
+
+func ParseMatchResult(dom *goquery.Document) {
+
 }
 
 func ParseMatchDetail(dom *goquery.Document) (time.Time, string, string, model.Team, model.Team) {
