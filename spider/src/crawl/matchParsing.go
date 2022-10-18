@@ -13,13 +13,30 @@ import (
 
 func ParseMatchResult(dom *goquery.Document) {
 	//爬取已经结束的比赛信息
+	fmt.Println("+ dom=> ", dom)
+
 	recordsStr := dom.Find("div[class='pagination-component pagination-bottom']").Find("span").Text()
 	recordsStr = utils.CompressString(strings.Replace(recordsStr, "1 - 100 of", "", -1))
 	//fmt.Println("1 recordsStr=", recordsStr)
 	records, _ := strconv.Atoi(recordsStr)
+	var step int = 100
 
-	fmt.Println("records=", records)
+	fmt.Println("records=", records, ", step=", step)
+	var idx = 0
+	//https://www.hltv.org/results?offset=70843
+	for idx <= records {
+		idx = idx + 100
 
+		if idx <= records {
+			fmt.Println("1 idx=", idx)
+		} else if idx > records {
+			diff := records - idx
+			idx = idx + diff
+			fmt.Println("2 idx=", idx)
+			break
+		}
+
+	}
 }
 
 func ParseMatchDetail(dom *goquery.Document) (time.Time, string, string, model.Team, model.Team) {

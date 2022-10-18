@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/spf13/viper"
 	"spider/src/config"
-	"spider/src/crawl"
 )
 
 func main() {
@@ -14,7 +13,7 @@ func main() {
 	db := config.InitDB() // 初始化数据库
 	defer db.Close()
 
-	crawl.CrawlTournamentWeb() //爬取赛事和比赛数据
+	//crawl.CrawlTournamentWeb() //爬取赛事和比赛数据
 
 	//task.ExecTasks() //执行调度任务
 
