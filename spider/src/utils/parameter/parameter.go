@@ -1,7 +1,8 @@
 package parameter
 
 const (
-	HLTV_INDEX = "https://www.hltv.org" // HLTV 首页地址
+	HLTV_INDEX       = "https://www.hltv.org"         // HLTV 首页地址
+	MATCH_RESULT_URL = "https://www.hltv.org/results" //已经结束的比赛结果地址
 
 	// 赛程/赛果
 	TT_MATCH_URL           = "https://www.hltv.org/matches" // 赛事和赛程网页地址

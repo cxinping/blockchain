@@ -10,6 +10,11 @@ import (
 	"time"
 )
 
+func ParseMatchResult(dom *goquery.Document) {
+	//爬取已经结束的比赛信息
+
+}
+
 func ParseMatchDetail(dom *goquery.Document) (time.Time, string, string, model.Team, model.Team) {
 	//解析比赛网页数据, 抓取战队数据
 	//fmt.Println("*** OperateMatchDetail ***")

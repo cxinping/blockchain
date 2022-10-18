@@ -31,3 +31,8 @@ func TestCrawlPlayer(t *testing.T) {
 	playerUrl := "https://www.hltv.org/player/20582/kiyo"
 	CrawlPlayer(playerUrl)
 }
+
+func TestCrawlMatcheResultWeb(t *testing.T) {
+	t.Log("*** 开始解析已经有比赛结果的赛果网页 ***")
+	CrawlMatcheResultWeb()
+}

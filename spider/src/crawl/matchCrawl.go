@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-// 爬取比赛网页数据
+// 爬取将要进行的比赛网页数据
 func CrawlMatcheWeb(matchUrl string) {
 	DB := config.GetDB() // 初始化数据库句柄
 
@@ -48,6 +48,34 @@ func CrawlMatcheWeb(matchUrl string) {
 	})
 
 	c.Visit(matchUrl)
+}
+
+// 爬取已经结束的比赛网页数据
+func CrawlMatcheResultWeb() {
+	//DB := config.GetDB() // 初始化数据库句柄
+
+	// 爬取赛事信息
+	c := colly.NewCollector(
+		// 允许重复访问
+		colly.AllowURLRevisit())
+
+	c.OnRequest(func(r *colly.Request) {
+		//反爬虫，通过随机改变 user-agent,
+		r.Headers.Set("User-Agent", utils.RandomString())
+	})
+
+	//爬取赛事和赛果网页数据
+	c.OnHTML("div.results-holder allres", func(e *colly.HTMLElement) {
+		content, _ := e.DOM.Html()
+		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
+		ParseMatchResult(dom)
+	})
+
+	c.OnResponse(func(r *colly.Response) {
+		fmt.Println("访问已经有比赛结果的赛果网页 Visited ", r.Request.URL.String())
+	})
+
+	c.Visit(parameter.MATCH_RESULT_URL)
 }
 
 func operateMatchDetail(DB *gorm.DB, matchUrl string, matchTime time.Time, matchMode string, matchStatus string, team1 model.Team, team2 model.Team) {
