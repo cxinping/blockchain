@@ -38,15 +38,26 @@ func ParseMatchTeam(dom *goquery.Document) model.Team {
 	averagePlayerAge, _ := strconv.ParseFloat(averagePlayerAgeStr, 64)
 	averagePlayerAge = utils.Decimal(averagePlayerAge)
 	teamName := dom.Find("div[class='profile-team-info']").Find("h1[class='profile-team-name text-ellipsis']").Text()
-
 	coatchName := teamProfileDom.Eq(3).Find("span").Text()
 	coatchName = strings.Replace(coatchName, "'", "", -1)
+
+	profileTopDom := dom.Find("div[class='standard-box profileTopBox clearfix']").Find("div[class='flex']")
+	teamPic, _ := profileTopDom.Find("div[class='profile-team-logo-container']").Find("img").Attr("src")
+	nationName := profileTopDom.Find("div[class='profile-team-info']").Find("div[class='team-country text-ellipsis']").Text()
+	nationPic, _ := profileTopDom.Find("div[class='profile-team-info']").Find("div[class='team-country text-ellipsis']").Find("img").Attr("src")
+	nationPic = parameter.HLTV_INDEX + nationPic
 
 	team.TeamName = teamName
 	team.WorldRanking = uint16(worldRanking)
 	team.AveragePlayerAge = float32(averagePlayerAge)
 	team.CoatchName = coatchName
+	team.TeamPic = teamPic
+	team.NationName = nationName
+	team.NationPic = nationPic
 
+	//fmt.Println("teamPic=", teamPic)
+	//fmt.Println("nationName=", nationName)
+	//fmt.Println("nationPic=", nationPic)
 	//fmt.Println("teamName=", teamName)
 	//fmt.Printf("worldRanking=%v,%T\n", worldRanking, worldRanking)
 	//fmt.Printf("averagePlayerAge=%v,%T\n", averagePlayerAge, averagePlayerAge)

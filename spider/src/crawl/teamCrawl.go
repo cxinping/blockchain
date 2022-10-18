@@ -38,5 +38,6 @@ func CrawlTeam(matchUrl string) {
 
 func operateMatchTeam(team model.Team) {
 	// 处理比赛战队
+	fmt.Println(team)
 
 }
