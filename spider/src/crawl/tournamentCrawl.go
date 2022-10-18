@@ -36,12 +36,24 @@ func CrawlTournamentWeb() (err error) {
 		toursResultSet := OperateTournament(dom) // 处理赛事数据
 		operateTournaments(DB, toursResultSet)
 
-		var matchResultSet []model.Match
-		matchResultSet = OperateLivingMatch(dom) // 处理正在进行的赛果/赛程的数据
-		operateLivingMatches(DB, matchResultSet)
+		var livingMatchResultSet []model.Match
+		livingMatchResultSet = OperateLivingMatch(dom) // 处理正在进行的赛果/赛程的数据
+		operateLivingMatches(DB, livingMatchResultSet)
 
-		matchResultSet = OperateUpcomingMatch(dom) // 处理将要进行的赛果/赛程的数据
-		operateUpcomingMatches(DB, matchResultSet)
+		var upComingMatchResultSet []model.Match
+		upComingMatchResultSet = OperateUpcomingMatch(dom) // 处理将要进行的赛果/赛程的数据
+		operateUpcomingMatches(DB, upComingMatchResultSet)
+
+		//爬取正在进行的比赛战队和队员信息
+		for _, match := range livingMatchResultSet {
+			CrawlMatcheWeb(match.MatchUrl)
+		}
+
+		//爬取将要进行的比赛战队和队员信息
+		for _, match := range upComingMatchResultSet {
+			CrawlMatcheWeb(match.MatchUrl)
+		}
+
 	})
 
 	c.OnResponse(func(r *colly.Response) {
