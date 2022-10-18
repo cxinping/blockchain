@@ -75,6 +75,7 @@ func ParseMatchDetail(dom *goquery.Document) (time.Time, string, string, model.T
 	//解析比赛网页数据, 抓取战队数据
 	//fmt.Println("*** ParseMatchDetail ***")
 
+	var match model.Match
 	var team1 model.Team
 	var team2 model.Team
 	play1ResultSet := make([]model.Player, 0)
@@ -119,15 +120,36 @@ func ParseMatchDetail(dom *goquery.Document) (time.Time, string, string, model.T
 	matchTime := time.Unix(matchDateUnixInt, 0)                                                   // 比赛时间
 	matchStatusStr := dom.Find("div[class='timeAndEvent']").Find("div[class='countdown']").Text() //比赛状态
 	matchStatus := parameter.MATCH_STATUS_UNSTARTED
+
 	//fmt.Println("* matchDateUnixStr=", matchDateUnixStr)
 	//fmt.Println("* matchTime=", matchTime)
-
 	//fmt.Println("* matchMode=", matchMode)
+
 	if matchStatusStr == "Match over" {
 		matchStatus = parameter.MATCH_STATUS_OVER
 	} else if matchStatusStr == "LIVE" {
 		matchStatus = parameter.MATCH_STATUS_LIVE
 	}
+
+	ttName := dom.Find("div[class='timeAndEvent']").Find("div[class='event text-ellipsis']").Find("a").Text()
+
+	imageCount := 0 //战队挑选的地图
+	dom.Find("div[class='flexbox-column']").Find("div[class='map-name-holder']").Find("img").Each(func(idx int, tdSel *goquery.Selection) {
+		imageCount++
+	})
+	mapType := ""
+	if imageCount > 0 {
+		mapType = "bo" + strconv.Itoa(imageCount)
+	}
+	fmt.Println("+ imageCount=", imageCount, mapType)
+
+	// 比赛
+	match.MatchTime = matchTime
+	match.Status = matchStatus
+	match.Mode = matchMode
+	match.TtName = ttName
+	match.MapType = mapType
+
 	//fmt.Println("* matchStatusStr=", matchStatusStr, ",matchStatus=", matchStatus)
 
 	// 战队1的所有队员

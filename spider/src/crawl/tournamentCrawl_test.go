@@ -18,8 +18,13 @@ func TestCrawlTournamentWeb(t *testing.T) {
 
 func TestCrawlMatcheWeb(t *testing.T) {
 	t.Log("** 开始解析比赛的网页 **")
-	matchUrl := "https://www.hltv.org/matches/2359362/dynasty-vs-arena-esl-australia-nz-championship-season-15"
+	start := time.Now()
+	matchUrl := "https://www.hltv.org/matches/2359687/sc-vs-prospects-cct-north-europe-series-1"
 	CrawlMatcheWeb(matchUrl)
+
+	end := time.Now()
+	delta := end.Sub(start)
+	fmt.Println("该函数执行完成耗时：", delta)
 }
 
 func TestCrawlTeam(t *testing.T) {

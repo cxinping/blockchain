@@ -5,7 +5,6 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly"
 	"github.com/jinzhu/gorm"
-	"spider/src/config"
 	"spider/src/model"
 	"spider/src/utils"
 	"spider/src/utils/parameter"
@@ -15,12 +14,25 @@ import (
 
 // 爬取将要进行的比赛网页数据
 func CrawlMatcheWeb(matchUrl string) {
-	DB := config.GetDB() // 初始化数据库句柄
+	//DB := config.GetDB() // 初始化数据库句柄
 
 	// 爬取赛事信息
 	c := colly.NewCollector(
 		// 允许重复访问
 		colly.AllowURLRevisit())
+
+	//c.WithTransport(&http.Transport{
+	//	//Proxy: http.ProxyFromEnvironment,
+	//	//DialContext: (&net.Dialer{
+	//	//	Timeout:   30 * time.Second, // 超时时间
+	//	//	KeepAlive: 30 * time.Second, // keepAlive 超时时间
+	//	//	DualStack: true,
+	//	//}).DialContext,
+	//	MaxIdleConns:          100,              // 最大空闲连接数
+	//	IdleConnTimeout:       90 * time.Second, // 空闲连接超时
+	//	TLSHandshakeTimeout:   10 * time.Second, // TLS 握手超时
+	//	ExpectContinueTimeout: 1 * time.Second,
+	//})
 
 	c.OnRequest(func(r *colly.Request) {
 		//反爬虫，通过随机改变 user-agent,
@@ -32,15 +44,16 @@ func CrawlMatcheWeb(matchUrl string) {
 		content, _ := e.DOM.Html()
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
 
-		matchTime, matchMode, matchStatus, team1, team2 := ParseMatchDetail(dom)
-		//fmt.Println("matchTime=", matchTime)
-		//fmt.Println("matchModeStr=", matchModeStr)
-		//fmt.Println("team1.TeamUrl=", team1.TeamUrl)
-		//fmt.Println(team2)
-		operateMatchDetail(DB, matchUrl, matchTime, matchMode, matchStatus, team1, team2)
+		ParseMatchDetail(dom)
 
-		CrawlTeam(team1.TeamUrl)
-		CrawlTeam(team2.TeamUrl)
+		//matchTime, matchMode, matchStatus, team1, team2 := ParseMatchDetail(dom)
+		////fmt.Println("matchTime=", matchTime)
+		////fmt.Println("matchModeStr=", matchModeStr)
+		////fmt.Println("team1.TeamUrl=", team1.TeamUrl)
+		////fmt.Println(team2)
+		//operateMatchDetail(DB, matchUrl, matchTime, matchMode, matchStatus, team1, team2)
+		//CrawlTeam(team1.TeamUrl)
+		//CrawlTeam(team2.TeamUrl)
 	})
 
 	// 异常处理
