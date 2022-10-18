@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-func ParseMatchDetail(dom *goquery.Document) (time.Time, string, model.Team, model.Team) {
+func ParseMatchDetail(dom *goquery.Document) (time.Time, string, string, model.Team, model.Team) {
 	//解析比赛网页数据, 抓取战队数据
 	//fmt.Println("*** OperateMatchDetail ***")
 
@@ -46,19 +46,28 @@ func ParseMatchDetail(dom *goquery.Document) (time.Time, string, model.Team, mod
 	mapsStr := dom.Find("div[class='padding preformatted-text']").Text()
 	mapsStr = utils.CompressString(strings.ToLower(mapsStr))
 	count := strings.Index(mapsStr, "online")
-	var matchModeStr string = "" // 比赛模式是线上还是线下
+	var matchMode string = "" // 比赛模式是线上还是线下
 	if count != -1 {
-		matchModeStr = parameter.MATCH_MODE_ONLINE
+		matchMode = parameter.MATCH_MODE_ONLINE
 	} else {
-		matchModeStr = parameter.MATCH_MODE_LAN
+		matchMode = parameter.MATCH_MODE_LAN
 	}
-	matchDateUnixStr, _ := dom.Find("div[class='timeAndEvent']").Find("div[class='countdown']").Attr("data-unix")
+	matchDateUnixStr, _ := dom.Find("div[class='timeAndEvent']").Find("div[class='date']").Attr("data-unix")
 	matchDateUnixInt, _ := strconv.ParseInt(matchDateUnixStr, 10, 64)
 	matchDateUnixInt = int64(matchDateUnixInt) / 1000
-	matchTime := time.Unix(matchDateUnixInt, 0)
-
+	matchTime := time.Unix(matchDateUnixInt, 0)                                                   // 比赛时间
+	matchStatusStr := dom.Find("div[class='timeAndEvent']").Find("div[class='countdown']").Text() //比赛状态
+	matchStatus := parameter.MATCH_STATUS_UNSTARTED
 	//fmt.Println("* matchDateUnixStr=", matchDateUnixStr)
-	//fmt.Println("matchTime=", matchTime)
+	//fmt.Println("* matchTime=", matchTime)
+
+	//fmt.Println("* matchMode=", matchMode)
+	if matchStatusStr == "Match over" {
+		matchStatus = parameter.MATCH_STATUS_OVER
+	} else if matchStatusStr == "LIVE" {
+		matchStatus = parameter.MATCH_STATUS_LIVE
+	}
+	//fmt.Println("* matchStatusStr=", matchStatusStr, ",matchStatus=", matchStatus)
 
 	// 战队1的所有队员
 	player1Dom := dom.Find("div[class='lineup standard-box']").Eq(0)
@@ -94,5 +103,5 @@ func ParseMatchDetail(dom *goquery.Document) (time.Time, string, model.Team, mod
 	})
 	team2.Players = play2ResultSet
 
-	return matchTime, matchModeStr, team1, team2
+	return matchTime, matchMode, matchStatus, team1, team2
 }

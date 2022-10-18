@@ -29,6 +29,8 @@ type Match struct {
 	SuggestIdx        uint8
 	CreatedTime       time.Time
 	Desc              string `gorm:"size:255;default:'';comment:'描述'"`
+	Team1             Team
+	Team2             Team
 }
 
 func (Match) TableName() string {

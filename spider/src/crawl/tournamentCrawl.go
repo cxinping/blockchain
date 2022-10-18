@@ -82,11 +82,12 @@ func CrawlMatcheWeb(matchUrl string) {
 		content, _ := e.DOM.Html()
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
 
-		matchTime, matchModeStr, team1, team2 := ParseMatchDetail(dom)
-		//fmt.Println(matchModeStr)
+		matchTime, matchMode, matchStatus, team1, team2 := ParseMatchDetail(dom)
+		//fmt.Println("matchTime=", matchTime)
+		//fmt.Println("matchModeStr=", matchModeStr)
 		//fmt.Println(team1)
 		//fmt.Println(team2)
-		operateMatchDetail(DB, matchTime, matchUrl, matchModeStr, team1, team2)
+		operateMatchDetail(DB, matchUrl, matchTime, matchMode, matchStatus, team1, team2)
 	})
 
 	c.OnResponse(func(r *colly.Response) {
@@ -96,16 +97,19 @@ func CrawlMatcheWeb(matchUrl string) {
 	c.Visit(matchUrl)
 }
 
-func operateMatchDetail(DB *gorm.DB, matchTime time.Time, matchUrl string, matchModeStr string, team1 model.Team, team2 model.Team) {
+func operateMatchDetail(DB *gorm.DB, matchUrl string, matchTime time.Time, matchMode string, matchStatus string, team1 model.Team, team2 model.Team) {
 	//处理比赛详细数据
 	var match = model.Match{}
 	DB.Where("match_url = ?", matchUrl).Find(&match)
 
+	// 修改比赛的状态
 	if match.Status == parameter.MATCH_STATUS_LIVE {
-		DB.Debug().Model(&match).Updates(model.Match{Mode: matchModeStr, MatchTime: matchTime}) // 需要更新比赛时间？？？？？？？？？？
+		DB.Model(&match).Updates(model.Match{Mode: matchMode, MatchTime: matchTime, Status: matchStatus})
 	} else if match.Status == parameter.MATCH_STATUS_UNSTARTED {
-		DB.Model(&match).Updates(model.Match{Mode: matchModeStr})
+		DB.Model(&match).Updates(model.Match{Mode: matchMode, Status: matchStatus})
 	}
+
+	// 处理战队数据
 
 }
 
