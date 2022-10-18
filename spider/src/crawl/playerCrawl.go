@@ -27,7 +27,7 @@ func CrawlPlayer(playerUrl string) {
 		content, _ := e.DOM.Html()
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
 		player := ParseMatchTeamPlayer(dom)
-		operatePlayer(DB, player)
+		OperatePlayer(DB, player)
 	})
 
 	c.OnResponse(func(r *colly.Response) {
@@ -37,6 +37,6 @@ func CrawlPlayer(playerUrl string) {
 	c.Visit(playerUrl)
 }
 
-func operatePlayer(DB *gorm.DB, player model.Player) {
+func OperatePlayer(DB *gorm.DB, player model.Player) {
 
 }

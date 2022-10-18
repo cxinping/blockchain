@@ -9,7 +9,8 @@ type Player struct {
 	//队员
 	gorm.Model
 	PlayerBizId string `gorm:"size:50;not null;default:'';comment:'队员的业务id'"`
-	Name        string `gorm:"size:50;not null;default:'';comment:'队员的姓名'"`
+	NickName    string `gorm:"size:50;not null;default:'';comment:'队员的昵称'"`
+	RealName    string `gorm:"size:50;not null;default:'';comment:'队员的真名'"`
 	Birthday    string `gorm:"size:50;default:'';comment:'队员的生日'"`
 	TotalAward  int32  `gorm:"size:10;default:0;comment:'总奖金'"`
 	PlayerUrl   string `gorm:"size:255;default:'';comment:'队员的链接'"`
