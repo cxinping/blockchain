@@ -141,7 +141,7 @@ func ParseMatchDetail(dom *goquery.Document) (time.Time, string, string, model.T
 	if imageCount > 0 {
 		mapType = "bo" + strconv.Itoa(imageCount)
 	}
-	fmt.Println("+ imageCount=", imageCount, mapType)
+	//fmt.Println("+ imageCount=", imageCount, mapType)
 
 	// 比赛
 	match.MatchTime = matchTime
