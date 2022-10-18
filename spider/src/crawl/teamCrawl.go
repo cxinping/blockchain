@@ -4,14 +4,13 @@ import (
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly"
-	"spider/src/config"
 	"spider/src/utils"
 	"strings"
 )
 
 // 爬取战队的网页数据
 func CrawlTeam(matchUrl string) {
-	DB := config.GetDB() // 初始化数据库句柄
+	//DB := config.GetDB() // 初始化数据库句柄
 
 	c := colly.NewCollector(
 		// 允许重复访问
@@ -24,7 +23,7 @@ func CrawlTeam(matchUrl string) {
 	c.OnHTML("div.contentCol", func(e *colly.HTMLElement) {
 		content, _ := e.DOM.Html()
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
-		fmt.Println(DB, dom)
+		ParseMatchTeam(dom)
 
 	})
 
