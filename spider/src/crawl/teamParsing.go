@@ -1,9 +1,9 @@
 package crawl
 
 import (
-	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"spider/src/model"
+	"spider/src/utils"
 	"spider/src/utils/parameter"
 	"strconv"
 	"strings"
@@ -34,15 +34,23 @@ func ParseMatchTeam(dom *goquery.Document) model.Team {
 	teamProfileDom := dom.Find("div[class='profile-team-stats-container']").Find("div[class='profile-team-stat']")
 	worldRankingStr := teamProfileDom.Eq(0).Find("span").Text()
 	worldRanking, _ := strconv.Atoi(strings.Replace(worldRankingStr, "#", "", -1))
-	averagePlayerAge := teamProfileDom.Eq(2).Find("span").Text()
+	averagePlayerAgeStr := teamProfileDom.Eq(2).Find("span").Text()
+	averagePlayerAge, _ := strconv.ParseFloat(averagePlayerAgeStr, 64)
+	averagePlayerAge = utils.Decimal(averagePlayerAge)
+	teamName := dom.Find("div[class='profile-team-info']").Find("h1[class='profile-team-name text-ellipsis']").Text()
+
 	coatchName := teamProfileDom.Eq(3).Find("span").Text()
 	coatchName = strings.Replace(coatchName, "'", "", -1)
 
-	//team.WorldRanking = worldRanking
+	team.TeamName = teamName
+	team.WorldRanking = uint16(worldRanking)
+	team.AveragePlayerAge = float32(averagePlayerAge)
+	team.CoatchName = coatchName
 
-	fmt.Printf("%v,%T\n", worldRanking, worldRanking)
-	fmt.Println("averagePlayerAge=", averagePlayerAge)
-	fmt.Println("coatchName=", coatchName)
+	//fmt.Println("teamName=", teamName)
+	//fmt.Printf("worldRanking=%v,%T\n", worldRanking, worldRanking)
+	//fmt.Printf("averagePlayerAge=%v,%T\n", averagePlayerAge, averagePlayerAge)
+	//fmt.Println("coatchName=", coatchName)
 
 	return team
 }

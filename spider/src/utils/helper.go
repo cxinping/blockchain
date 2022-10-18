@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"github.com/go-basic/uuid"
 	"math/rand"
 	"strconv"
@@ -41,4 +42,10 @@ func MsToTime(ms string) (time.Time, error) {
 
 	tm := time.Unix(0, msInt*int64(time.Millisecond))
 	return tm, nil
+}
+
+func Decimal(num float64) float64 {
+	// 保留小数点后2位
+	num, _ = strconv.ParseFloat(fmt.Sprintf("%.2f", num), 64)
+	return num
 }

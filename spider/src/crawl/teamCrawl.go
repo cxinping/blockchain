@@ -24,7 +24,7 @@ func CrawlTeam(matchUrl string) {
 		content, _ := e.DOM.Html()
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
 		ParseMatchTeam(dom)
-
+		//fmt.Println(team)
 	})
 
 	c.OnResponse(func(r *colly.Response) {
