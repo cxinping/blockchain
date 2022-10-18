@@ -45,7 +45,8 @@ func CrawlTournamentWeb() (err error) {
 	})
 
 	c.OnResponse(func(r *colly.Response) {
-		//fmt.Println("Visited ", r.Request.URL.String())
+		fmt.Println("访问赛事和赛程网页 Visited ", r.Request.URL.String())
+
 		//bodyData := string(r.Body)
 		//dom, _ := goquery.NewDocumentFromReader(strings.NewReader(bodyData))
 		//toursResultSet := OperateTournament(dom) // 处理赛事数据

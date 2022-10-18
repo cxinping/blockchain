@@ -10,7 +10,7 @@ func init() {
 }
 
 func TestCrawlTournamentWeb(t *testing.T) {
-	t.Log("*** 开始解析赛事网页 ***")
+	t.Log("*** 开始解析赛事和赛程网页 ***")
 	CrawlTournamentWeb()
 }
 
@@ -24,7 +24,7 @@ func TestCrawlTeam(t *testing.T) {
 	t.Log("*** 开始解析战队的网页 ***")
 	// https://www.hltv.org/team/7865/havu
 	// https://www.hltv.org/team/11982/ikla
-	teamUrl := "https://www.hltv.org/team/11982/ikla"
+	teamUrl := "https://www.hltv.org/team/7865/havu"
 	CrawlTeam(teamUrl)
 }
 
