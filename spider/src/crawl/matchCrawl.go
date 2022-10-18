@@ -43,6 +43,11 @@ func CrawlMatcheWeb(matchUrl string) {
 		CrawlTeam(team2.TeamUrl)
 	})
 
+	// 异常处理
+	c.OnError(func(r *colly.Response, err error) {
+		fmt.Println("Request URL:", r.Request.URL, "failed with response:", r, "\nError:", err)
+	})
+
 	c.OnResponse(func(r *colly.Response) {
 		fmt.Println("访问比赛网页 Visited ", r.Request.URL.String())
 	})
@@ -59,6 +64,11 @@ func CrawlMatcheResults() {
 	c.OnRequest(func(r *colly.Request) {
 		//反爬虫，通过随机改变 user-agent,
 		r.Headers.Set("User-Agent", utils.RandomString())
+	})
+
+	// 异常处理
+	c.OnError(func(r *colly.Response, err error) {
+		fmt.Println("Request URL:", r.Request.URL, "failed with response:", r, "\nError:", err)
 	})
 
 	c.OnHTML("div[class='results-holder allres']", func(e *colly.HTMLElement) {
@@ -97,6 +107,11 @@ func CrawlMatcheResultWeb(matchUrl string) {
 		content, _ := e.DOM.Html()
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
 		ParseMatchResult(dom)
+	})
+
+	// 异常处理
+	c.OnError(func(r *colly.Response, err error) {
+		fmt.Println("Request URL:", r.Request.URL, "failed with response:", r, "\nError:", err)
 	})
 
 	c.OnResponse(func(r *colly.Response) {

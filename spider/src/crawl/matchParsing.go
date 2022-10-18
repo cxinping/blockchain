@@ -50,12 +50,25 @@ func ParseMatchPageOffset(dom *goquery.Document) []string {
 }
 
 func ParseMatchResult(dom *goquery.Document) {
+	//fmt.Println("*** ParseMatchResult ***")
+	//requestUrls := make([]string, 0)
+
+	dom.Find("div[class='results-sublist']").Each(func(idx int, selection *goquery.Selection) {
+		//matchUrl, _ := selection.Find("a").Attr("src")
+		//fmt.Println("matchUrl=", matchUrl)
+		fmt.Println("section idx=", idx+1)
+
+		selection.Each(func(idx int, itemSel *goquery.Selection) {
+
+		})
+
+	})
 
 }
 
 func ParseMatchDetail(dom *goquery.Document) (time.Time, string, string, model.Team, model.Team) {
 	//解析比赛网页数据, 抓取战队数据
-	//fmt.Println("*** OperateMatchDetail ***")
+	//fmt.Println("*** ParseMatchDetail ***")
 
 	var team1 model.Team
 	var team2 model.Team
