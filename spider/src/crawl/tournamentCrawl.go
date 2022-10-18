@@ -110,6 +110,24 @@ func operateMatchDetail(DB *gorm.DB, matchUrl string, matchTime time.Time, match
 	}
 
 	// 处理战队数据
+	var count int = 0
+	DB.Model(&model.Team{}).Where("team_name = ?", team1.TeamName).Count(&count)
+	if count == 0 {
+		team1.TeamBizId = utils.GenerateModuleBizID("TM")
+		team1.CreatedTime = time.Now()
+		team1.Insert(DB)
+	}
+	count = 0
+	DB.Model(&model.Team{}).Where("team_name = ?", team2.TeamName).Count(&count)
+	if count == 0 {
+		team2.TeamBizId = utils.GenerateModuleBizID("TM")
+		team2.CreatedTime = time.Now()
+		team2.Insert(DB)
+	}
+
+	if match.Team1BizId == "" && match.Team2BizId == "" {
+		DB.Model(&match).Updates(model.Match{Team1BizId: team1.TeamBizId, Team2BizId: team2.TeamBizId})
+	}
 
 }
 
