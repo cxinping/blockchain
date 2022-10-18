@@ -9,6 +9,7 @@ import (
 	"spider/src/model"
 	"spider/src/utils"
 	"strings"
+	"time"
 )
 
 // 爬取队友的网页数据
@@ -27,6 +28,7 @@ func CrawlPlayer(playerUrl string) {
 		content, _ := e.DOM.Html()
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
 		player := ParseMatchTeamPlayer(dom)
+		player.PlayerUrl = playerUrl
 		OperatePlayer(DB, player)
 	})
 
@@ -39,7 +41,25 @@ func CrawlPlayer(playerUrl string) {
 
 func OperatePlayer(DB *gorm.DB, player model.Player) {
 	// 处理战队的队员数据
+	var playerCount int = 0
+	var queryTeam = model.Team{}
+	DB.Where("team_name = ?", player.CurrentTeamName).Find(&queryTeam)
 
-	fmt.Println(player)
+	DB.Model(&model.Player{}).Where("nick_name = ?", player.NickName).Count(&playerCount)
+	//fmt.Println("CurrentTeamName=", player.CurrentTeamName)
+	//fmt.Println("queryTeam.TeamName=", queryTeam.TeamName, queryTeam.TeamBizId)
+	//fmt.Printf("queryTeam.TeamBizId=[%v]\n", queryTeam.TeamBizId)
+
+	// 存在队员记录就修改，不存在就新建队员记录
+	if playerCount == 0 && queryTeam.TeamBizId != "" {
+		//fmt.Println("111 insert player data")
+		player.PlayerBizId = utils.GenerateModuleBizID("PR")
+		player.TeamBizId = queryTeam.TeamBizId
+		player.CreatedTime = time.Now()
+		player.Insert(DB)
+	} else {
+		//fmt.Println("222 update player data")
+		DB.Model(model.Player{}).Where("nick_name = ?", player.NickName).Update(player)
+	}
 
 }
