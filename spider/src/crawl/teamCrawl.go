@@ -30,6 +30,14 @@ func CrawlTeam(teamUrl string) {
 		team := ParseMatchTeam(dom)
 		team.TeamUrl = teamUrl
 		OperateMatchTeam(DB, team)
+
+		if len(team.Players) > 0 {
+			for _, player := range team.Players {
+				//fmt.Println("player.PlayerUrl=> ", player.PlayerUrl)
+				CrawlPlayer(player.PlayerUrl)
+			}
+		}
+
 	})
 
 	c.OnResponse(func(r *colly.Response) {

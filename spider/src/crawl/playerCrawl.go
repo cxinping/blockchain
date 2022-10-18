@@ -33,7 +33,7 @@ func CrawlPlayer(playerUrl string) {
 	})
 
 	c.OnResponse(func(r *colly.Response) {
-		fmt.Println("访问队员网页 Visited ", r.Request.URL.String())
+		fmt.Println("访问战队-队员网页 Visited ", r.Request.URL.String())
 	})
 
 	c.Visit(playerUrl)
