@@ -20,3 +20,7 @@ func TestCrawlMatcheWeb(t *testing.T) {
 	CrawlMatcheWeb(matchUrl)
 
 }
+
+func TestCrawlMatcheInfo(t *testing.T) {
+	t.Log("*** 开始解析战队的网页 ***")
+}
