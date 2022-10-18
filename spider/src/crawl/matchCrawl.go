@@ -10,7 +10,7 @@ import (
 )
 
 // 爬取战队的网页数据
-func CrawlMatcheInfo(matchUrl string) {
+func CrawlTeam(matchUrl string) {
 	DB := config.GetDB() // 初始化数据库句柄
 
 	c := colly.NewCollector(
@@ -21,7 +21,7 @@ func CrawlMatcheInfo(matchUrl string) {
 		r.Headers.Set("User-Agent", utils.RandomString())
 	})
 
-	c.OnHTML("div.match-page", func(e *colly.HTMLElement) {
+	c.OnHTML("div.contentCol", func(e *colly.HTMLElement) {
 		content, _ := e.DOM.Html()
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
 		fmt.Println(DB, dom)

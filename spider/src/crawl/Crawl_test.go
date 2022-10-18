@@ -21,6 +21,9 @@ func TestCrawlMatcheWeb(t *testing.T) {
 
 }
 
-func TestCrawlMatcheInfo(t *testing.T) {
+func TestCrawlTeam(t *testing.T) {
 	t.Log("*** 开始解析战队的网页 ***")
+	matchUrl := "https://www.hltv.org/team/7865/havu"
+	CrawlTeam(matchUrl)
+
 }
