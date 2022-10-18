@@ -27,3 +27,8 @@ func TestCrawlTeam(t *testing.T) {
 	CrawlTeam(matchUrl)
 
 }
+
+func TestCrawlPlayer(t *testing.T) {
+	t.Log("*** 开始解析战队队员的网页 ***")
+
+}

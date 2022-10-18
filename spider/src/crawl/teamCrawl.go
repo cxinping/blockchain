@@ -4,14 +4,17 @@ import (
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly"
+	"github.com/jinzhu/gorm"
+	"spider/src/config"
 	"spider/src/model"
 	"spider/src/utils"
 	"strings"
+	"time"
 )
 
 // 爬取战队的网页数据
-func CrawlTeam(matchUrl string) {
-	//DB := config.GetDB() // 初始化数据库句柄
+func CrawlTeam(teamUrl string) {
+	DB := config.GetDB() // 初始化数据库句柄
 
 	c := colly.NewCollector(
 		// 允许重复访问
@@ -25,7 +28,8 @@ func CrawlTeam(matchUrl string) {
 		content, _ := e.DOM.Html()
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
 		team := ParseMatchTeam(dom)
-		operateMatchTeam(team)
+		team.TeamUrl = teamUrl
+		operateMatchTeam(DB, team)
 
 	})
 
@@ -33,11 +37,21 @@ func CrawlTeam(matchUrl string) {
 		fmt.Println("Visited ", r.Request.URL.String())
 	})
 
-	c.Visit(matchUrl)
+	c.Visit(teamUrl)
 }
 
-func operateMatchTeam(team model.Team) {
+func operateMatchTeam(DB *gorm.DB, team model.Team) {
 	// 处理比赛战队
-	fmt.Println(team)
+	//fmt.Println(team)
 
+	var count int = 0
+	DB.Model(&model.Team{}).Where("team_name = ?", "abc").Count(&count)
+	if count == 0 {
+		fmt.Println("111 ", team.AveragePlayerAge)
+		team.TeamBizId = utils.GenerateModuleBizID("TM")
+		team.CreatedTime = time.Now()
+		team.Insert(DB)
+	} else {
+		fmt.Println("222")
+	}
 }

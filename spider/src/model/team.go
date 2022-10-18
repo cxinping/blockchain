@@ -14,8 +14,8 @@ type Team struct {
 	TeamUrl          string `gorm:"size:255;default:'';comment:'战队的url'"`
 	NationName       string
 	NationPic        string
-	WorldRanking     uint16 `gorm:"size:11;not null;default:0;comment:'国际排名'"`
-	AveragePlayerAge float32
+	WorldRanking     uint16  `gorm:"size:11;not null;default:0;comment:'国际排名'"`
+	AveragePlayerAge float32 `gorm:"type:decimal(10,2);default:0;comment:'战队平均年龄'"`
 	CoatchBizId      string
 	CoatchName       string `gorm:"size:100;default:'';comment:'战队教练'"`
 	Players          []Player
