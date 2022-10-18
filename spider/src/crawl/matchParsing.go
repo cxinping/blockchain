@@ -24,7 +24,9 @@ func ParseMatchPageOffset(dom *goquery.Document) []string {
 	recordsStr := dom.Find("div[class='pagination-component pagination-bottom']").Find("span").Text()
 	recordsStr = utils.CompressString(strings.Replace(recordsStr, "1 - 100 of", "", -1))
 	records, _ := strconv.Atoi(recordsStr)
-	//fmt.Println("records=", records, ", step=", step)
+
+	//fmt.Printf("records=[%v],%T\n", records, records)
+
 	var idx = 0
 	for idx <= records {
 		idx = idx + 100 //每次页面的偏移量是100条记录
@@ -32,6 +34,7 @@ func ParseMatchPageOffset(dom *goquery.Document) []string {
 		if idx <= records {
 			//fmt.Println("1 idx=", idx)
 			requestUrl := fmt.Sprintf("https://www.hltv.org/results?offset=%d", idx)
+			//fmt.Println("&&& requestUrl=", requestUrl)
 			requestUrls = append(requestUrls, requestUrl)
 			//fmt.Println("1 requestUrl=", requestUrl)
 		} else if idx > records {

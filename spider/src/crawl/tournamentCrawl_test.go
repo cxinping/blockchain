@@ -35,4 +35,9 @@ func TestCrawlPlayer(t *testing.T) {
 func TestCrawlMatcheResultWeb(t *testing.T) {
 	t.Log("*** 开始解析已经有比赛结果的赛果网页 ***")
 	CrawlMatcheResults()
+
+	// https://www.hltv.org/results?offset=100
+	// https://www.hltv.org/results
+	CrawlMatcheResultWeb("https://www.hltv.org/results")
+
 }

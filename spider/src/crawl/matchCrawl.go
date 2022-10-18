@@ -61,12 +61,13 @@ func CrawlMatcheResults() {
 		r.Headers.Set("User-Agent", utils.RandomString())
 	})
 
-	c.OnHTML("div[class='pagination-component pagination-bottom']", func(e *colly.HTMLElement) {
+	c.OnHTML("div[class='results-holder allres']", func(e *colly.HTMLElement) {
 		content, _ := e.DOM.Html()
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
 		requestUrls := ParseMatchPageOffset(dom)
-		for reqeustUrl := range requestUrls {
-			fmt.Println("reqeustUrl=", reqeustUrl)
+
+		for _, reqeustUrl := range requestUrls {
+			fmt.Println("111 reqeustUrl=", reqeustUrl)
 		}
 	})
 
