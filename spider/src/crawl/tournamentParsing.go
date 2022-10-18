@@ -114,7 +114,7 @@ func OperateUpcomingMatch(dom *goquery.Document) []model.Match {
 				match.MatchTime = matchTime
 				match.TtName = utils.CompressString(tt_name)
 				match.TtPic = tt_pic
-				match.Desc = "section-" + strconv.Itoa(idx+1)
+				//match.Desc = "section-" + strconv.Itoa(idx+1)
 				match.MapType = mapType
 				match.SuggestIdx = uint8(starNum)
 				match.Team1Name = team1_name
@@ -138,44 +138,44 @@ func OperateLivingMatch(dom *goquery.Document) []model.Match {
 		// 赛事名称
 		match_name := liveMatchSectionDom.Find(".upcoming-headline").Text()
 		if match_name != "" {
-			fmt.Printf("\t正在比赛的赛事名称=%v\n", match_name)
+			//fmt.Printf("\t正在比赛的赛事名称=%v\n", match_name)
 		}
 
 		liveMatchSectionDom.Find(".liveMatch-container").Each(func(idx int, selection *goquery.Selection) {
 			match := model.Match{}
-			fmt.Printf("\tindex=%d, match=> %T\n", idx+1, match)
+			//fmt.Printf("\tindex=%d, match=> %T\n", idx+1, match)
 			match_url, _ := selection.Find("a[class='match a-reset']").Attr("href")
 			match.MatchUrl = parameter.HLTV_INDEX + match_url
-			fmt.Println("\t正在比赛的地址=> ", "https://www.hltv.org"+match_url)
+			//fmt.Println("\t正在比赛的地址=> ", "https://www.hltv.org"+match_url)
 			tt_name := selection.Find("div[class='matchEventName gtSmartphone-only']").Text()
 			match.TtName = utils.CompressString(tt_name)
-			fmt.Println("\t赛事名字=>", tt_name)
+			//fmt.Println("\t赛事名字=>", tt_name)
 			ttPic, _ := selection.Find(".matchEventLogoContainer").Find("img").Attr("src")
 			match.TtPic = ttPic
-			fmt.Println("\t赛事图片=>", ttPic)
+			//fmt.Println("\t赛事图片=>", ttPic)
 
 			map_type := selection.Find("div[class='matchMeta']").Text()
 			match.MapType = map_type
-			fmt.Println("\t地图类型=>", map_type)
+			//fmt.Println("\t地图类型=>", map_type)
 
 			selection.Find("div[class='matchTeam']").Each(func(i int, selection *goquery.Selection) {
 				team_name := utils.CompressString(selection.Find("div[class='matchTeamName text-ellipsis']").Text())
 				if i == 0 {
 					team1_name := team_name
-					team1_pic, _ := selection.Find("div[class='matchTeamLogoContainer']").Find("img").Attr("src")
-					team1_playing_score := selection.Find("div[class='currentMapScore trailing']").Find("span").Text()
+					//team1_pic, _ := selection.Find("div[class='matchTeamLogoContainer']").Find("img").Attr("src")
+					//team1_playing_score := selection.Find("div[class='currentMapScore trailing']").Find("span").Text()
 					match.Team1Name = team1_name
-					fmt.Println("\tteam1_name=", team1_name)
-					fmt.Println("\tteam1_pic=", team1_pic)
-					fmt.Println("\tteam1_playing_score=", team1_playing_score)
+					//fmt.Println("\tteam1_name=", team1_name)
+					//fmt.Println("\tteam1_pic=", team1_pic)
+					//fmt.Println("\tteam1_playing_score=", team1_playing_score)
 				} else if i == 1 {
 					team2_name := team_name
-					team2_pic, _ := selection.Find("div[class='matchTeamLogoContainer']").Find("img").Attr("src")
-					team2_playing_score := selection.Find("div[class='currentMapScore trailing']").Find("span").Text()
+					//team2_pic, _ := selection.Find("div[class='matchTeamLogoContainer']").Find("img").Attr("src")
+					//team2_playing_score := selection.Find("div[class='currentMapScore trailing']").Find("span").Text()
 					match.Team2Name = team2_name
-					fmt.Println("\tteam2_name=", team2_name)
-					fmt.Println("\tteam2_pic=", team2_pic)
-					fmt.Println("\tteam2_playing_score=", team2_playing_score)
+					//fmt.Println("\tteam2_name=", team2_name)
+					//fmt.Println("\tteam2_pic=", team2_pic)
+					//fmt.Println("\tteam2_playing_score=", team2_playing_score)
 				}
 			})
 
