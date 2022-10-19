@@ -29,3 +29,9 @@ func TestCompressString(t *testing.T) {
 	str = CompressString(str)
 	fmt.Printf("[%v],%T\n", str, str)
 }
+
+func TestGetExecutePath(t *testing.T) {
+	path := getExecutePath()
+	fmt.Println("path=", path)
+
+}

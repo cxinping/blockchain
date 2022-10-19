@@ -1,8 +1,18 @@
 package main
 
 import (
+	"fmt"
 	"spider/src/config"
+	"spider/src/scrapy_rules"
 )
+
+func scrapyPlayerWeb() {
+	getPlayerC := scrapy_rules.GetDefaultCollector()
+	fmt.Println("getPlayerC=", getPlayerC)
+	scrapy_rules.SetPlayerCallback(getPlayerC, "")
+
+	getPlayerC.Wait()
+}
 
 func main() {
 	//config.InitConfig() //读取配置文件
@@ -11,6 +21,7 @@ func main() {
 	db := config.InitDB() // 初始化数据库
 	defer db.Close()
 
+	scrapyPlayerWeb()
 	//crawl.CrawlTournamentWeb() //爬取赛事和比赛数据
 	//task.ExecTasks() //执行调度任务
 

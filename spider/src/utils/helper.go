@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/go-basic/uuid"
 	"math/rand"
+	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -48,4 +50,8 @@ func Decimal(num float64) float64 {
 	// 保留小数点后2位
 	num, _ = strconv.ParseFloat(fmt.Sprintf("%.2f", num), 64)
 	return num
+}
+
+func getExecutePath() string {
+	return filepath.Dir(os.Args[0])
 }
