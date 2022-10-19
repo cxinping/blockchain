@@ -14,7 +14,6 @@ func main() {
 	defer db.Close()
 
 	//crawl.CrawlTournamentWeb() //爬取赛事和比赛数据
-
 	//task.ExecTasks() //执行调度任务
 
 }
