@@ -21,11 +21,23 @@ func CrawlMatcheWeb(matchUrl string) {
 
 	// 爬取赛事信息
 	c := colly.NewCollector(
+		colly.AllowedDomains("www.hltv.org", "hltv.org"), //白名单域名
 		// 允许重复访问
 		colly.AllowURLRevisit(),
 		// Allow crawling to be done in parallel / async
-		//colly.Async(true),
+		colly.Async(true),
+		//colly.Debugger(&debug.LogDebugger{}), // 开启debug
+		colly.MaxDepth(2),            //爬取页面深度,最多为两层
+		colly.MaxBodySize(1024*1024), //响应正文最大字节数
+		colly.UserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36"),
+		colly.IgnoreRobotsTxt(), //忽略目标机器中的`robots.txt`声明
 	)
+
+	c.Limit(&colly.LimitRule{
+		Parallelism: 2,
+		Delay:       1 * time.Second,
+		RandomDelay: 5 * time.Second,
+	})
 
 	c.WithTransport(&http.Transport{
 		Proxy: http.ProxyFromEnvironment,
@@ -39,9 +51,10 @@ func CrawlMatcheWeb(matchUrl string) {
 		TLSHandshakeTimeout:   10 * time.Second, // TLS 握手超时
 		ExpectContinueTimeout: 10 * time.Second,
 	})
+
 	c.OnRequest(func(r *colly.Request) {
 		//反爬虫，通过随机改变 user-agent,
-		r.Headers.Set("User-Agent", utils.RandomString())
+		//r.Headers.Set("User-Agent", utils.RandomString())
 	})
 
 	//爬取赛事和赛果网页数据
@@ -49,20 +62,13 @@ func CrawlMatcheWeb(matchUrl string) {
 		content, _ := e.DOM.Html()
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
 
+		//方法1
 		match, team1, team2 := ParseMatchDetail(dom)
 		match.MatchUrl = matchUrl
 		operateMatchDetail(DB, match, team1, team2)
 		CrawlTeam(team1.TeamUrl)
 		CrawlTeam(team2.TeamUrl)
 
-		//matchTime, matchMode, matchStatus, team1, team2 := ParseMatchDetail(dom)
-		////fmt.Println("matchTime=", matchTime)
-		////fmt.Println("matchModeStr=", matchModeStr)
-		////fmt.Println("team1.TeamUrl=", team1.TeamUrl)
-		////fmt.Println(team2)
-		//operateMatchDetail(DB, matchUrl, matchTime, matchMode, matchStatus, team1, team2)
-		//CrawlTeam(team1.TeamUrl)
-		//CrawlTeam(team2.TeamUrl)
 	})
 
 	// 异常处理
@@ -74,7 +80,12 @@ func CrawlMatcheWeb(matchUrl string) {
 		fmt.Println("访问比赛网页 Visited ", r.Request.URL.String())
 	})
 
-	c.Visit(matchUrl)
+	err := c.Visit(matchUrl)
+	if err != nil {
+		fmt.Println("具体错误:", err)
+	}
+
+	c.Wait()
 }
 
 func CrawlMatcheResults() {
@@ -101,7 +112,7 @@ func CrawlMatcheResults() {
 
 	c.OnRequest(func(r *colly.Request) {
 		//反爬虫，通过随机改变 user-agent,
-		r.Headers.Set("User-Agent", utils.RandomString())
+		//r.Headers.Set("User-Agent", utils.RandomString())
 	})
 
 	// 异常处理
@@ -116,6 +127,7 @@ func CrawlMatcheResults() {
 
 		for _, reqeustUrl := range requestUrls {
 			fmt.Println("111 reqeustUrl=", reqeustUrl)
+			//CrawlMatcheResultWeb(reqeustUrl)
 		}
 	})
 
@@ -131,24 +143,36 @@ func CrawlMatcheResultWeb(matchUrl string) {
 	//分页爬取比赛结果的网页数据
 
 	c := colly.NewCollector(
+		colly.AllowedDomains("www.hltv.org", "hltv.org"), //白名单域名
 		// 允许重复访问
 		colly.AllowURLRevisit(),
 		// Allow crawling to be done in parallel / async
-		//colly.Async(true),
+		colly.Async(true),
+		//colly.Debugger(&debug.LogDebugger{}), // 开启debug
+		colly.MaxDepth(2),            //爬取页面深度,最多为两层
+		colly.MaxBodySize(1024*1024), //响应正文最大字节数
+		colly.UserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36"),
+		colly.IgnoreRobotsTxt(), //忽略目标机器中的`robots.txt`声明
 	)
 
-	c.WithTransport(&http.Transport{
-		Proxy: http.ProxyFromEnvironment,
-		DialContext: (&net.Dialer{
-			Timeout:   300 * time.Second, // 超时时间
-			KeepAlive: 300 * time.Second, // keepAlive 超时时间
-			DualStack: true,
-		}).DialContext,
-		MaxIdleConns:          100,              // 最大空闲连接数
-		IdleConnTimeout:       90 * time.Second, // 空闲连接超时
-		TLSHandshakeTimeout:   10 * time.Second, // TLS 握手超时
-		ExpectContinueTimeout: 10 * time.Second,
+	c.Limit(&colly.LimitRule{
+		Parallelism: 2,
+		Delay:       1 * time.Second,
+		RandomDelay: 5 * time.Second,
 	})
+
+	//c.WithTransport(&http.Transport{
+	//	Proxy: http.ProxyFromEnvironment,
+	//	DialContext: (&net.Dialer{
+	//		Timeout:   300 * time.Second, // 超时时间
+	//		KeepAlive: 300 * time.Second, // keepAlive 超时时间
+	//		DualStack: true,
+	//	}).DialContext,
+	//	MaxIdleConns:          100,              // 最大空闲连接数
+	//	IdleConnTimeout:       90 * time.Second, // 空闲连接超时
+	//	TLSHandshakeTimeout:   10 * time.Second, // TLS 握手超时
+	//	ExpectContinueTimeout: 10 * time.Second,
+	//})
 
 	c.OnRequest(func(r *colly.Request) {
 		//反爬虫，通过随机改变 user-agent,
@@ -194,7 +218,12 @@ func CrawlMatcheResultWeb(matchUrl string) {
 		fmt.Println("访问已经有比赛结果的赛果网页 Visited ", r.Request.URL.String())
 	})
 
-	c.Visit(matchUrl)
+	err := c.Visit(matchUrl)
+	if err != nil {
+		fmt.Println("具体错误:", err)
+	}
+
+	c.Wait()
 }
 
 func operateMatchDetail(DB *gorm.DB, match model.Match, team1 model.Team, team2 model.Team) {
