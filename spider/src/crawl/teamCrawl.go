@@ -5,14 +5,62 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly"
 	"github.com/jinzhu/gorm"
+	"io/ioutil"
 	"net"
 	"net/http"
 	"spider/src/config"
 	"spider/src/model"
 	"spider/src/utils"
 	"strings"
+	"sync"
 	"time"
 )
+
+func CrawlTeamHttp(teamUrl string) {
+	resp, err := http.Get(teamUrl)
+	if err != nil {
+		fmt.Print("http get err", err)
+		return
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Print("http get err", err)
+		return
+	}
+
+	fmt.Println(string(body))
+	dom, _ := goquery.NewDocumentFromReader(strings.NewReader(string(body)))
+	team := ParseMatchTeam(dom)
+
+	team.TeamUrl = teamUrl
+	DB := config.GetDB() // 初始化数据库句柄
+	OperateMatchTeam(DB, team)
+
+	// 方法1
+	if len(team.Players) > 0 {
+		for _, player := range team.Players {
+			//fmt.Println("player.PlayerUrl=> ", player.PlayerUrl)
+			CrawlPlayerHttp(player.PlayerUrl)
+		}
+	}
+
+	// 方法2
+	//wg := sync.WaitGroup{}
+	//
+	//for _, player := range team.Players {
+	//	wg.Add(1)
+	//
+	//	go func() {
+	//		CrawlPlayerHttp(player.PlayerUrl)
+	//		time.Sleep(3 * time.Second)
+	//
+	//		wg.Done()
+	//	}()
+	//}
+	//wg.Wait()
+
+}
 
 // 爬取战队的网页数据
 func CrawlTeam(teamUrl string) {
@@ -22,7 +70,7 @@ func CrawlTeam(teamUrl string) {
 		// 允许重复访问
 		colly.AllowURLRevisit(),
 		// Allow crawling to be done in parallel / async
-		//colly.Async(true),
+		colly.Async(true),
 	)
 
 	c.WithTransport(&http.Transport{
@@ -49,12 +97,27 @@ func CrawlTeam(teamUrl string) {
 		team.TeamUrl = teamUrl
 		OperateMatchTeam(DB, team)
 
-		if len(team.Players) > 0 {
-			for _, player := range team.Players {
-				//fmt.Println("player.PlayerUrl=> ", player.PlayerUrl)
-				CrawlPlayer(player.PlayerUrl)
-			}
+		// 方法1
+		//if len(team.Players) > 0 {
+		//	for _, player := range team.Players {
+		//		//fmt.Println("player.PlayerUrl=> ", player.PlayerUrl)
+		//		CrawlPlayer(player.PlayerUrl)
+		//	}
+		//}
+
+		//方法2
+		wg := sync.WaitGroup{}
+		for _, player := range team.Players {
+			wg.Add(1)
+
+			go func() {
+				CrawlPlayerHttp(player.PlayerUrl)
+				time.Sleep(2 * time.Second)
+
+				wg.Done()
+			}()
 		}
+		wg.Wait()
 
 	})
 
@@ -67,7 +130,10 @@ func CrawlTeam(teamUrl string) {
 		fmt.Println("访问战队网页 Visited ", r.Request.URL.String())
 	})
 
-	c.Visit(teamUrl)
+	err := c.Visit(teamUrl)
+	if err != nil {
+		fmt.Println("具体错误:", err)
+	}
 }
 
 func OperateMatchTeam(DB *gorm.DB, team model.Team) {

@@ -35,6 +35,9 @@ func TestCrawlTeam(t *testing.T) {
 	t.Log("* 开始解析战队的网页 *")
 	teamUrl := "https://www.hltv.org/team/11717/arena"
 	CrawlTeam(teamUrl)
+
+	//CrawlTeamHttp(teamUrl)   返回的网页内容没有经过JS渲染，没有找到数据???
+
 }
 
 func TestCrawlPlayer(t *testing.T) {

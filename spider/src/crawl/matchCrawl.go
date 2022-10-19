@@ -164,6 +164,7 @@ func CrawlMatcheResultWeb(matchUrl string) {
 		for _, matchUrl := range matchUrls {
 			//fmt.Println("matchUrl=> ", matchUrl)
 			CrawlMatcheWeb(matchUrl)
+
 		}
 
 		// 方法2
@@ -174,7 +175,7 @@ func CrawlMatcheResultWeb(matchUrl string) {
 		//
 		//	go func() {
 		//		CrawlMatcheWeb(matchUrl)
-		//		time.Sleep(500000 * time.Nanosecond)
+		//		time.Sleep(2 * time.Second)
 		//
 		//		wg.Done()
 		//	}()

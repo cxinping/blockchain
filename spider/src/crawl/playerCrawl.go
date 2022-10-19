@@ -5,6 +5,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly"
 	"github.com/jinzhu/gorm"
+	"io/ioutil"
 	"net"
 	"net/http"
 	"spider/src/config"
@@ -13,6 +14,28 @@ import (
 	"strings"
 	"time"
 )
+
+// 爬取队友的网页数据
+func CrawlPlayerHttp(playerUrl string) {
+	resp, err := http.Get(playerUrl)
+	if err != nil {
+		fmt.Print("http get err", err)
+		return
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Print("http get err", err)
+		return
+	}
+
+	//fmt.Println(string(body))
+	dom, _ := goquery.NewDocumentFromReader(strings.NewReader(string(body)))
+	player := ParseMatchTeamPlayer(dom)
+	player.PlayerUrl = playerUrl
+	DB := config.GetDB() // 初始化数据库句柄
+	OperatePlayer(DB, player)
+}
 
 // 爬取队友的网页数据
 func CrawlPlayer(playerUrl string) {
@@ -45,6 +68,7 @@ func CrawlPlayer(playerUrl string) {
 
 	c.OnHTML("div.contentCol", func(e *colly.HTMLElement) {
 		content, _ := e.DOM.Html()
+
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
 		player := ParseMatchTeamPlayer(dom)
 		player.PlayerUrl = playerUrl
