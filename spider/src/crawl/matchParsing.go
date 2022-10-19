@@ -71,7 +71,7 @@ func ParseMatchResult(dom *goquery.Document) []string {
 	return matchUrls
 }
 
-func ParseMatchDetail(dom *goquery.Document) (time.Time, string, string, model.Team, model.Team) {
+func ParseMatchDetail(dom *goquery.Document) (model.Match, model.Team, model.Team) {
 	//解析比赛网页数据, 抓取战队数据
 	//fmt.Println("*** ParseMatchDetail ***")
 
@@ -186,5 +186,6 @@ func ParseMatchDetail(dom *goquery.Document) (time.Time, string, string, model.T
 	})
 	team2.Players = play2ResultSet
 
-	return matchTime, matchMode, matchStatus, team1, team2
+	//return matchTime, matchMode, matchStatus, team1, team2
+	return match, team1, team2
 }
