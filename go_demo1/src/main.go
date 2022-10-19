@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go_demo1/src/aaa/common"
 	"go_demo1/src/aaa/http2"
+	"go_demo1/src/aaa/multi"
 	"go_demo1/src/hltv/logger"
 	"go_demo1/src/hltv/spider"
 	"go_demo1/src/hltv/task"
@@ -155,10 +156,13 @@ func main() {
 	//rst, _ := msToTime("1665844800000")
 	//fmt.Printf("%v, %T", rst, rst)
 
-	test_http()
+	//test_http()
 	//test_crawl()
 	//test_task()
 	//common.TestDelay()
 
 	//testConfig()
+
+	multi.WaitGroupStart("www.baidu.com")
+
 }

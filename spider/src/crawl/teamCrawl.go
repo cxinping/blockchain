@@ -11,7 +11,6 @@ import (
 	"spider/src/model"
 	"spider/src/utils"
 	"strings"
-	"sync"
 	"time"
 )
 
@@ -110,26 +109,27 @@ func CrawlTeam(teamUrl string) {
 		OperateMatchTeam(DB, team)
 
 		// 方法1
-		//if len(team.Players) > 0 {
-		//	for _, player := range team.Players {
-		//		//fmt.Println("player.PlayerUrl=> ", player.PlayerUrl)
-		//		CrawlPlayer(player.PlayerUrl)
-		//	}
-		//}
+		if len(team.Players) > 0 {
+			for _, player := range team.Players {
+				//fmt.Println("player.PlayerUrl=> ", player.PlayerUrl)
+				CrawlPlayer(player.PlayerUrl)
+			}
+		}
 
 		//方法2
-		wg := sync.WaitGroup{}
-		for _, player := range team.Players {
-			wg.Add(1)
-
-			go func() {
-				CrawlPlayerHttp(player.PlayerUrl)
-				time.Sleep(2 * time.Second)
-
-				wg.Done()
-			}()
-		}
-		wg.Wait()
+		//wg := sync.WaitGroup{}
+		//for _, player := range team.Players {
+		//	wg.Add(1)
+		//
+		//	go func() {
+		//		time.Sleep(time.Millisecond * 20)
+		//		CrawlPlayerHttp(player.PlayerUrl)
+		//		//time.Sleep(2 * time.Second)
+		//
+		//		wg.Done()
+		//	}()
+		//}
+		//wg.Wait()
 
 	})
 
