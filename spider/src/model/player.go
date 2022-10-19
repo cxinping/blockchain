@@ -10,7 +10,7 @@ type Player struct {
 	gorm.Model
 	PlayerBizId     string `gorm:"size:50;not null;default:'';comment:'队员的业务id'"`
 	NickName        string `gorm:"size:50;not null;default:'';comment:'队员的昵称'"`
-	RealName        string `gorm:"size:50;not null;default:'';comment:'队员的真名'"`
+	RealName        string `gorm:"size:50;default:'';comment:'队员的真名'"`
 	Birthday        string `gorm:"size:50;default:'';comment:'队员的生日'"`
 	TotalAward      int32  `gorm:"size:10;default:0;comment:'总奖金'"`
 	PlayerUrl       string `gorm:"size:255;default:'';comment:'队员的链接'"`
@@ -27,7 +27,7 @@ type Player struct {
 	Adr             string
 	Kpr             string
 	JobStatus       string
-	TeamBizId       string `gorm:"size:50;not null;default:'';comment:'队员所属战队的业务id'"`
+	TeamBizId       string `gorm:"size:50;default:'';comment:'队员所属战队的业务id'"`
 	CreatedTime     time.Time
 }
 
