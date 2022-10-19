@@ -98,21 +98,16 @@ func OperatePlayer(DB *gorm.DB, player model.Player) {
 	var playerCount int = 0
 	var queryTeam = model.Team{}
 	DB.Where("team_name = ?", player.CurrentTeamName).Find(&queryTeam)
-
 	DB.Model(&model.Player{}).Where("nick_name = ?", player.NickName).Count(&playerCount)
-	//fmt.Println("CurrentTeamName=", player.CurrentTeamName)
-	//fmt.Println("queryTeam.TeamName=", queryTeam.TeamName, queryTeam.TeamBizId)
-	//fmt.Printf("queryTeam.TeamBizId=[%v]\n", queryTeam.TeamBizId)
 
 	// 存在队员记录就修改，不存在就新建队员记录
-	if playerCount == 0 && queryTeam.TeamBizId != "" {
-		//fmt.Println("111 insert player data")
+	//if playerCount == 0 && queryTeam.TeamBizId != "" {
+	if playerCount == 0 {
 		player.PlayerBizId = utils.GenerateModuleBizID("PR")
-		player.TeamBizId = queryTeam.TeamBizId
+		//player.TeamBizId = queryTeam.TeamBizId
 		player.CreatedTime = time.Now()
-		player.Insert(DB)
+		//player.Insert(DB)
 	} else {
-		//fmt.Println("222 update player data")
 		DB.Model(model.Player{}).Where("nick_name = ?", player.NickName).Update(player)
 	}
 

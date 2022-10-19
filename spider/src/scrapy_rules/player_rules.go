@@ -9,15 +9,13 @@ import (
 	"strings"
 )
 
-func SetPlayerCallback(getPlayerC *colly.Collector, playerUrl string) {
-	DB := config.GetDB() // 初始化数据库句柄
+var DB = config.GetDB() // 初始化数据库句柄
 
+func SetPlayerCallback(getPlayerC *colly.Collector, playerUrl string) {
 	getPlayerC.OnHTML("div.contentCol", func(e *colly.HTMLElement) {
 		content, _ := e.DOM.Html()
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
-		//fmt.Println(dom.Html())
 		player := crawl.ParseMatchTeamPlayer(dom)
-		fmt.Println(player)
 		player.PlayerUrl = playerUrl
 		crawl.OperatePlayer(DB, player)
 	})
