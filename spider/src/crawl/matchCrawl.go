@@ -143,17 +143,20 @@ func CrawlMatcheResultWeb(matchUrl string) {
 	//分页爬取比赛结果的网页数据
 
 	c := colly.NewCollector(
-		colly.AllowedDomains("www.hltv.org", "hltv.org"), //白名单域名
-		// 允许重复访问
-		colly.AllowURLRevisit(),
-		// Allow crawling to be done in parallel / async
-		colly.Async(true),
-		//colly.Debugger(&debug.LogDebugger{}), // 开启debug
-		colly.MaxDepth(2),            //爬取页面深度,最多为两层
-		colly.MaxBodySize(1024*1024), //响应正文最大字节数
-		colly.UserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36"),
-		colly.IgnoreRobotsTxt(), //忽略目标机器中的`robots.txt`声明
+		//colly.AllowedDomains("www.hltv.org", "hltv.org"), //白名单域名
+		//// 允许重复访问
+		//colly.AllowURLRevisit(),
+		//// Allow crawling to be done in parallel / async
+		//colly.Async(true),
+		////colly.Debugger(&debug.LogDebugger{}), // 开启debug
+		//colly.MaxDepth(1),            //爬取页面深度,最多为两层
+		//colly.MaxBodySize(1024*1024), //响应正文最大字节数
+		////colly.UserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36"),
+		//colly.IgnoreRobotsTxt(), //忽略目标机器中的`robots.txt`声明
+
+		colly.MaxDepth(1), colly.DetectCharset(), colly.Async(true), colly.AllowURLRevisit(),
 	)
+	c.SetRequestTimeout(120 * time.Second)
 
 	c.Limit(&colly.LimitRule{
 		Parallelism: 2,
@@ -161,18 +164,18 @@ func CrawlMatcheResultWeb(matchUrl string) {
 		RandomDelay: 5 * time.Second,
 	})
 
-	//c.WithTransport(&http.Transport{
-	//	Proxy: http.ProxyFromEnvironment,
-	//	DialContext: (&net.Dialer{
-	//		Timeout:   300 * time.Second, // 超时时间
-	//		KeepAlive: 300 * time.Second, // keepAlive 超时时间
-	//		DualStack: true,
-	//	}).DialContext,
-	//	MaxIdleConns:          100,              // 最大空闲连接数
-	//	IdleConnTimeout:       90 * time.Second, // 空闲连接超时
-	//	TLSHandshakeTimeout:   10 * time.Second, // TLS 握手超时
-	//	ExpectContinueTimeout: 10 * time.Second,
-	//})
+	c.WithTransport(&http.Transport{
+		Proxy: http.ProxyFromEnvironment,
+		DialContext: (&net.Dialer{
+			Timeout:   300 * time.Second, // 超时时间
+			KeepAlive: 300 * time.Second, // keepAlive 超时时间
+			DualStack: true,
+		}).DialContext,
+		MaxIdleConns:          100,              // 最大空闲连接数
+		IdleConnTimeout:       90 * time.Second, // 空闲连接超时
+		TLSHandshakeTimeout:   10 * time.Second, // TLS 握手超时
+		ExpectContinueTimeout: 10 * time.Second,
+	})
 
 	c.OnRequest(func(r *colly.Request) {
 		//反爬虫，通过随机改变 user-agent,

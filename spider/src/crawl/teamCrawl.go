@@ -72,11 +72,12 @@ func CrawlTeam(teamUrl string) {
 		// Allow crawling to be done in parallel / async
 		colly.Async(true),
 		//colly.Debugger(&debug.LogDebugger{}), // 开启debug
-		colly.MaxDepth(2),            //爬取页面深度,最多为两层
+		colly.MaxDepth(1),            //爬取页面深度,最多为两层
 		colly.MaxBodySize(1024*1024), //响应正文最大字节数
 		colly.UserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36"),
 		colly.IgnoreRobotsTxt(), //忽略目标机器中的`robots.txt`声明
 	)
+	c.SetRequestTimeout(120 * time.Second)
 
 	c.Limit(&colly.LimitRule{
 		Parallelism: 2,
