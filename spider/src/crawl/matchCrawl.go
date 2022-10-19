@@ -22,7 +22,10 @@ func CrawlMatcheWeb(matchUrl string) {
 	// 爬取赛事信息
 	c := colly.NewCollector(
 		// 允许重复访问
-		colly.AllowURLRevisit())
+		colly.AllowURLRevisit(),
+		// Allow crawling to be done in parallel / async
+		//colly.Async(true),
+	)
 
 	c.WithTransport(&http.Transport{
 		Proxy: http.ProxyFromEnvironment,
@@ -34,7 +37,7 @@ func CrawlMatcheWeb(matchUrl string) {
 		MaxIdleConns:          100,              // 最大空闲连接数
 		IdleConnTimeout:       90 * time.Second, // 空闲连接超时
 		TLSHandshakeTimeout:   10 * time.Second, // TLS 握手超时
-		ExpectContinueTimeout: 1 * time.Second,
+		ExpectContinueTimeout: 10 * time.Second,
 	})
 	c.OnRequest(func(r *colly.Request) {
 		//反爬虫，通过随机改变 user-agent,
@@ -78,7 +81,10 @@ func CrawlMatcheResults() {
 	// 爬取已经有结果的赛果数据
 	c := colly.NewCollector(
 		// 允许重复访问
-		colly.AllowURLRevisit())
+		colly.AllowURLRevisit(),
+		// Allow crawling to be done in parallel / async
+		//colly.Async(true),
+	)
 
 	c.WithTransport(&http.Transport{
 		Proxy: http.ProxyFromEnvironment,
@@ -90,7 +96,7 @@ func CrawlMatcheResults() {
 		MaxIdleConns:          100,              // 最大空闲连接数
 		IdleConnTimeout:       90 * time.Second, // 空闲连接超时
 		TLSHandshakeTimeout:   10 * time.Second, // TLS 握手超时
-		ExpectContinueTimeout: 1 * time.Second,
+		ExpectContinueTimeout: 10 * time.Second,
 	})
 
 	c.OnRequest(func(r *colly.Request) {
@@ -126,7 +132,10 @@ func CrawlMatcheResultWeb(matchUrl string) {
 
 	c := colly.NewCollector(
 		// 允许重复访问
-		colly.AllowURLRevisit())
+		colly.AllowURLRevisit(),
+		// Allow crawling to be done in parallel / async
+		//colly.Async(true),
+	)
 
 	c.WithTransport(&http.Transport{
 		Proxy: http.ProxyFromEnvironment,
@@ -138,7 +147,7 @@ func CrawlMatcheResultWeb(matchUrl string) {
 		MaxIdleConns:          100,              // 最大空闲连接数
 		IdleConnTimeout:       90 * time.Second, // 空闲连接超时
 		TLSHandshakeTimeout:   10 * time.Second, // TLS 握手超时
-		ExpectContinueTimeout: 1 * time.Second,
+		ExpectContinueTimeout: 10 * time.Second,
 	})
 
 	c.OnRequest(func(r *colly.Request) {
@@ -159,11 +168,15 @@ func CrawlMatcheResultWeb(matchUrl string) {
 
 		// 方法2
 		//wg := sync.WaitGroup{}
+		//
 		//for _, matchUrl := range matchUrls {
 		//	wg.Add(1)
 		//
 		//	go func() {
 		//		CrawlMatcheWeb(matchUrl)
+		//		time.Sleep(500000 * time.Nanosecond)
+		//
+		//		wg.Done()
 		//	}()
 		//}
 		//wg.Wait()
