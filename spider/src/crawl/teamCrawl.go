@@ -5,6 +5,8 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly"
 	"github.com/jinzhu/gorm"
+	"net"
+	"net/http"
 	"spider/src/config"
 	"spider/src/model"
 	"spider/src/utils"
@@ -19,6 +21,19 @@ func CrawlTeam(teamUrl string) {
 	c := colly.NewCollector(
 		// 允许重复访问
 		colly.AllowURLRevisit())
+
+	c.WithTransport(&http.Transport{
+		Proxy: http.ProxyFromEnvironment,
+		DialContext: (&net.Dialer{
+			Timeout:   300 * time.Second, // 超时时间
+			KeepAlive: 300 * time.Second, // keepAlive 超时时间
+			DualStack: true,
+		}).DialContext,
+		MaxIdleConns:          100,              // 最大空闲连接数
+		IdleConnTimeout:       90 * time.Second, // 空闲连接超时
+		TLSHandshakeTimeout:   10 * time.Second, // TLS 握手超时
+		ExpectContinueTimeout: 1 * time.Second,
+	})
 
 	c.OnRequest(func(r *colly.Request) {
 		r.Headers.Set("User-Agent", utils.RandomString())

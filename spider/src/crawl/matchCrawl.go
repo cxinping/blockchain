@@ -15,7 +15,7 @@ import (
 	"time"
 )
 
-// 爬取将要进行的比赛网页数据
+// 爬取将要进行的比赛网页数据, 从 https://www.hltv.org/matches 获得的比赛页面 url
 func CrawlMatcheWeb(matchUrl string) {
 	DB := config.GetDB() // 初始化数据库句柄
 
@@ -24,6 +24,18 @@ func CrawlMatcheWeb(matchUrl string) {
 		// 允许重复访问
 		colly.AllowURLRevisit())
 
+	c.WithTransport(&http.Transport{
+		Proxy: http.ProxyFromEnvironment,
+		DialContext: (&net.Dialer{
+			Timeout:   300 * time.Second, // 超时时间
+			KeepAlive: 300 * time.Second, // keepAlive 超时时间
+			DualStack: true,
+		}).DialContext,
+		MaxIdleConns:          100,              // 最大空闲连接数
+		IdleConnTimeout:       90 * time.Second, // 空闲连接超时
+		TLSHandshakeTimeout:   10 * time.Second, // TLS 握手超时
+		ExpectContinueTimeout: 1 * time.Second,
+	})
 	c.OnRequest(func(r *colly.Request) {
 		//反爬虫，通过随机改变 user-agent,
 		r.Headers.Set("User-Agent", utils.RandomString())
@@ -68,6 +80,19 @@ func CrawlMatcheResults() {
 		// 允许重复访问
 		colly.AllowURLRevisit())
 
+	c.WithTransport(&http.Transport{
+		Proxy: http.ProxyFromEnvironment,
+		DialContext: (&net.Dialer{
+			Timeout:   300 * time.Second, // 超时时间
+			KeepAlive: 300 * time.Second, // keepAlive 超时时间
+			DualStack: true,
+		}).DialContext,
+		MaxIdleConns:          100,              // 最大空闲连接数
+		IdleConnTimeout:       90 * time.Second, // 空闲连接超时
+		TLSHandshakeTimeout:   10 * time.Second, // TLS 握手超时
+		ExpectContinueTimeout: 1 * time.Second,
+	})
+
 	c.OnRequest(func(r *colly.Request) {
 		//反爬虫，通过随机改变 user-agent,
 		r.Headers.Set("User-Agent", utils.RandomString())
@@ -98,7 +123,6 @@ func CrawlMatcheResults() {
 // 爬取已经结束的比赛网页数据
 func CrawlMatcheResultWeb(matchUrl string) {
 	//分页爬取比赛结果的网页数据
-	//DB := config.GetDB() // 初始化数据库句柄
 
 	c := colly.NewCollector(
 		// 允许重复访问
@@ -127,10 +151,24 @@ func CrawlMatcheResultWeb(matchUrl string) {
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
 
 		matchUrls := ParseMatchResult(dom)
+		// 方法1
 		for _, matchUrl := range matchUrls {
-			fmt.Println("matchUrl=> ", matchUrl)
+			//fmt.Println("matchUrl=> ", matchUrl)
+			CrawlMatcheWeb(matchUrl)
 		}
 
+		// 方法2
+		//wg := sync.WaitGroup{}
+		//for _, matchUrl := range matchUrls {
+		//	wg.Add(1)
+		//
+		//	go func() {
+		//		CrawlMatcheWeb(matchUrl)
+		//	}()
+		//}
+		//wg.Wait()
+
+		fmt.Printf("一共处理 %d 条页面的比赛页面", len(matchUrls))
 	})
 
 	// 异常处理

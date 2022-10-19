@@ -2,12 +2,16 @@ package crawl
 
 import (
 	"fmt"
+	"runtime"
 	"spider/src/config"
 	"testing"
 	"time"
 )
 
 func init() {
+	fmt.Printf("本台电脑是 %d 核的CPU\n", runtime.NumCPU())
+	runtime.GOMAXPROCS(runtime.NumCPU())
+
 	config.InitDB()
 }
 
