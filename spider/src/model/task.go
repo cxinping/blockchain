@@ -10,7 +10,8 @@ type ErrorInfo struct {
 	gorm.Model
 	Url         string `gorm:"size:100;default:'';comment:'执行任务时发生异常的链接'"`
 	ErrorType   string `gorm:"size:100;default:'';comment:'异常的类型'"`
-	Desc        string `gorm:"size:300;default:'';comment:'异常的描述'"`
+	StatusCode  int
+	Error       string `gorm:"size:1000;default:'';comment:'异常的描述'"`
 	CreatedTime time.Time
 }
 

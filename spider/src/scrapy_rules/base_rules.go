@@ -7,6 +7,9 @@ import (
 	"github.com/gocolly/colly/extensions"
 	"net/http"
 	"os"
+	"spider/src/config"
+	"spider/src/model"
+	"strings"
 	"time"
 )
 
@@ -67,5 +70,20 @@ func setDefaultCallback(c *colly.Collector) {
 	// deal with error statusCode
 	c.OnError(func(r *colly.Response, err error) {
 		fmt.Println("Request URL:", r.Request.URL, "failed with response:", r, "\nError:", err, "\nStatusCode", r.StatusCode)
+		DB := config.GetDB()
+		errInfo := model.ErrorInfo{}
+		errInfo.Url = r.Request.URL.String()
+		errInfo.Error = err.Error()
+		errInfo.StatusCode = r.StatusCode
+		errorType := ""
+		if strings.Index(r.Request.URL.String(), "player") > -1 {
+			errorType = "player"
+		} else if strings.Index(r.Request.URL.String(), "team") > -1 {
+			errorType = "team"
+		} else if strings.Index(r.Request.URL.String(), "matches") > -1 {
+			errorType = "matches"
+		}
+		errInfo.ErrorType = errorType
+		errInfo.Insert(DB)
 	})
 }
