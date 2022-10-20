@@ -62,13 +62,23 @@ func ParseMatchTeam(dom *goquery.Document) model.Team {
 	teamProfileDom := dom.Find("div[class='profile-team-stats-container']").Find("div[class='profile-team-stat']")
 	worldRankingStr := teamProfileDom.Eq(0).Find("span").Text()
 	worldRanking, _ := strconv.Atoi(strings.Replace(worldRankingStr, "#", "", -1))
-	averagePlayerAgeStr := teamProfileDom.Eq(2).Find("span").Text()
-	averagePlayerAge, _ := strconv.ParseFloat(averagePlayerAgeStr, 64)
-	averagePlayerAge = utils.Decimal(averagePlayerAge)
-	teamName := dom.Find("div[class='profile-team-info']").Find("h1[class='profile-team-name text-ellipsis']").Text()
-	coatchName := teamProfileDom.Eq(3).Find("span").Text()
-	coatchName = strings.Replace(coatchName, "'", "", -1)
 
+	averagePlayerAge := 0
+	coatchName := ""
+	itemStr := utils.CompressString(teamProfileDom.Eq(2).Find("b").Text())
+	//fmt.Println("**** itemStr=", itemStr)
+	if itemStr == "Coach" {
+		coatchName := teamProfileDom.Eq(2).Find("span").Text()
+		coatchName = strings.Replace(coatchName, "'", "", -1)
+	} else {
+		averagePlayerAgeStr := teamProfileDom.Eq(2).Find("span").Text()
+		averagePlayerAge, _ := strconv.ParseFloat(averagePlayerAgeStr, 64)
+		averagePlayerAge = utils.Decimal(averagePlayerAge)
+		coatchName := teamProfileDom.Eq(3).Find("span").Text()
+		coatchName = strings.Replace(coatchName, "'", "", -1)
+	}
+
+	teamName := dom.Find("div[class='profile-team-info']").Find("h1[class='profile-team-name text-ellipsis']").Text()
 	profileTopDom := dom.Find("div[class='standard-box profileTopBox clearfix']").Find("div[class='flex']")
 	teamPic, _ := profileTopDom.Find("div[class='profile-team-logo-container']").Find("img").Attr("src")
 	nationName := profileTopDom.Find("div[class='profile-team-info']").Find("div[class='team-country text-ellipsis']").Text()
@@ -82,14 +92,6 @@ func ParseMatchTeam(dom *goquery.Document) model.Team {
 	team.TeamPic = teamPic
 	team.NationName = utils.CompressString(nationName)
 	team.NationPic = nationPic
-
-	//fmt.Println("teamPic=", teamPic)
-	//fmt.Println("nationName=", nationName)
-	//fmt.Println("nationPic=", nationPic)
-	//fmt.Println("teamName=", teamName)
-	//fmt.Printf("worldRanking=%v,%T\n", worldRanking, worldRanking)
-	//fmt.Printf("averagePlayerAge=%v,%T\n", averagePlayerAge, averagePlayerAge)
-	//fmt.Println("coatchName=", coatchName)
 
 	dom.Find("div[class='bodyshot-team g-grid']").Find("a[class='col-custom']").Each(func(idx int, selection *goquery.Selection) {
 		var player model.Player
