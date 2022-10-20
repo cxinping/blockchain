@@ -43,11 +43,11 @@ func TestScrapyTeam(t *testing.T) {
 	// 多条战队页面抓取
 	teamUrls := make([]string, 0)
 	teamUrls = append(teamUrls, "https://www.hltv.org/team/11826/vendetta")
-	//teamUrls = append(teamUrls, "https://www.hltv.org/team/9943/atk")
-	//teamUrls = append(teamUrls, "https://www.hltv.org/team/11948/nouns")
-	//teamUrls = append(teamUrls, "https://www.hltv.org/team/7379/ftw")
-	//teamUrls = append(teamUrls, "https://www.hltv.org/team/6947/teamone")
-	//teamUrls = append(teamUrls, "https://www.hltv.org/team/10462/brazen")
+	teamUrls = append(teamUrls, "https://www.hltv.org/team/9943/atk")
+	teamUrls = append(teamUrls, "https://www.hltv.org/team/11948/nouns")
+	teamUrls = append(teamUrls, "https://www.hltv.org/team/7379/ftw")
+	teamUrls = append(teamUrls, "https://www.hltv.org/team/6947/teamone")
+	teamUrls = append(teamUrls, "https://www.hltv.org/team/10462/brazen")
 
 	// 该函数执行完成耗时： 5m2.679026154s
 	for _, teamUrl := range teamUrls {

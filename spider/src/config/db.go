@@ -34,6 +34,7 @@ func InitDB() *gorm.DB {
 	db.AutoMigrate(&model.Match{})      //赛程/赛果
 	db.AutoMigrate(&model.Team{})       //团队
 	db.AutoMigrate(&model.Player{})     //队员
+	db.AutoMigrate(&model.ErrorInfo{})
 	//db.AutoMigrate(&model.Map{})        //地图
 
 	//db.LogMode(true) //打开调试日志模式

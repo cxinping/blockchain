@@ -44,6 +44,7 @@ func SetTeamCallback(getTeamC *colly.Collector, teamUrl string) {
 		//fmt.Println("SetTeamCallback2 OnHTML requestUrl=> ", requestUrl, ", idx=", idx)
 
 		if idx > -1 {
+			// 处理队友网页的数据
 			content, _ := e.DOM.Html()
 			dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
 			player := ParseMatchTeamPlayer(dom)
@@ -51,7 +52,6 @@ func SetTeamCallback(getTeamC *colly.Collector, teamUrl string) {
 			OperatePlayer(DB, player)
 		}
 	})
-
 }
 
 func ParseMatchTeam(dom *goquery.Document) model.Team {
@@ -118,7 +118,6 @@ func ParseMatchTeam(dom *goquery.Document) model.Team {
 
 	})
 	team.Players = playerResultSet
-
 	return team
 }
 
