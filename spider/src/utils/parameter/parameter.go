@@ -12,4 +12,7 @@ const (
 	MATCH_MODE_ONLINE      = "online"                       // 线上
 	MATCH_MODE_LAN         = "lan"                          // 线下
 
+	// 错误信息
+	ERROR_STATUS_UNDO = "undo" //未处理
+	ERROR_STATUS_DONE = "dong" //已处理
 )

@@ -9,6 +9,7 @@ import (
 	"os"
 	"spider/src/config"
 	"spider/src/model"
+	"spider/src/utils/parameter"
 	"strings"
 	"time"
 )
@@ -85,6 +86,7 @@ func setDefaultCallback(c *colly.Collector) {
 		}
 		errInfo.ErrorType = errorType
 		errInfo.CreatedTime = time.Now()
+		errInfo.Status = parameter.ERROR_STATUS_UNDO
 		errInfo.Insert(DB)
 	})
 }
