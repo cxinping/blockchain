@@ -93,7 +93,8 @@ func TestScrapyMatchResults(t *testing.T) {
 }
 
 func TestScrapyMatchResult(t *testing.T) {
-	// 爬取比赛结果列表页面的比赛数据
+	// 爬取比赛结果列表页面的比赛数据，每页比赛记录有100条比赛结果
+	// https://www.hltv.org/results
 	start := time.Now()
 
 	matchResultUrl := "https://www.hltv.org/results"

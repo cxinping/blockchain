@@ -62,8 +62,8 @@ func SetMatcheResult(getMatchC *colly.Collector, scrapyMatch func(string)) {
 
 		fmt.Printf("页面含有%d条比赛记录", len(matchUrls))
 		for _, matchUrl := range matchUrls {
-			fmt.Println("matchUrl=> ", matchUrl)
-
+			//fmt.Println("matchUrl=> ", matchUrl)
+			scrapyMatch(matchUrl)
 		}
 	})
 
