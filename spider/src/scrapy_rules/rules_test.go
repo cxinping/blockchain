@@ -80,3 +80,14 @@ func TestScrapyMatchInformation(t *testing.T) {
 	delta := end.Sub(start)
 	fmt.Println("该函数执行完成耗时：", delta)
 }
+
+func TestScrapyMatchResults(t *testing.T) {
+	// 爬取比赛结果列表页面的比赛数据
+	start := time.Now()
+
+	ScrapyMatchResults()
+
+	end := time.Now()
+	delta := end.Sub(start)
+	fmt.Println("该函数执行完成耗时：", delta)
+}

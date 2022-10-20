@@ -2,6 +2,7 @@ package scrapy_rules
 
 import (
 	"fmt"
+	"spider/src/utils/parameter"
 )
 
 func ScrapyPlayerInfomation(playerUrl string) {
@@ -37,6 +38,19 @@ func ScrapyMatchInformation(matchUrl string) {
 	err := getMatchC.Visit(matchUrl)
 	if err != nil {
 		fmt.Println("访问网页", matchUrl, "具体错误:", err)
+	}
+
+	getMatchC.Wait()
+}
+
+func ScrapyMatchResults() {
+	// 爬取已经有结果的赛果数据
+	getMatchC := GetDefaultCollector()
+	SetMatcheResults(getMatchC)
+
+	err := getMatchC.Visit(parameter.MATCH_RESULT_URL)
+	if err != nil {
+		fmt.Println("访问网页", parameter.MATCH_RESULT_URL, "具体错误:", err)
 	}
 
 	getMatchC.Wait()
