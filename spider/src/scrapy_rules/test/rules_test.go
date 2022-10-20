@@ -1,9 +1,10 @@
-package scrapy_rules
+package test
 
 import (
 	"fmt"
 	"runtime"
 	"spider/src/config"
+	"spider/src/scrapy_rules"
 	"testing"
 	"time"
 )
@@ -25,7 +26,7 @@ func TestSetPlayerCallback(t *testing.T) {
 	playerUrls = append(playerUrls, "https://www.hltv.org/player/21014/ag1l")
 
 	for _, playerUrl := range playerUrls {
-		ScrapyPlayerInfomation(playerUrl)
+		scrapy_rules.ScrapyPlayerInfomation(playerUrl)
 	}
 	end := time.Now()
 	delta := end.Sub(start)

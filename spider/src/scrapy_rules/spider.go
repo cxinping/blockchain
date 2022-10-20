@@ -14,3 +14,11 @@ func ScrapyPlayerInfomation(playerUrl string) {
 
 	getPlayerC.Wait()
 }
+
+func ScrapyTeamInfomation(teamUrl string) {
+	//爬取战队信息
+	getTeamC := GetDefaultCollector()
+	playUrls := SetTeamCallback(getTeamC, teamUrl)
+	fmt.Println(playUrls)
+
+}
