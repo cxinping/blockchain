@@ -3,11 +3,15 @@ package main
 import (
 	"fmt"
 	"github.com/spf13/viper"
+	"runtime"
 	"spider/src/config"
 	"spider/src/scrapy_rules"
 )
 
 func init() {
+	fmt.Printf("* 本台电脑是 %d 核的CPU\n", runtime.NumCPU())
+	runtime.GOMAXPROCS(runtime.NumCPU())
+
 	config.InitConfig() //读取配置文件
 	fmt.Println("读取配置文件config.yml 得到 db.host => ", viper.Get("db.host"))
 

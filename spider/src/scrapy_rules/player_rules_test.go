@@ -16,11 +16,10 @@ func init() {
 
 func TestSetPlayerCallback(t *testing.T) {
 	getPlayerC := GetDefaultCollector()
-	//playerUrl := "https://www.hltv.org/player/8565/hen1"
-
 	playerUrls := make([]string, 0)
 	playerUrls = append(playerUrls, "https://www.hltv.org/player/11205/stadodo")
 	playerUrls = append(playerUrls, "https://www.hltv.org/player/20463/ddias")
+	playerUrls = append(playerUrls, "https://www.hltv.org/player/20465/arrozdoce")
 
 	for _, playerUrl := range playerUrls {
 		SetPlayerCallback(getPlayerC, playerUrl)
