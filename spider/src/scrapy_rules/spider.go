@@ -33,16 +33,11 @@ func ScrapyTeamInformation(teamUrl string) {
 func ScrapyMatchInformation(matchUrl string) {
 	//爬取比赛数据
 	getMatchC := GetDefaultCollector()
-
+	SetMatchCallback(getMatchC, matchUrl, ScrapyTeamInformation)
 	err := getMatchC.Visit(matchUrl)
 	if err != nil {
 		fmt.Println("访问网页", matchUrl, "具体错误:", err)
 	}
 
 	getMatchC.Wait()
-}
-
-func ScrapyTournamentMatch() {
-	// 爬取赛事和赛果网页数据
-
 }
