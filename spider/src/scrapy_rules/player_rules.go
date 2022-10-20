@@ -20,12 +20,6 @@ func SetPlayerCallback(getPlayerC *colly.Collector, playerUrl string) {
 		crawl.OperatePlayer(DB, player)
 	})
 
-	// 异常处理
-	getPlayerC.OnError(func(r *colly.Response, err error) {
-		fmt.Println("Request URL:", r.Request.URL, "failed with response:", r, "\nError:", err)
-		fmt.Println("")
-	})
-
 	getPlayerC.OnResponse(func(r *colly.Response) {
 		fmt.Println("访问战队-队员网页 Visited ", r.Request.URL.String())
 	})

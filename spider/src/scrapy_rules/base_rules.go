@@ -25,6 +25,9 @@ func GetDefaultCollector() *colly.Collector {
 		colly.Async(true),
 		colly.Debugger(debugger),
 	)
+
+	c.SetRequestTimeout(120 * time.Second)
+
 	//disable http KeepAlives its could cause OOM in long time work
 	c.WithTransport(&http.Transport{
 		DisableKeepAlives: true,
@@ -60,6 +63,5 @@ func setDefaultCallback(c *colly.Collector) {
 	// deal with error statusCode
 	c.OnError(func(r *colly.Response, err error) {
 		fmt.Println("Request URL:", r.Request.URL, "failed with response:", r, "\nError:", err, "\nStatusCode", r.StatusCode)
-
 	})
 }
