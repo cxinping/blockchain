@@ -27,8 +27,8 @@ func SetMatchCallback(getMatchC *colly.Collector, matchUrl string, scrapyTeam fu
 		match, team1, team2 := ParseMatchDetail(dom)
 		match.MatchUrl = matchUrl
 		operateMatchDetail(DB, match, team1, team2)
-		//scrapyTeam(team1.TeamUrl)
-		//scrapyTeam(team2.TeamUrl)
+		scrapyTeam(team1.TeamUrl)
+		scrapyTeam(team2.TeamUrl)
 	})
 
 }

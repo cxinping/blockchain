@@ -61,19 +61,20 @@ func TestScrapyTeam(t *testing.T) {
 
 func TestScrapyMatchInformation(t *testing.T) {
 	start := time.Now()
-	matchUrl := "https://www.hltv.org/matches/2359380/vitality-vs-tyloo-blast-premier-fall-showdown-2022-europe"
 
 	//单条比赛数据抓取
-	ScrapyMatchInformation(matchUrl)
+	//matchUrl := "https://www.hltv.org/matches/2359380/vitality-vs-tyloo-blast-premier-fall-showdown-2022-europe"
+	//ScrapyMatchInformation(matchUrl)
 
 	// 多条战队页面抓取
-	//matchUrls := make([]string, 0)
-	//matchUrls = append(matchUrls, "https://www.hltv.org/matches/2359380/vitality-vs-tyloo-blast-premier-fall-showdown-2022-europe")
-	//matchUrls = append(matchUrls, "https://www.hltv.org/matches/2359713/nouns-vs-atk-esl-challenger-league-season-42-north-america")
-	//
-	//for _, matchUrl := range matchUrls {
-	//	ScrapyMatchInformation(matchUrl)
-	//}
+	matchUrls := make([]string, 0)
+	matchUrls = append(matchUrls, "https://www.hltv.org/matches/2359657/ftw-vs-9ine-cct-central-europe-series-3")
+	matchUrls = append(matchUrls, "https://www.hltv.org/matches/2359380/vitality-vs-tyloo-blast-premier-fall-showdown-2022-europe")
+	matchUrls = append(matchUrls, "https://www.hltv.org/matches/2359713/nouns-vs-atk-esl-challenger-league-season-42-north-america")
+
+	for _, matchUrl := range matchUrls {
+		ScrapyMatchInformation(matchUrl)
+	}
 
 	end := time.Now()
 	delta := end.Sub(start)
