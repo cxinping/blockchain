@@ -84,6 +84,7 @@ func setDefaultCallback(c *colly.Collector) {
 			errorType = "matches"
 		}
 		errInfo.ErrorType = errorType
+		errInfo.CreatedTime = time.Now()
 		errInfo.Insert(DB)
 	})
 }
