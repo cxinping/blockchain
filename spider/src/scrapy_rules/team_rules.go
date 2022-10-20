@@ -63,20 +63,23 @@ func ParseMatchTeam(dom *goquery.Document) model.Team {
 	worldRankingStr := teamProfileDom.Eq(0).Find("span").Text()
 	worldRanking, _ := strconv.Atoi(strings.Replace(worldRankingStr, "#", "", -1))
 
-	averagePlayerAge := 0
+	averagePlayerAge := float64(0)
 	coatchName := ""
 	itemStr := utils.CompressString(teamProfileDom.Eq(2).Find("b").Text())
 	//fmt.Println("**** itemStr=", itemStr)
 	if itemStr == "Coach" {
-		coatchName := teamProfileDom.Eq(2).Find("span").Text()
+		coatchName = teamProfileDom.Eq(2).Find("span").Text()
 		coatchName = strings.Replace(coatchName, "'", "", -1)
+		//fmt.Println("111 coatchName=", coatchName)
 	} else {
 		averagePlayerAgeStr := teamProfileDom.Eq(2).Find("span").Text()
-		averagePlayerAge, _ := strconv.ParseFloat(averagePlayerAgeStr, 64)
+		averagePlayerAge, _ = strconv.ParseFloat(averagePlayerAgeStr, 64)
 		averagePlayerAge = utils.Decimal(averagePlayerAge)
-		coatchName := teamProfileDom.Eq(3).Find("span").Text()
+		coatchName = teamProfileDom.Eq(3).Find("span").Text()
 		coatchName = strings.Replace(coatchName, "'", "", -1)
 	}
+
+	//fmt.Println("222 coatchName=", coatchName, ", worldRanking=", worldRanking)
 
 	teamName := dom.Find("div[class='profile-team-info']").Find("h1[class='profile-team-name text-ellipsis']").Text()
 	profileTopDom := dom.Find("div[class='standard-box profileTopBox clearfix']").Find("div[class='flex']")
@@ -89,7 +92,7 @@ func ParseMatchTeam(dom *goquery.Document) model.Team {
 	team.WorldRanking = uint16(worldRanking)
 	team.AveragePlayerAge = float32(averagePlayerAge)
 	team.CoatchName = utils.CompressString(coatchName)
-	team.TeamPic = teamPic
+	team.TeamPic = parameter.HLTV_INDEX + teamPic
 	team.NationName = utils.CompressString(nationName)
 	team.NationPic = nationPic
 
