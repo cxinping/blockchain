@@ -16,7 +16,7 @@ func init() {
 	config.InitDB()
 }
 
-func TestSetPlayerCallback(t *testing.T) {
+func TestScrapyPlayerInfomation(t *testing.T) {
 	start := time.Now()
 	playerUrls := make([]string, 0)
 	playerUrls = append(playerUrls, "https://www.hltv.org/player/11205/stadodo")
@@ -33,12 +33,28 @@ func TestSetPlayerCallback(t *testing.T) {
 	fmt.Println("该函数执行完成耗时：", delta)
 }
 
-func TestScrapyTeamInfomation(t *testing.T) {
+func TestScrapyTeamInformation(t *testing.T) {
 	start := time.Now()
-	teamUrl := "func Testhttps://www.hltv.org/team/7379/ftw"
-	scrapy_rules.ScrapyTeamInfomation(teamUrl)
+	// 单条战队页面抓取
+	//teamUrl := "https://www.hltv.org/team/7379/ftw"
+	//scrapy_rules.ScrapyTeamInformation(teamUrl)
+
+	// 多条战队页面抓取
+	teamUrls := make([]string, 0)
+	teamUrls = append(teamUrls, "https://www.hltv.org/team/11826/vendetta")
+	teamUrls = append(teamUrls, "https://www.hltv.org/team/9943/atk")
+	teamUrls = append(teamUrls, "https://www.hltv.org/team/11948/nouns")
+	teamUrls = append(teamUrls, "https://www.hltv.org/team/7379/ftw")
+
+	for _, teamUrl := range teamUrls {
+		scrapy_rules.ScrapyTeamInformation(teamUrl)
+	}
 
 	end := time.Now()
 	delta := end.Sub(start)
 	fmt.Println("该函数执行完成耗时：", delta)
+}
+
+func TestScrapyMatchInformation(t *testing.T) {
+
 }

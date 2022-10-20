@@ -14,9 +14,8 @@ import (
 	"time"
 )
 
-func SetTeamCallback(getTeamC *colly.Collector, teamUrl string) []string {
+func SetTeamCallback(getTeamC *colly.Collector, teamUrl string, scrapyPlayer func(playerUrl string)) {
 	DB := config.GetDB() // 初始化数据库句柄
-	playerUrls := make([]string, 0)
 
 	getTeamC.OnHTML("div.contentCol", func(e *colly.HTMLElement) {
 		content, _ := e.DOM.Html()
@@ -27,18 +26,15 @@ func SetTeamCallback(getTeamC *colly.Collector, teamUrl string) []string {
 
 		if len(team.Players) > 0 {
 			for _, player := range team.Players {
-				//fmt.Println("player.PlayerUrl=> ", player.PlayerUrl)
-				playerUrls = append(playerUrls, player.PlayerUrl)
+				scrapyPlayer(player.PlayerUrl)
 			}
 		}
 	})
 
 	getTeamC.OnResponse(func(r *colly.Response) {
-		fmt.Println("访问战队-队员网页 Visited ", r.Request.URL.String())
+		fmt.Println("访问战队网页 Visited ", r.Request.URL.String())
 	})
 
-	fmt.Println("111 playerUrls=>", playerUrls)
-	return playerUrls
 }
 
 func ParseMatchTeam(dom *goquery.Document) model.Team {
