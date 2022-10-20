@@ -36,6 +36,7 @@ func TestScrapyTeam(t *testing.T) {
 	start := time.Now()
 	// 单条战队页面抓取
 	// 该函数执行完成耗时： 30.953974074s
+	// 该函数执行完成耗时： 41.03365201s
 	teamUrl := "https://www.hltv.org/team/7532/big"
 	ScrapyTeamInformation(teamUrl)
 

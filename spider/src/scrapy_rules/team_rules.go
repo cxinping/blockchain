@@ -120,14 +120,14 @@ func ParseMatchTeam(dom *goquery.Document) model.Team {
 func OperateMatchTeam(DB *gorm.DB, team model.Team) {
 	// 处理比赛战队
 	var count int = 0
-	DB.Model(&model.Team{}).Where("team_name = ?", team.TeamName).Count(&count)
+	DB.Model(&model.Team{}).Where("team_url = ?", team.TeamUrl).Count(&count)
 	// 存在战队记录就修改，不存在就新建战队记录
 	if count == 0 {
 		team.TeamBizId = utils.GenerateModuleBizID("TM")
 		team.CreatedTime = time.Now()
 		team.Insert(DB)
 	} else {
-		DB.Model(model.Team{}).Where("team_name = ?", team.TeamName).Updates(team)
+		DB.Model(model.Team{}).Where("team_url = ?", team.TeamUrl).Updates(team)
 	}
 
 	// 处理战队相关的队员
