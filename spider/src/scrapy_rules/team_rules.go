@@ -132,7 +132,7 @@ func OperateMatchTeam(DB *gorm.DB, team model.Team) {
 
 	// 处理战队相关的队员
 	var queryTeam = model.Team{}
-	DB.Where("team_name = ?", team.TeamName).Find(&queryTeam)
+	DB.Where("team_url = ?", team.TeamUrl).Find(&queryTeam)
 	//fmt.Println(queryTeam)
 	//fmt.Println(queryTeam.TeamBizId)
 

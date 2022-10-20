@@ -50,7 +50,6 @@ func TestScrapyTeam(t *testing.T) {
 	//teamUrls = append(teamUrls, "https://www.hltv.org/team/10462/brazen")
 
 	// 该函数执行完成耗时： 5m2.679026154s
-
 	for _, teamUrl := range teamUrls {
 		ScrapyTeamInformation(teamUrl)
 	}
