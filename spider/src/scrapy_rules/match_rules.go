@@ -60,7 +60,7 @@ func SetMatcheResult(getMatchC *colly.Collector, scrapyMatch func(string)) {
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(bodyData))
 		matchUrls := ParseMatchResult(dom)
 
-		fmt.Printf("页面含有%d条比赛记录", len(matchUrls))
+		fmt.Printf("页面含有%d条比赛记录\n", len(matchUrls))
 		for _, matchUrl := range matchUrls {
 			//fmt.Println("matchUrl=> ", matchUrl)
 			scrapyMatch(matchUrl)
