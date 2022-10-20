@@ -32,3 +32,13 @@ func TestSetPlayerCallback(t *testing.T) {
 	delta := end.Sub(start)
 	fmt.Println("该函数执行完成耗时：", delta)
 }
+
+func TestScrapyTeamInfomation(t *testing.T) {
+	start := time.Now()
+	teamUrl := "func Testhttps://www.hltv.org/team/7379/ftw"
+	scrapy_rules.ScrapyTeamInfomation(teamUrl)
+
+	end := time.Now()
+	delta := end.Sub(start)
+	fmt.Println("该函数执行完成耗时：", delta)
+}
