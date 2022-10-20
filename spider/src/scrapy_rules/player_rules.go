@@ -47,18 +47,8 @@ func ParseMatchTeamPlayer(dom *goquery.Document) model.Player {
 	age, _ := strconv.Atoi(ageStr)
 	currentTeamPic, _ := playerContainerDom.Find("div[class='playerTeam']").Find("span[class='listRight']").Find("img").Attr("src")
 	currentTeamName := playerContainerDom.Find("div[class='playerTeam']").Find("span[class='listRight']").Find("a").Text()
-
 	// 比赛的游戏指标
 	rating2 := dom.Find("div[class='g-grid stats-matches']").Find("div[class='player-stat']").Eq(0).Find("span").Text()
-
-	//fmt.Println("playerPic=", playerPic)
-	//fmt.Println("nickName=", nickName)
-	//fmt.Println("nationPic=", nationPic)
-	//fmt.Println("nationName=", nationName)
-	//fmt.Printf("age=[%v],%T\n", age, age)
-	//fmt.Printf("currentTeamPic=[%v],%T\n", currentTeamPic, currentTeamPic)
-	//fmt.Printf("currentTeamName=[%v],%T\n", currentTeamName, currentTeamName)
-	//fmt.Printf("rating2=[%v],%T\n", rating2, rating2)
 
 	player.PlayerPic = playerPic
 	player.NickName = utils.CompressString(nickName)
@@ -78,7 +68,7 @@ func OperatePlayer(DB *gorm.DB, player model.Player) {
 	var queryTeam = model.Team{}
 
 	DB.Where("team_name = ?", player.CurrentTeamName).Find(&queryTeam)
-	DB.Model(&model.Player{}).Where("nick_name = ?", player.NickName).Count(&playerCount)
+	DB.Model(&model.Player{}).Where("player_url = ?", player.PlayerUrl).Count(&playerCount)
 
 	// 存在队员记录就修改，不存在就新建队员记录
 	//if playerCount == 0 && queryTeam.TeamBizId != "" {
@@ -88,7 +78,7 @@ func OperatePlayer(DB *gorm.DB, player model.Player) {
 		player.CreatedTime = time.Now()
 		player.Insert(DB)
 	} else {
-		DB.Model(model.Player{}).Where("nick_name = ?", player.NickName).Update(player)
+		DB.Model(model.Player{}).Where("player_url = ?", player.PlayerUrl).Update(player)
 	}
 
 }

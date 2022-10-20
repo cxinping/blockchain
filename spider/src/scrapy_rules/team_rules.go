@@ -139,7 +139,7 @@ func OperateMatchTeam(DB *gorm.DB, team model.Team) {
 	if len(team.Players) > 0 {
 		for _, player := range team.Players {
 			count = 0
-			DB.Model(&model.Player{}).Where("nick_name = ?", player.NickName).Count(&count)
+			DB.Model(&model.Player{}).Where("player_url = ?", player.PlayerUrl).Count(&count)
 			//fmt.Println(player.Name, count)
 
 			if count == 0 {

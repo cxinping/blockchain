@@ -11,7 +11,7 @@ import (
 func init() {
 	fmt.Printf("本台电脑是 %d 核的CPU\n", runtime.NumCPU())
 	runtime.GOMAXPROCS(runtime.NumCPU())
-
+	// 初始化数据库
 	config.InitDB()
 }
 
@@ -37,36 +37,23 @@ func TestScrapyTeam(t *testing.T) {
 	// 单条战队页面抓取
 	// 该函数执行完成耗时： 30.953974074s
 	// 该函数执行完成耗时： 41.03365201s
-	teamUrl := "https://www.hltv.org/team/7532/big"
-	ScrapyTeamInformation(teamUrl)
+	//teamUrl := "https://www.hltv.org/team/7532/big"
+	//ScrapyTeamInformation(teamUrl)
 
 	// 多条战队页面抓取
-	//teamUrls := make([]string, 0)
-	//teamUrls = append(teamUrls, "https://www.hltv.org/team/11826/vendetta")
-	//teamUrls = append(teamUrls, "https://www.hltv.org/team/9943/atk")
+	teamUrls := make([]string, 0)
+	teamUrls = append(teamUrls, "https://www.hltv.org/team/11826/vendetta")
+	teamUrls = append(teamUrls, "https://www.hltv.org/team/9943/atk")
 	//teamUrls = append(teamUrls, "https://www.hltv.org/team/11948/nouns")
 	//teamUrls = append(teamUrls, "https://www.hltv.org/team/7379/ftw")
 	//teamUrls = append(teamUrls, "https://www.hltv.org/team/6947/teamone")
 	//teamUrls = append(teamUrls, "https://www.hltv.org/team/10462/brazen")
-	//
-	//// 该函数执行完成耗时： 5m2.679026154s
-	//for _, teamUrl := range teamUrls {
-	//	scrapy_rules.ScrapyTeamInformation(teamUrl)
-	//}
 
-	//该函数执行完成耗时： 54.813325704s
-	// 该函数执行完成耗时： 53.024295833s
-	//wg := sync.WaitGroup{}
-	//for _, teamUrl := range teamUrls {
-	//	wg.Add(1)
-	//	go func() {
-	//		scrapy_rules.ScrapyTeamInformation(teamUrl)
-	//		time.Sleep(2 * time.Second)
-	//
-	//		wg.Done()
-	//	}()
-	//}
-	//wg.Wait()
+	// 该函数执行完成耗时： 5m2.679026154s
+
+	for _, teamUrl := range teamUrls {
+		ScrapyTeamInformation(teamUrl)
+	}
 
 	end := time.Now()
 	delta := end.Sub(start)
