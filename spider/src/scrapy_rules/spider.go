@@ -44,13 +44,26 @@ func ScrapyMatchInformation(matchUrl string) {
 }
 
 func ScrapyMatchResults() {
-	// 爬取已经有结果的赛果数据
+	// 爬取多页的赛果数据
 	getMatchC := GetDefaultCollector()
 	SetMatcheResults(getMatchC)
 
 	err := getMatchC.Visit(parameter.MATCH_RESULT_URL)
 	if err != nil {
 		fmt.Println("访问网页", parameter.MATCH_RESULT_URL, "具体错误:", err)
+	}
+
+	getMatchC.Wait()
+}
+
+func ScrapyMatchResult(matchURL string) {
+	// 爬取每一页比赛结果列表的比赛数据
+	getMatchC := GetDefaultCollector()
+	SetMatcheResult(getMatchC)
+
+	err := getMatchC.Visit(matchURL)
+	if err != nil {
+		fmt.Println("访问网页", matchURL, "具体错误:", err)
 	}
 
 	getMatchC.Wait()

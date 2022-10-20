@@ -50,6 +50,45 @@ func SetMatcheResults(getMatchC *colly.Collector) {
 
 }
 
+func SetMatcheResult(getMatchC *colly.Collector) {
+	//分页爬取比赛结果的网页数据
+
+	getMatchC.OnResponse(func(r *colly.Response) {
+		fmt.Println("访问已经有比赛结果的赛果网页 Visited ", r.Request.URL.String())
+
+		bodyData := string(r.Body)
+		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(bodyData))
+		matchUrls := ParseMatchResult(dom)
+		for _, matchUrl := range matchUrls {
+			fmt.Println("matchUrl=> ", matchUrl)
+
+		}
+	})
+
+}
+
+func ParseMatchResult(dom *goquery.Document) []string {
+	// 解析分页的比赛结果的网页数据
+	matchUrls := make([]string, 0)
+
+	dom.Find("div[class='results-sublist']").Each(func(idx int, resultSel *goquery.Selection) {
+		// https://www.hltv.org/results
+		//title := resultSel.Find("div[class='standard-headline']").Text()
+		//title2 := resultSel.Find("span[class='standard-headline']").Eq(idx).Text()
+		//fmt.Println("section idx=", idx+1, ", title=", title, ", title2=", title2)
+		//fmt.Println(resultSel.Html())
+
+		resultSel.Find("div[class='result-con ']").Each(func(idx int, itemSel *goquery.Selection) {
+			matchUrl, _ := itemSel.Find("a").Attr("href")
+			matchUrl = parameter.HLTV_INDEX + matchUrl
+			//fmt.Println("\titem idx=", idx, matchUrl)
+			matchUrls = append(matchUrls, matchUrl)
+		})
+	})
+
+	return matchUrls
+}
+
 func ParseMatchPageOffset(dom *goquery.Document) []string {
 	/**
 	 * 爬取要爬取页面的网页偏移量
