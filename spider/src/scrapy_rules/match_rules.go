@@ -2,6 +2,7 @@ package scrapy_rules
 
 import (
 	"github.com/PuerkitoBio/goquery"
+	"github.com/gocolly/colly"
 	"spider/src/model"
 	"spider/src/utils"
 	"spider/src/utils/parameter"
@@ -9,6 +10,10 @@ import (
 	"strings"
 	"time"
 )
+
+func SetMatchResultCallback(getMatchC *colly.Collector, teamUrl string) {
+
+}
 
 func ParseMatchDetail(dom *goquery.Document) (model.Match, model.Team, model.Team) {
 	//解析比赛网页数据, 抓取战队数据
