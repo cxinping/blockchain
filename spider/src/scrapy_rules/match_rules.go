@@ -50,7 +50,7 @@ func SetMatcheResults(getMatchC *colly.Collector) {
 
 }
 
-func SetMatcheResult(getMatchC *colly.Collector) {
+func SetMatcheResult(getMatchC *colly.Collector, scrapyMatch func(string)) {
 	//分页爬取比赛结果的网页数据
 
 	getMatchC.OnResponse(func(r *colly.Response) {
@@ -59,6 +59,8 @@ func SetMatcheResult(getMatchC *colly.Collector) {
 		bodyData := string(r.Body)
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(bodyData))
 		matchUrls := ParseMatchResult(dom)
+
+		fmt.Printf("页面含有%d条比赛记录", len(matchUrls))
 		for _, matchUrl := range matchUrls {
 			fmt.Println("matchUrl=> ", matchUrl)
 

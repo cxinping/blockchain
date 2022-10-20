@@ -59,7 +59,7 @@ func ScrapyMatchResults() {
 func ScrapyMatchResult(matchURL string) {
 	// 爬取每一页比赛结果列表的比赛数据
 	getMatchC := GetDefaultCollector()
-	SetMatcheResult(getMatchC)
+	SetMatcheResult(getMatchC, ScrapyMatchInformation)
 
 	err := getMatchC.Visit(matchURL)
 	if err != nil {
