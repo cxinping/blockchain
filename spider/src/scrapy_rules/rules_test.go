@@ -1,10 +1,9 @@
-package test
+package scrapy_rules
 
 import (
 	"fmt"
 	"runtime"
 	"spider/src/config"
-	"spider/src/scrapy_rules"
 	"testing"
 	"time"
 )
@@ -26,7 +25,7 @@ func TestScrapyPlayerInfomation(t *testing.T) {
 	playerUrls = append(playerUrls, "https://www.hltv.org/player/21014/ag1l")
 
 	for _, playerUrl := range playerUrls {
-		scrapy_rules.ScrapyPlayerInfomation(playerUrl)
+		ScrapyPlayerInfomation(playerUrl)
 	}
 	end := time.Now()
 	delta := end.Sub(start)
@@ -36,19 +35,37 @@ func TestScrapyPlayerInfomation(t *testing.T) {
 func TestScrapyTeamInformation(t *testing.T) {
 	start := time.Now()
 	// 单条战队页面抓取
-	//teamUrl := "https://www.hltv.org/team/7379/ftw"
+	teamUrl := "https://www.hltv.org/team/7532/big"
 	//scrapy_rules.ScrapyTeamInformation(teamUrl)
+	ScrapyTeamInformation2(teamUrl)
 
 	// 多条战队页面抓取
-	teamUrls := make([]string, 0)
-	teamUrls = append(teamUrls, "https://www.hltv.org/team/11826/vendetta")
-	teamUrls = append(teamUrls, "https://www.hltv.org/team/9943/atk")
-	teamUrls = append(teamUrls, "https://www.hltv.org/team/11948/nouns")
-	teamUrls = append(teamUrls, "https://www.hltv.org/team/7379/ftw")
+	//teamUrls := make([]string, 0)
+	//teamUrls = append(teamUrls, "https://www.hltv.org/team/11826/vendetta")
+	//teamUrls = append(teamUrls, "https://www.hltv.org/team/9943/atk")
+	//teamUrls = append(teamUrls, "https://www.hltv.org/team/11948/nouns")
+	//teamUrls = append(teamUrls, "https://www.hltv.org/team/7379/ftw")
+	//teamUrls = append(teamUrls, "https://www.hltv.org/team/6947/teamone")
+	//teamUrls = append(teamUrls, "https://www.hltv.org/team/10462/brazen")
+	//
+	//// 该函数执行完成耗时： 5m2.679026154s
+	//for _, teamUrl := range teamUrls {
+	//	scrapy_rules.ScrapyTeamInformation(teamUrl)
+	//}
 
-	for _, teamUrl := range teamUrls {
-		scrapy_rules.ScrapyTeamInformation(teamUrl)
-	}
+	//该函数执行完成耗时： 54.813325704s
+	// 该函数执行完成耗时： 53.024295833s
+	//wg := sync.WaitGroup{}
+	//for _, teamUrl := range teamUrls {
+	//	wg.Add(1)
+	//	go func() {
+	//		scrapy_rules.ScrapyTeamInformation(teamUrl)
+	//		time.Sleep(2 * time.Second)
+	//
+	//		wg.Done()
+	//	}()
+	//}
+	//wg.Wait()
 
 	end := time.Now()
 	delta := end.Sub(start)

@@ -1,6 +1,8 @@
 package scrapy_rules
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func ScrapyPlayerInfomation(playerUrl string) {
 	//爬取队员数据
@@ -19,6 +21,19 @@ func ScrapyTeamInformation(teamUrl string) {
 	//爬取战队数据
 	getTeamC := GetDefaultCollector()
 	SetTeamCallback(getTeamC, teamUrl, ScrapyPlayerInfomation)
+
+	err := getTeamC.Visit(teamUrl)
+	if err != nil {
+		fmt.Println("访问网页", teamUrl, "具体错误:", err)
+	}
+
+	getTeamC.Wait()
+}
+
+func ScrapyTeamInformation2(teamUrl string) {
+	//爬取战队数据
+	getTeamC := GetDefaultCollector()
+	SetTeamCallback2(getTeamC, teamUrl, ScrapyPlayerInfomation)
 
 	err := getTeamC.Visit(teamUrl)
 	if err != nil {

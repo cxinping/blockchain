@@ -37,6 +37,43 @@ func SetTeamCallback(getTeamC *colly.Collector, teamUrl string, scrapyPlayer fun
 
 }
 
+func SetTeamCallback2(getTeamC *colly.Collector, teamUrl string, scrapyPlayer func(playerUrl string)) {
+	DB := config.GetDB() // 初始化数据库句柄
+
+	getTeamC.OnResponse(func(r *colly.Response) {
+		fmt.Println("访问战队网页 Visited ", r.Request.URL.String())
+		bodyData := string(r.Body)
+		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(bodyData))
+		team := ParseMatchTeam(dom)
+		team.TeamUrl = teamUrl
+		OperateMatchTeam(DB, team)
+
+		if len(team.Players) > 0 {
+			for _, player := range team.Players {
+				getTeamC.Visit(player.PlayerUrl)
+			}
+		}
+	})
+
+	getTeamC.OnHTML("div.contentCol", func(e *colly.HTMLElement) {
+		fmt.Println("111 SetTeamCallback2 OnHTML")
+		url := e.Request.URL.String()
+		fmt.Println("url=", url)
+		//content, _ := e.DOM.Html()
+		//dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
+		//team := ParseMatchTeam(dom)
+		//team.TeamUrl = teamUrl
+		//OperateMatchTeam(DB, team)
+		//
+		//if len(team.Players) > 0 {
+		//	for _, player := range team.Players {
+		//		getTeamC.Visit(player.PlayerUrl)
+		//	}
+		//}
+	})
+
+}
+
 func ParseMatchTeam(dom *goquery.Document) model.Team {
 	//解析比赛战队网页
 	var team model.Team
