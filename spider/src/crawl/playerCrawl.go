@@ -97,8 +97,11 @@ func OperatePlayer(DB *gorm.DB, player model.Player) {
 	// 处理战队的队员数据
 	var playerCount int = 0
 	var queryTeam = model.Team{}
+
+	fmt.Println("player.CurrentTeamName=", player.CurrentTeamName)
+
 	DB.Debug().Where("team_name = ?", player.CurrentTeamName).Find(&queryTeam)
-	DB.Debug().Model(&model.Player{}).Where("nick_name = ?", player.NickName).Count(&playerCount)
+	DB.Model(&model.Player{}).Where("nick_name = ?", player.NickName).Count(&playerCount)
 
 	// 存在队员记录就修改，不存在就新建队员记录
 	//if playerCount == 0 && queryTeam.TeamBizId != "" {
