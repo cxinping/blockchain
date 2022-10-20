@@ -37,6 +37,7 @@ func SetTeamCallback(getTeamC *colly.Collector, teamUrl string) []string {
 		fmt.Println("访问战队-队员网页 Visited ", r.Request.URL.String())
 	})
 
+	fmt.Println("111 playerUrls=>", playerUrls)
 	return playerUrls
 }
 

@@ -22,3 +22,8 @@ func ScrapyTeamInfomation(teamUrl string) {
 	fmt.Println(playUrls)
 
 }
+
+func ScrapyMatchInformation(matchUrl string) {
+	//爬取比赛信息
+
+}
