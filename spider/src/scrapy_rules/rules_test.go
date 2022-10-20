@@ -15,7 +15,7 @@ func init() {
 	config.InitDB()
 }
 
-func TestScrapyPlayerInfomation(t *testing.T) {
+func TestScrapyPlayer(t *testing.T) {
 	start := time.Now()
 	playerUrls := make([]string, 0)
 	playerUrls = append(playerUrls, "https://www.hltv.org/player/11205/stadodo")
@@ -32,12 +32,12 @@ func TestScrapyPlayerInfomation(t *testing.T) {
 	fmt.Println("该函数执行完成耗时：", delta)
 }
 
-func TestScrapyTeamInformation(t *testing.T) {
+func TestScrapyTeam(t *testing.T) {
 	start := time.Now()
 	// 单条战队页面抓取
+	// 该函数执行完成耗时： 30.953974074s
 	teamUrl := "https://www.hltv.org/team/7532/big"
-	//scrapy_rules.ScrapyTeamInformation(teamUrl)
-	ScrapyTeamInformation2(teamUrl)
+	ScrapyTeamInformation(teamUrl)
 
 	// 多条战队页面抓取
 	//teamUrls := make([]string, 0)

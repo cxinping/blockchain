@@ -14,34 +14,17 @@ import (
 	"time"
 )
 
-func SetTeamCallback(getTeamC *colly.Collector, teamUrl string, scrapyPlayer func(playerUrl string)) {
+func SetTeamCallback(getTeamC *colly.Collector, teamUrl string) {
 	DB := config.GetDB() // 初始化数据库句柄
 
-	getTeamC.OnHTML("div.contentCol", func(e *colly.HTMLElement) {
-		content, _ := e.DOM.Html()
-		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
-		team := ParseMatchTeam(dom)
-		team.TeamUrl = teamUrl
-		OperateMatchTeam(DB, team)
-
-		if len(team.Players) > 0 {
-			for _, player := range team.Players {
-				scrapyPlayer(player.PlayerUrl)
-			}
+	getTeamC.OnResponse(func(r *colly.Response) {
+		idx := strings.Index(r.Request.URL.String(), "team")
+		if idx > -1 {
+			fmt.Println("访问战队网页 Visited ", r.Request.URL.String())
+		} else {
+			fmt.Println("访问战队-队员网页 Visited ", r.Request.URL.String())
 		}
-	})
 
-	getTeamC.OnResponse(func(r *colly.Response) {
-		fmt.Println("访问战队网页 Visited ", r.Request.URL.String())
-	})
-
-}
-
-func SetTeamCallback2(getTeamC *colly.Collector, teamUrl string, scrapyPlayer func(playerUrl string)) {
-	DB := config.GetDB() // 初始化数据库句柄
-
-	getTeamC.OnResponse(func(r *colly.Response) {
-		fmt.Println("访问战队网页 Visited ", r.Request.URL.String())
 		bodyData := string(r.Body)
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(bodyData))
 		team := ParseMatchTeam(dom)
@@ -56,20 +39,17 @@ func SetTeamCallback2(getTeamC *colly.Collector, teamUrl string, scrapyPlayer fu
 	})
 
 	getTeamC.OnHTML("div.contentCol", func(e *colly.HTMLElement) {
-		fmt.Println("111 SetTeamCallback2 OnHTML")
-		url := e.Request.URL.String()
-		fmt.Println("url=", url)
-		//content, _ := e.DOM.Html()
-		//dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
-		//team := ParseMatchTeam(dom)
-		//team.TeamUrl = teamUrl
-		//OperateMatchTeam(DB, team)
-		//
-		//if len(team.Players) > 0 {
-		//	for _, player := range team.Players {
-		//		getTeamC.Visit(player.PlayerUrl)
-		//	}
-		//}
+		requestUrl := e.Request.URL.String()
+		idx := strings.Index(requestUrl, "player")
+		//fmt.Println("SetTeamCallback2 OnHTML requestUrl=> ", requestUrl, ", idx=", idx)
+
+		if idx > -1 {
+			content, _ := e.DOM.Html()
+			dom, _ := goquery.NewDocumentFromReader(strings.NewReader(content))
+			player := ParseMatchTeamPlayer(dom)
+			player.PlayerUrl = requestUrl
+			OperatePlayer(DB, player)
+		}
 	})
 
 }
