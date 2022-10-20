@@ -24,6 +24,10 @@ func GetDefaultCollector() *colly.Collector {
 	var c = colly.NewCollector(
 		colly.Async(true),
 		colly.Debugger(debugger),
+
+		colly.MaxDepth(1),
+		colly.DetectCharset(),
+		colly.AllowURLRevisit(),
 	)
 
 	c.SetRequestTimeout(120 * time.Second)
