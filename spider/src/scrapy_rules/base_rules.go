@@ -29,12 +29,12 @@ func GetDefaultCollector() *colly.Collector {
 		colly.Async(true),
 		colly.Debugger(debugger),
 
-		colly.MaxDepth(1),
+		colly.MaxDepth(2),
 		colly.DetectCharset(),
 		colly.AllowURLRevisit(),
 	)
 
-	c.SetRequestTimeout(120 * time.Second)
+	c.SetRequestTimeout(60 * 10 * time.Second)
 
 	//disable http KeepAlives its could cause OOM in long time work
 	c.WithTransport(&http.Transport{
@@ -61,8 +61,8 @@ func setDefaultCallback(c *colly.Collector) {
 	// number of go routines.
 
 	// delay 3 to 5 second
-	delay := time.Duration(5)
-	randomDelay := time.Duration(5)
+	delay := time.Duration(2)
+	randomDelay := time.Duration(2)
 	if delay == 0 || randomDelay == 0 {
 		delay, randomDelay = 8, 2
 	}
