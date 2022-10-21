@@ -34,7 +34,6 @@ func SetMatchCallback(getMatchC *colly.Collector, matchUrl string, scrapyTeam fu
 }
 
 func SetMatcheResults(getMatchC *colly.Collector, scrapyMatchResult func(string)) {
-	//DB := config.GetDB() // 初始化数据库句柄
 	getMatchC.OnResponse(func(r *colly.Response) {
 		fmt.Println("访问已经有比赛结果的赛果网页 Visited ", r.Request.URL.String())
 
