@@ -5,7 +5,6 @@ import (
 	"github.com/spf13/viper"
 	"runtime"
 	"spider/src/config"
-	"spider/src/scrapy_rules"
 )
 
 func init() {
@@ -19,17 +18,8 @@ func init() {
 	defer db.Close()
 }
 
-func scrapyPlayer() {
-	getPlayerC := scrapy_rules.GetDefaultCollector()
-	//fmt.Println("getPlayerC=", getPlayerC)
-	scrapy_rules.SetPlayerCallback(getPlayerC, "https://www.hltv.org/player/21014/ag1l")
-
-	getPlayerC.Wait()
-}
-
 func main() {
 
-	scrapyPlayer()
 	//crawl.CrawlTournamentWeb() //爬取赛事和比赛数据
 	//task.ExecTasks() //执行调度任务
 
