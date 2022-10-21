@@ -19,17 +19,17 @@ func init() {
 	defer db.Close()
 }
 
-func scrapyPlayerWeb() {
+func scrapyPlayer() {
 	getPlayerC := scrapy_rules.GetDefaultCollector()
 	//fmt.Println("getPlayerC=", getPlayerC)
-	scrapy_rules.SetPlayerCallback(getPlayerC, "")
+	scrapy_rules.SetPlayerCallback(getPlayerC, "https://www.hltv.org/player/21014/ag1l")
 
 	getPlayerC.Wait()
 }
 
 func main() {
 
-	scrapyPlayerWeb()
+	scrapyPlayer()
 	//crawl.CrawlTournamentWeb() //爬取赛事和比赛数据
 	//task.ExecTasks() //执行调度任务
 
