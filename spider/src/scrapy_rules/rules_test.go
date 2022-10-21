@@ -106,3 +106,13 @@ func TestScrapyMatchResult(t *testing.T) {
 }
 
 //////////////////////////////// 赛事/赛程列表页面解析
+
+func TestScrapyTournament(t *testing.T) {
+	start := time.Now()
+
+	ScrapyTournament()
+
+	end := time.Now()
+	delta := end.Sub(start)
+	fmt.Println("该函数执行完成耗时：", delta)
+}

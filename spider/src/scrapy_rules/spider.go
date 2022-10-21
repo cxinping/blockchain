@@ -68,3 +68,17 @@ func ScrapyMatchResult(matchURL string) {
 
 	getMatchC.Wait()
 }
+
+/////////////////
+
+func ScrapyTournament() {
+	getTournamentC := GetDefaultCollector()
+
+	SetTournamentCallback(getTournamentC)
+	err := getTournamentC.Visit(parameter.TT_MATCH_URL)
+	if err != nil {
+		fmt.Println("访问网页", parameter.TT_MATCH_URL, "具体错误:", err)
+	}
+
+	getTournamentC.Wait()
+}
