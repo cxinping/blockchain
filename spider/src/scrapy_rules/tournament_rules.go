@@ -1,6 +1,7 @@
 package scrapy_rules
 
 import (
+	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly"
 	"github.com/jinzhu/gorm"
@@ -17,6 +18,7 @@ func SetTournamentCallback(getTournamentC *colly.Collector) {
 	DB := config.GetDB() // 初始化数据库句柄
 
 	getTournamentC.OnResponse(func(r *colly.Response) {
+		fmt.Println("访问赛事和赛程网页 Visited ", r.Request.URL.String())
 		bodyData := string(r.Body)
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(bodyData))
 		toursResultSet := OperateTournament(dom) // 处理赛事数据
