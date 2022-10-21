@@ -82,7 +82,7 @@ func TestScrapyMatchInformation(t *testing.T) {
 }
 
 func TestScrapyMatchResults(t *testing.T) {
-	// 爬取比赛结果列表页面的比赛数据
+	// 分页爬取比赛结果列表页面的比赛数据
 	start := time.Now()
 
 	ScrapyMatchResults()
