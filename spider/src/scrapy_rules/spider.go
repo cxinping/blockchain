@@ -46,7 +46,7 @@ func ScrapyMatchInformation(matchUrl string) {
 func ScrapyMatchResults() {
 	// 爬取多页的赛果数据
 	getMatchC := GetDefaultCollector()
-	SetMatcheResults(getMatchC)
+	SetMatcheResults(getMatchC, ScrapyMatchResult)
 
 	err := getMatchC.Visit(parameter.MATCH_RESULT_URL)
 	if err != nil {
