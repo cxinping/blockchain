@@ -55,13 +55,13 @@ func SetMatcheResult(getMatchC *colly.Collector, scrapyMatch func(string)) {
 	//分页爬取比赛结果的网页数据
 
 	getMatchC.OnResponse(func(r *colly.Response) {
-		fmt.Println("访问已经有比赛结果的赛果网页 Visited ", r.Request.URL.String())
+		//fmt.Println("访问已经有比赛结果的赛果网页 Visited ", r.Request.URL.String())
 
 		bodyData := string(r.Body)
 		dom, _ := goquery.NewDocumentFromReader(strings.NewReader(bodyData))
 		matchUrls := ParseMatchResult(dom)
 
-		fmt.Printf("页面含有%d条比赛记录\n", len(matchUrls))
+		fmt.Printf("访问已经有比赛结果的赛果网页 Visited %s, 页面含有%d条比赛记录\n", r.Request.URL.String(), len(matchUrls))
 		for _, matchUrl := range matchUrls {
 			//fmt.Println("matchUrl=> ", matchUrl)
 			scrapyMatch(matchUrl)
