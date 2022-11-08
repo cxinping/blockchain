@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/go_demo1.iml" filepath="$PROJECT_DIR$/.idea/go_demo1.iml" />
-      <module fileurl="file://$USER_HOME$/go_monitor/hmc/hmc-agent/.idea/hmc-agent.iml" filepath="$USER_HOME$/go_monitor/hmc/hmc-agent/.idea/hmc-agent.iml" />
-      <module fileurl="file://$USER_HOME$/go_monitor/hmc/hmc-server/.idea/hmc-server.iml" filepath="$USER_HOME$/go_monitor/hmc/hmc-server/.idea/hmc-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/../spider/.idea/spider.iml" filepath="$PROJECT_DIR$/../spider/.idea/spider.iml" />
     </modules>
   </component>

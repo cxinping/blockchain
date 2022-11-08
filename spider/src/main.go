@@ -5,7 +5,6 @@ import (
 	"github.com/spf13/viper"
 	"runtime"
 	"spider/src/config"
-	"spider/src/task"
 )
 
 func init() {
@@ -22,7 +21,7 @@ func init() {
 func main() {
 
 	//crawl.CrawlTournamentWeb() //爬取赛事和比赛数据
-	task.ExecTasks() //执行调度任务
+	//task.ExecTasks() //执行调度任务
 
 	//start := time.Now()
 	//crawl.CrawlMatcheResultWeb("https://www.hltv.org/results")
