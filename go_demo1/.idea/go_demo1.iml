@@ -6,5 +6,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="spider" />
+    <orderEntry type="module" module-name="hmc-agent" />
+    <orderEntry type="module" module-name="hmc-server" />
   </component>
 </module>
